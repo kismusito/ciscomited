@@ -1,0 +1,19 @@
+@media screen and (max-width: 915px) {
+    .list_item_apps {
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 815px) {
+    .list_item_apps {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .btn_orange { 
+        width: 100%;
+    }
+
+    
+}

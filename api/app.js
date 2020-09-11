@@ -24,5 +24,6 @@ app.use(require('./routes/rolRoute'))
 app.use(require('./routes/userRoute'))
 app.use(require('./routes/uploadRoute'))
 app.use(require('./routes/searchRoute'))
+app.use(require('./routes/generatorRoute'))
 
 module.exports = app

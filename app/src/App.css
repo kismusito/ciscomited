@@ -42,6 +42,18 @@ body {
     cursor: pointer;
     border-radius: 20px;
     outline: none;
+    text-decoration: none;
+}
+
+.btn_teal {
+    color: #fff;
+    background-color: var(--sena-green-color);
+    transition: .5s all;
+    cursor: pointer;
+    border-radius: 20px;
+    outline: none;
+    text-decoration: none;
+    font-size: .8em;
 }
 
 .btn_teal {
@@ -67,6 +79,18 @@ body {
 
 .leftMargin {
     margin-left: 10px;
+}
+
+.mb-2 {
+    margin-bottom: 5px;
+}
+
+.cmp {
+    margin: 6px 0;
+}
+
+.mb-4 {
+    margin-bottom: 13px;
 }
 
 .bottomMargin2 {

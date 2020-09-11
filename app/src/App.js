@@ -7,7 +7,7 @@ import { Login } from './auth'
 import { Home } from './Home'
 import cookie from 'react-cookies'
 import { authActions , uploadActions} from './_actions'
-import { EditProfile, Roles, EditUsers, AddUsers, Configuration, UploadUsers , SearchAppretices} from './components'
+import { EditProfile, Roles, EditUsers, AddUsers, Configuration, UploadUsers , SearchAppretices , SearchAppreticesToCitation , MyCitations , GenerateMinutes} from './components'
 import './App.css'
 import './_vars.css'
 import './responsive.css'
@@ -39,7 +39,7 @@ class App extends Component {
 
                 {authReducer.auth && uploadReducer.status &&
                     <div className="show_alert_popUp alert_show">
-                        <img src="assets/img/check_alert.png" className="image_responsive_popup" />
+                        <img src="assets/img/check_alert.png" className="image_responsive_popup" alt="alert popup confirm" />
                         <div className="title">Genial</div>
                         <div className="subtitle">Se ha completado la subida</div>
                         <div className="subtitle">Subidos: {uploadReducer.total.Success} - Ignorados: {uploadReducer.total.Failure}</div>
@@ -58,6 +58,9 @@ class App extends Component {
                     <PrivateRoute path="/config" component={Configuration} auth={authReducer.auth} />
                     <PrivateRoute path="/uploadApprentices" component={UploadUsers} auth={authReducer.auth} />
                     <PrivateRoute path="/searchAppretices" component={SearchAppretices} auth={authReducer.auth} />
+                    <PrivateRoute path="/citations" component={SearchAppreticesToCitation} auth={authReducer.auth} />
+                    <PrivateRoute path="/myCitations" component={MyCitations} auth={authReducer.auth} />
+                    <PrivateRoute path="/generateMinutes" component={GenerateMinutes} auth={authReducer.auth} />
                     <Route component={Login} path="/login" />
                 </Switch>
             </Router>

@@ -10,6 +10,11 @@ import {searchedUserReducer} from './searchedUserReducer'
 import {editUserSearchReducer} from './editUserReducer'
 import {uploadReducer} from './uploadReducer'
 import {searchReducer} from './searchReducer'
+import {apreticeSearchedReducer} from './appreticeSearchedReducer'
+import {generateConstantReducer} from './generateConstantReducer'
+import {citationsReducer} from './citationsReducer'
+import {citationSelectedReducer} from './citationSelectedReducer'
+import {uploadNewStatusCitation} from './uploadNewStatusCitation'
 
 const rootReducer = combineReducers({
     authReducer,
@@ -22,7 +27,12 @@ const rootReducer = combineReducers({
     searchedUserReducer,
     editUserSearchReducer,
     uploadReducer,
-    searchReducer
+    searchReducer,
+    apreticeSearchedReducer,
+    generateConstantReducer,
+    citationsReducer,
+    citationSelectedReducer,
+    uploadNewStatusCitation
 })
 
 export default rootReducer;

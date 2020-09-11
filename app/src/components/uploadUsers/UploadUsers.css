@@ -87,10 +87,15 @@
     background-color: rgb(35,130,118);
     animation: loading_start 1s ease;
     right: 0;
+    top: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+}
+
+.change_loader_color {
+    background-color: var(--sena-orange-color) !important;
 }
 
 .text_loading {

@@ -44,3 +44,9 @@
     font-size: .8em;
     color: rgb(129, 129, 129);
 }
+
+@media screen and (max-width: 800px) {
+    .custom_background_sidebar {
+        padding-left: 57px !important;
+    }
+}

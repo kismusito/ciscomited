@@ -20,6 +20,10 @@
     background-color: transparent !important;
 }
 
+.search_list_item {
+    padding: 5px 0;
+}
+
 .search_list_item:nth-child(1n)::before {
     content: "";
     height: 1px;

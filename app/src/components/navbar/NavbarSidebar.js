@@ -1,49 +1,131 @@
 import React, { Component } from 'react'
-import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
-import {authActions , userActions} from '../../_actions'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { authActions, userActions } from '../../_actions'
 import './Navbar.css'
+import { Home, Face, Build , ExitToApp} from '@material-ui/icons';
 
 class NavbarSidebar extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            mobileView: false
+        }
+    }
 
     logout = _ => {
         this.props.logout()
     }
 
     componentDidMount() {
-        this.props.getRoleInfo(this.props.authReducer.userInfo.user_role)
+        this.props.getRoleInfo(this.props.authReducer.userInfo.user_role);
+
+        setTimeout(_ => {
+            if (window.innerWidth <= 800) {
+                this.setState({
+                    mobileView: true
+                })
+            } else {
+                this.setState({
+                    mobileView: false
+                })
+            }
+
+            window.addEventListener('resize', e => {
+                if (e.currentTarget.innerWidth <= 800) {
+                    this.setState({
+                        mobileView: true
+                    })
+                } else {
+                    this.setState({
+                        mobileView: false
+                    })
+                }
+            })
+        }, 500);
     }
-    
+
     render() {
 
-        const { authReducer , getRolInfoReducer} = this.props
+        const { authReducer, getRolInfoReducer } = this.props
 
-        return(
-            <div className="navbar_component desktop_view">
+        return (
+            <div className={this.state.mobileView ? "navbar_component mobile_view" : "navbar_component desktop_view"}>
                 <div className="profile_view">
                     <div className="image_profile">
                         <img src={authReducer.userInfo.profilePicture ? authReducer.userInfo.profilePicture : "/assets/img/usuario.png"} className="profile_picture" alt="profile_picture" />
                     </div>
-                    <div className="profile_info">
-                        <span>{authReducer.userInfo.email}</span>
-                        {getRolInfoReducer.status && 
-                            <span>{getRolInfoReducer.rolInfo.role_name}</span>
-                        }
-                        
-                    </div>
+
+                    {!this.state.mobileView &&
+                        <div className="profile_info">
+                            <span>{authReducer.userInfo.email}</span>
+                            {getRolInfoReducer.status &&
+                                <span>{getRolInfoReducer.rolInfo.role_name}</span>
+                            }
+                        </div>
+                    }
+
                 </div>
 
                 <div className="list_of_apps">
                     <ul>
-                        <li className="list_item"><Link to="/">Inicio</Link></li>
-                        <li className="list_item"><Link to="/editProfile">Editar perfil</Link></li>    
-                        <li className="list_item"><Link to="/config">Configuración</Link></li>
+                        <li className="list_item">
+                            <Link to="/">
+                                {!this.state.mobileView &&
+                                    <span>Inicio</span>
+                                }
+
+                                {this.state.mobileView &&
+                                    <div className="iconMobile">
+                                        <Home />
+                                    </div>
+                                }
+                            </Link>
+                        </li>
+                        <li className="list_item">
+                            <Link to="/editProfile">
+                                {!this.state.mobileView &&
+                                    <span>Editar perfil</span>
+                                }
+
+                                {this.state.mobileView &&
+                                    <div className="iconMobile">
+                                        <Face />
+                                    </div>
+                                }
+                            </Link>
+                        </li>
+                        <li className="list_item">
+                            <Link to="/config">
+                                {!this.state.mobileView &&
+                                    <span>Configuración</span>
+                                }
+
+                                {this.state.mobileView &&
+                                    <div className="iconMobile">
+                                        <Build />
+                                    </div>
+                                }
+                            </Link>
+                        </li>
                     </ul>
                 </div>
 
                 <div className="list_of_apps">
                     <ul>
-                        <li className="list_item" onClick={this.logout}>Cerrar sesión</li>
+                        <li className="list_item" onClick={this.logout}>
+                            {!this.state.mobileView &&
+                                <span>Cerrar sesión</span>
+                            }
+
+                            {this.state.mobileView &&
+                                <div className="iconMobile">
+                                    <ExitToApp />
+                                </div>
+                            }
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -57,9 +139,9 @@ const actionCreator = {
 }
 
 function mapStateToProps(state) {
-    const { authReducer , getRolInfoReducer} = state
-    return { authReducer , getRolInfoReducer}
+    const { authReducer, getRolInfoReducer } = state
+    return { authReducer, getRolInfoReducer }
 }
 
-const navbarComponent = connect(mapStateToProps , actionCreator)(NavbarSidebar)
-export { navbarComponent as NavbarSidebar}
+const navbarComponent = connect(mapStateToProps, actionCreator)(NavbarSidebar)
+export { navbarComponent as NavbarSidebar }

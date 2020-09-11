@@ -17,6 +17,11 @@ export const searchReducer = (state = {} , action ) => {
                 status: action.response.status,
                 message: action.response.message
             }
+        case searchConstants.FINISHSEARCHED:
+            return {
+                status: false,
+                message: "Finish"
+            }
         default:
             return state
     }

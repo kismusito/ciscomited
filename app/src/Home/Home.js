@@ -51,7 +51,7 @@ class Home extends Component {
                                         <Link className="list_item_apps_link" to="/roles">
                                             <div><img src="/assets/img/icon_user_rol.png" alt="edit roles" /></div>
                                             <div className="title">Editar roles</div>
-                                            <div className="subtitle">Con esta herramiente podrás editar los roles de los usuarios y agregar nuevos.</div>
+                                            <div className="subtitle">Con esta herramienta podrás editar los roles de los usuarios y agregar nuevos.</div>
                                         </Link>
                                     </li>
                                 )
@@ -63,7 +63,7 @@ class Home extends Component {
                                         <Link className="list_item_apps_link" to="/uploadApprentices">
                                             <div><img src="/assets/img/upload_students.png" alt="edit roles" /></div>
                                             <div className="title">Subir aprendizes</div>
-                                            <div className="subtitle">Con esta herramiente podrás editar los roles de los usuarios y agregar nuevos.</div>
+                                            <div className="subtitle">Con esta herramienta podrás subir masivamente todos los aprendices desde un archivo XML.</div>
                                         </Link>
                                     </li>
                                 )
@@ -75,7 +75,7 @@ class Home extends Component {
                                         <Link className="list_item_apps_link" to="/roles">
                                             <div><img src="/assets/img/upload_teacher.png" alt="edit roles" /></div>
                                             <div className="title">Subir instructores</div>
-                                            <div className="subtitle">Con esta herramiente podrás editar los roles de los usuarios y agregar nuevos.</div>
+                                            <div className="subtitle">Con esta herramienta podrás subir masivamente todos los instructores desde un archivo XML.</div>
                                         </Link>
                                     </li>
                                 )
@@ -87,7 +87,7 @@ class Home extends Component {
                                         <Link className="list_item_apps_link" to="/searchAppretices">
                                             <div><img src="/assets/img/search_user.png" alt="edit roles" /></div>
                                             <div className="title">Buscar aprendiz</div>
-                                            <div className="subtitle">Con esta herramiente podrás editar los roles de los usuarios y agregar nuevos.</div>
+                                            <div className="subtitle">Una forma fácil y sencilla de buscar la información de cualquier aprendiz.</div>
                                         </Link>
                                     </li>
                                 )
@@ -99,33 +99,33 @@ class Home extends Component {
                                         <Link className="list_item_apps_link" to="/roles">
                                             <div><img src="/assets/img/search_intructor.png" alt="edit roles" /></div>
                                             <div className="title">Buscar instructor</div>
-                                            <div className="subtitle">Con esta herramiente podrás editar los roles de los usuarios y agregar nuevos.</div>
+                                            <div className="subtitle">Una forma fácil y sencilla de buscar la información de cualquier instructor.</div>
                                         </Link>
                                     </li>
                                 )
                             }
 
                             <li className="list_item_apps">
-                                <Link className="list_item_apps_link" to="/roles">
-                                    <div><img src="/assets/img/template_icon.png" alt="edit roles" /></div>
-                                    <div className="title">Plantillas</div>
-                                    <div className="subtitle">Con esta herramiente podrás editar los roles de los usuarios y agregar nuevos.</div>
-                                </Link>
-                            </li>
-
-                            <li className="list_item_apps">
-                                <Link className="list_item_apps_link" to="/roles">
+                                <Link className="list_item_apps_link" to="/myCitations">
                                     <div><img src="/assets/img/icon_add_file.png" alt="edit roles" /></div>
-                                    <div className="title">Mis archivos</div>
-                                    <div className="subtitle">Con esta herramiente podrás editar los roles de los usuarios y agregar nuevos.</div>
+                                    <div className="title">Mis citaciones</div>
+                                    <div className="subtitle">Con esta herramienta podrás administrar todas tus citaciones, enviarlas y cambiar su estado.</div>
                                 </Link>
                             </li>
 
                             <li className="list_item_apps">
-                                <Link className="list_item_apps_link" to="/roles">
+                                <Link className="list_item_apps_link" to="/citations">
                                     <div><img src="/assets/img/icon_add_citation.png" alt="edit roles" /></div>
                                     <div className="title">Citaciones</div>
-                                    <div className="subtitle">Con esta herramiente podrás editar los roles de los usuarios y agregar nuevos.</div>
+                                    <div className="subtitle">Construye dinámicamente una citación, con esta herramienta podrás construir citaciones en cuestión de segundos.</div>
+                                </Link>
+                            </li>
+
+                            <li className="list_item_apps">
+                                <Link className="list_item_apps_link" to="/generateMinutes">
+                                    <div><img src="/assets/img/icon_add_citation.png" alt="edit roles" /></div>
+                                    <div className="title">Actas</div>
+                                    <div className="subtitle">Construye dinámicamente tus actas, con esta herramienta podrás construir actas en cuestión de segundos.</div>
                                 </Link>
                             </li>
 

@@ -62,7 +62,7 @@ class Roles extends Component {
                 <NavbarSidebar />
                 <div className="custom_background_sidebar">
                     <div className="center_container">
-                        <div className="container_white_edit min_height">
+                        <div className="container_white_edit min_height min_height_mobile">
                             <div className="role_container">
                                 <div className="roleList">
                                     <div className="title">Roles</div>

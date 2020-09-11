@@ -70,7 +70,7 @@ class EditUsers extends Component {
                 <NavbarSidebar />
                 <div className="custom_background_sidebar">
                     <div className="center_container">
-                        <div className="container_white_edit">
+                        <div className="container_white_edit show_overflow_on_mobile">
                             <div className="title">Editar usuarios</div>
                             <div className="subtitle">Para editar un usuario debes diligenciar su nombre de usuario o correo electrónico.</div>
                             <form autoComplete="off">
@@ -106,7 +106,7 @@ class EditUsers extends Component {
                             }
 
                             {this.state.showModalEditUser && searchedUserReducer.status &&
-                                <div className="modal_overlay_role min_height">
+                                <div className="modal_overlay_role min_height min_height_mobile">
                                     <div className="close_modal" onClick={this.closeNewRoleModal}>
                                         <HighlightOff />
                                     </div>

@@ -38,4 +38,29 @@ searchMethods.searchAppretices = async (req , res) => {
     
 }
 
+searchMethods.searchAppretice = async (req , res) => {
+    const {appretice} = req.body
+    if (appretice) {
+        const getSearchedAppretice = await Appretice.findOne({_id: appretice})
+        if(getSearchedAppretice) {
+            return res.json({
+                status: true,
+                appretice: getSearchedAppretice,
+                message: "Success"
+            })
+        } else {
+            return res.json({
+                status: false,
+                message: "No found"
+            })
+        }
+    } else {
+        return res.json({
+            status: false,
+            message: "No found"
+        })
+    }
+    
+}
+
 module.exports = searchMethods

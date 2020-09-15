@@ -45,7 +45,7 @@
     padding: 0 10px;
 }
 
-.list_of_apps ul{
+.list_of_apps ul {
     list-style: none;
 }
 
@@ -54,9 +54,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: .5s all;
+    transition: 0.5s all;
     cursor: pointer;
-    margin: 10px 0; 
+    margin: 10px 0;
 }
 
 .list_item a {

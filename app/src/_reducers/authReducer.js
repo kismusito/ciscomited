@@ -1,27 +1,27 @@
-import { userConstants } from '../_constants'
+import { userConstants } from "../_constants";
 
-export function authReducer(state = {} , action) {
-    switch(action.type) {
+export function authReducer(state = {}, action) {
+    switch (action.type) {
         case userConstants.USERLOGIN_REQUEST:
             return {
-                validating: true
-            }
+                validating: true,
+            };
         case userConstants.USERLOGIN_SUCCESS:
             return {
                 auth: action.response.auth,
                 token: action.response.token,
                 userInfo: action.response.userInfo,
-                message: action.response.message
-            }
+                message: action.response.message,
+            };
         case userConstants.USERLOGIN_FAILURE:
             return {
                 auth: action.response.auth,
                 token: action.response.token,
-                message: action.response.message
-            }
+                message: action.response.message,
+            };
         case userConstants.USERLOGOUT:
-            return {}
+            return {};
         default:
-            return state
+            return state;
     }
 }

@@ -12,12 +12,12 @@
 
 .text_appretice_selected {
     color: #fff;
-    font-size: .7em;
+    font-size: 0.7em;
 }
 
 .icon_delete_selected {
     color: #fff;
-    font-size: .6em;
+    font-size: 0.6em;
     cursor: pointer;
 }
 

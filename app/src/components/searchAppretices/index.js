@@ -1,1 +1,1 @@
-export * from './SearchAppretices'
+export * from "./SearchAppretices";

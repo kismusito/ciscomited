@@ -1,1 +1,1 @@
-export * from './generateMinutes';
+export * from "./generateMinutes";

@@ -1,103 +1,108 @@
-const generatePDF = {}
-const pdf = require('html-pdf')
-const Appretice = require('../models/Appretice')
-const Citations = require('../models/Citations')
-const domain = require('../config/domain')
+const generatePDF = {};
+const pdf = require("html-pdf");
+const Appretice = require("../models/Appretice");
+const Citations = require("../models/Citations");
+const domain = require("../config/domain");
 
 function generateRamdomPDF(n) {
-    let ramdomCode = ""
-    const posibleCharacters = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    let ramdomCode = "";
+    const posibleCharacters = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     for (let i = 0; i <= n; i++) {
-        const generate = Math.random() * (1, posibleCharacters.length) + 1
-        ramdomCode += posibleCharacters.charAt(generate)
+        const generate = Math.random() * (1, posibleCharacters.length) + 1;
+        ramdomCode += posibleCharacters.charAt(generate);
     }
-    ramdomCode += ".pdf"
-    return ramdomCode
+    ramdomCode += ".pdf";
+    return ramdomCode;
 }
 
 function generatePDFLayout(appreticesSelected, leader, date, hour, meetingLink) {
+    const appretices = appreticesSelected;
 
-    const appretices = appreticesSelected
+    const dateSelected = new Date(date);
+    const hourSelected = new Date(hour);
+    const convertedHour =
+        hourSelected.getHours() +
+        ":" +
+        (hourSelected.getMinutes() < 10
+            ? "0" + hourSelected.getMinutes()
+            : hourSelected.getMinutes()) +
+        (hourSelected.getHours() <= 12 ? " AM" : " PM");
 
-    const dateSelected = new Date(date)
-    const hourSelected = new Date(hour)
-    const convertedHour = hourSelected.getHours() + ":" + (hourSelected.getMinutes() < 10 ? '0' + hourSelected.getMinutes() : hourSelected.getMinutes()) + (hourSelected.getHours() <= 12 ? " AM" : " PM")
-
-    var month = '';
+    var month = "";
     switch (dateSelected.getMonth() + 1) {
         case 1:
-            month = 'Enero';
+            month = "Enero";
             break;
         case 2:
-            month = 'Febrero';
+            month = "Febrero";
             break;
         case 3:
-            month = 'Marzo';
+            month = "Marzo";
             break;
         case 4:
-            month = 'Abril';
+            month = "Abril";
             break;
         case 5:
-            month = 'Mayo';
+            month = "Mayo";
             break;
         case 6:
-            month = 'Junio';
+            month = "Junio";
             break;
         case 7:
-            month = 'Julio';
+            month = "Julio";
             break;
         case 8:
-            month = 'Agosto';
+            month = "Agosto";
             break;
         case 9:
-            month = 'Septiembre';
+            month = "Septiembre";
             break;
         case 10:
-            month = 'Octubre';
+            month = "Octubre";
             break;
         case 11:
-            month = 'Noviembre';
+            month = "Noviembre";
             break;
         case 12:
-            month = 'Diciembre';
+            month = "Diciembre";
             break;
     }
 
-    const fichas = appretices.map(f => {
-        return f.ficha
-    })
-    const uniqFichas = new Set(fichas)
+    const fichas = appretices.map((f) => {
+        return f.ficha;
+    });
+    const uniqFichas = new Set(fichas);
 
-    const sedes = appretices.map(f => {
-        return f.sede
-    })
-    const uniqSedes = new Set(sedes)
+    const sedes = appretices.map((f) => {
+        return f.sede;
+    });
+    const uniqSedes = new Set(sedes);
 
-    let appreticesHtml = "<ul style='list-style: none; margin:0; padding:0'>"
-    appretices.map(appretice => {
-        appreticesHtml += "<li style='margin: 10px 0'>"
-        appreticesHtml += "<div>" + appretice.name + "</div>"
-        appreticesHtml += "<div>" + appretice.document + "</div>"
+    let appreticesHtml = "<ul style='list-style: none; margin:0; padding:0'>";
+    appretices.map((appretice) => {
+        appreticesHtml += "<li style='margin: 10px 0'>";
+        appreticesHtml += "<div>" + appretice.name + "</div>";
+        appreticesHtml += "<div>" + appretice.document + "</div>";
         if ([...uniqFichas].length > 1) {
-            appreticesHtml += "<div>Ficha: " + appretice.ficha + "</div>"
+            appreticesHtml += "<div>Ficha: " + appretice.ficha + "</div>";
         }
 
         if ([...uniqSedes].length > 1) {
-            appreticesHtml += "<div>Sede: " + appretice.sede + "</div>"
+            appreticesHtml += "<div>Sede: " + appretice.sede + "</div>";
         }
-        appreticesHtml += "</li>"
-    })
+        appreticesHtml += "</li>";
+    });
 
     if ([...uniqFichas].length == 1) {
-        appreticesHtml += "<li>Ficha: " + [...uniqFichas][0] + "</li>"
+        appreticesHtml += "<li>Ficha: " + [...uniqFichas][0] + "</li>";
     }
 
     if ([...uniqSedes].length == 1) {
-        appreticesHtml += "<li>Sede: " + [...uniqSedes][0] + "</li>"
+        appreticesHtml += "<li>Sede: " + [...uniqSedes][0] + "</li>";
     }
-    appreticesHtml += "<ul>"
+    appreticesHtml += "<ul>";
 
-    appreticesHtml += "<br>"
+    appreticesHtml += "<br>";
 
     const html = `
     <!DOCTYPE html>
@@ -163,94 +168,99 @@ function generatePDFLayout(appreticesSelected, leader, date, hour, meetingLink) 
     </body>
     
     </html>
-    `
+    `;
 
-    return html
+    return html;
 }
 
 function generatePDFLayoutMinutes(appreticesSelected, date, hour, content) {
+    const appretices = appreticesSelected;
 
-    const appretices = appreticesSelected
+    const dateSelected = new Date(date);
+    const hourSelected = new Date(hour);
+    const convertedHour =
+        hourSelected.getHours() +
+        ":" +
+        (hourSelected.getMinutes() < 10
+            ? "0" + hourSelected.getMinutes()
+            : hourSelected.getMinutes()) +
+        (hourSelected.getHours() <= 12 ? " AM" : " PM");
 
-    const dateSelected = new Date(date)
-    const hourSelected = new Date(hour)
-    const convertedHour = hourSelected.getHours() + ":" + (hourSelected.getMinutes() < 10 ? '0' + hourSelected.getMinutes() : hourSelected.getMinutes()) + (hourSelected.getHours() <= 12 ? " AM" : " PM")
-
-    var month = '';
+    var month = "";
     switch (dateSelected.getMonth() + 1) {
         case 1:
-            month = 'Enero';
+            month = "Enero";
             break;
         case 2:
-            month = 'Febrero';
+            month = "Febrero";
             break;
         case 3:
-            month = 'Marzo';
+            month = "Marzo";
             break;
         case 4:
-            month = 'Abril';
+            month = "Abril";
             break;
         case 5:
-            month = 'Mayo';
+            month = "Mayo";
             break;
         case 6:
-            month = 'Junio';
+            month = "Junio";
             break;
         case 7:
-            month = 'Julio';
+            month = "Julio";
             break;
         case 8:
-            month = 'Agosto';
+            month = "Agosto";
             break;
         case 9:
-            month = 'Septiembre';
+            month = "Septiembre";
             break;
         case 10:
-            month = 'Octubre';
+            month = "Octubre";
             break;
         case 11:
-            month = 'Noviembre';
+            month = "Noviembre";
             break;
         case 12:
-            month = 'Diciembre';
+            month = "Diciembre";
             break;
     }
 
-    const fichas = appretices.map(f => {
-        return f.ficha
-    })
-    const uniqFichas = new Set(fichas)
+    const fichas = appretices.map((f) => {
+        return f.ficha;
+    });
+    const uniqFichas = new Set(fichas);
 
-    const sedes = appretices.map(f => {
-        return f.sede
-    })
-    const uniqSedes = new Set(sedes)
+    const sedes = appretices.map((f) => {
+        return f.sede;
+    });
+    const uniqSedes = new Set(sedes);
 
-    let appreticesHtml = "<ul style='list-style: none; margin:0; padding:0'>"
-    appretices.map(appretice => {
-        appreticesHtml += "<li style='margin: 10px 0'>"
-        appreticesHtml += "<div>" + appretice.name + "</div>"
-        appreticesHtml += "<div>" + appretice.document + "</div>"
+    let appreticesHtml = "<ul style='list-style: none; margin:0; padding:0'>";
+    appretices.map((appretice) => {
+        appreticesHtml += "<li style='margin: 10px 0'>";
+        appreticesHtml += "<div>" + appretice.name + "</div>";
+        appreticesHtml += "<div>" + appretice.document + "</div>";
         if ([...uniqFichas].length > 1) {
-            appreticesHtml += "<div>Ficha: " + appretice.ficha + "</div>"
+            appreticesHtml += "<div>Ficha: " + appretice.ficha + "</div>";
         }
 
         if ([...uniqSedes].length > 1) {
-            appreticesHtml += "<div>Sede: " + appretice.sede + "</div>"
+            appreticesHtml += "<div>Sede: " + appretice.sede + "</div>";
         }
-        appreticesHtml += "</li>"
-    })
+        appreticesHtml += "</li>";
+    });
 
     if ([...uniqFichas].length == 1) {
-        appreticesHtml += "<li>Ficha: " + [...uniqFichas][0] + "</li>"
+        appreticesHtml += "<li>Ficha: " + [...uniqFichas][0] + "</li>";
     }
 
     if ([...uniqSedes].length == 1) {
-        appreticesHtml += "<li>Sede: " + [...uniqSedes][0] + "</li>"
+        appreticesHtml += "<li>Sede: " + [...uniqSedes][0] + "</li>";
     }
-    appreticesHtml += "<ul>"
+    appreticesHtml += "<ul>";
 
-    appreticesHtml += "<br>"
+    appreticesHtml += "<br>";
 
     const html = `
     <!DOCTYPE html>
@@ -354,61 +364,61 @@ function generatePDFLayoutMinutes(appreticesSelected, date, hour, content) {
     </body>
     
     </html>
-    `
+    `;
 
-    return html
+    return html;
 }
 
 function getFormationPrograms(programs) {
     let programData = {
         ficha: "",
-        sede: ""
-    }
+        sede: "",
+    };
     programs.map((pro, i) => {
-        programData.ficha += pro.ficha + (i != 1 ? " - " : "")
-        programData.sede += pro.sede + (i != 1 ? " - " : "")
-    })
-    return programData
+        programData.ficha += pro.ficha + (i != 1 ? " - " : "");
+        programData.sede += pro.sede + (i != 1 ? " - " : "");
+    });
+    return programData;
 }
 
 async function getInfoByAppretice(ID) {
-    const userGet = await Appretice.findOne({ _id: ID })
-    const getProgramInfo = getFormationPrograms(userGet.programas_formacion)
+    const userGet = await Appretice.findOne({ _id: ID });
+    const getProgramInfo = getFormationPrograms(userGet.programas_formacion);
     const userProgramInfo = {
         name: userGet.nombre + " " + userGet.primer_apellido,
         document: userGet.numero_documento,
         ficha: getProgramInfo.ficha,
         sede: getProgramInfo.sede,
-    }
-    return userProgramInfo
+    };
+    return userProgramInfo;
 }
 
 async function getAppreticesInfo(appretices) {
-    let allUserData = []
+    let allUserData = [];
     for (i in appretices) {
-        const getInfo = await getInfoByAppretice(appretices[i].appreticeID)
-        allUserData.push(getInfo)
+        const getInfo = await getInfoByAppretice(appretices[i].appreticeID);
+        allUserData.push(getInfo);
     }
-    return allUserData
+    return allUserData;
 }
 
 generatePDF.generateCitation = async (req, res) => {
-    const { leader, appretices, date, hour, description, meetingLink } = req.body
-    const getAppretices = await getAppreticesInfo(appretices)
-    const html = generatePDFLayout(getAppretices, leader, date, hour, meetingLink)
-    const pdfNameRamdom = generateRamdomPDF(40)
-    pdf.create(html).toFile('assets/Citations/' + pdfNameRamdom, (err, resoponse) => {
+    const { leader, appretices, date, hour, description, meetingLink } = req.body;
+    const getAppretices = await getAppreticesInfo(appretices);
+    const html = generatePDFLayout(getAppretices, leader, date, hour, meetingLink);
+    const pdfNameRamdom = generateRamdomPDF(40);
+    pdf.create(html).toFile("assets/Citations/" + pdfNameRamdom, (err, resoponse) => {
         if (err) {
             return res.json({
                 status: false,
-                message: "PDF error"
-            })
+                message: "PDF error",
+            });
         } else {
             const saveCitation = new Citations({
                 userID: req.userID,
                 pdfLink: pdfNameRamdom,
-                description: description
-            })
+                description: description,
+            });
 
             saveCitation.lastChange = saveCitation._id;
             saveCitation.parentID = saveCitation._id;
@@ -416,39 +426,37 @@ generatePDF.generateCitation = async (req, res) => {
             if (saveCitation.save()) {
                 return res.json({
                     status: true,
-                    pdfLink: domain + 'Citations/' + pdfNameRamdom,
-                    message: "PDF Generated"
-                })
+                    pdfLink: domain + "Citations/" + pdfNameRamdom,
+                    message: "PDF Generated",
+                });
             } else {
                 return res.json({
                     status: false,
-                    message: "PDF error"
-                })
+                    message: "PDF error",
+                });
             }
-
         }
-    })
-}
+    });
+};
 
 generatePDF.generateMinute = async (req, res) => {
-    const { appretices, date, hour, content } = req.body
-    const getAppretices = await getAppreticesInfo(appretices)
-    const html = generatePDFLayoutMinutes(getAppretices, date, hour, content)
-    const pdfNameRamdom = generateRamdomPDF(40)
+    const { appretices, date, hour, content } = req.body;
+    const getAppretices = await getAppreticesInfo(appretices);
+    const html = generatePDFLayoutMinutes(getAppretices, date, hour, content);
+    const pdfNameRamdom = generateRamdomPDF(40);
 
-
-    pdf.create(html).toFile('assets/Minutes/Voceros/' + pdfNameRamdom, (err, resoponse) => {
+    pdf.create(html).toFile("assets/Minutes/Voceros/" + pdfNameRamdom, (err, resoponse) => {
         if (err) {
             return res.json({
                 status: false,
-                message: "PDF error"
-            })
+                message: "PDF error",
+            });
         } else {
             const saveCitation = new Citations({
                 userID: req.userID,
                 pdfLink: pdfNameRamdom,
-                description: "Acta generated"
-            })
+                description: "Acta generated",
+            });
 
             saveCitation.lastChange = saveCitation._id;
             saveCitation.parentID = saveCitation._id;
@@ -456,18 +464,17 @@ generatePDF.generateMinute = async (req, res) => {
             if (saveCitation.save()) {
                 return res.json({
                     status: true,
-                    pdfLink: domain + 'Minutes/Voceros/' + pdfNameRamdom,
-                    message: "PDF Generated"
-                })
+                    pdfLink: domain + "Minutes/Voceros/" + pdfNameRamdom,
+                    message: "PDF Generated",
+                });
             } else {
                 return res.json({
                     status: false,
-                    message: "PDF error"
-                })
+                    message: "PDF error",
+                });
             }
-
         }
-    })
-}
+    });
+};
 
-module.exports = generatePDF
+module.exports = generatePDF;

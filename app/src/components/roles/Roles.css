@@ -65,7 +65,7 @@
     margin-top: 10px;
     width: 150px;
     height: 30px;
-    font-size: .9em;
+    font-size: 0.9em;
     box-shadow: 0 0 5px 0 rgba(59, 59, 59, 0.199);
     border-radius: 20px;
     display: flex;
@@ -73,7 +73,7 @@
     justify-content: center;
     cursor: pointer;
     color: rgb(71, 71, 71);
-    transition: .5s all;
+    transition: 0.5s all;
 }
 
 .capacitySelect:hover {
@@ -111,7 +111,7 @@
 }
 
 .edit_trigger {
-    color: var(--sena-green-color);;
+    color: var(--sena-green-color);
 }
 
 .delete_trigger {
@@ -119,5 +119,5 @@
 }
 
 .role_name {
-    color: rgb(92, 92, 92)
+    color: rgb(92, 92, 92);
 }

@@ -1,23 +1,24 @@
-import cookie from 'react-cookies'
+import cookie from "react-cookies";
+import { config } from "../config";
 
 export const authService = {
     userLogin,
     validateToken,
-    profileUpdate
-}
+    profileUpdate,
+};
 
 async function userLogin(credentials) {
     const configuration = {
         method: "POST",
         headers: {
-            "Content-type": "application/json"
+            "Content-type": "application/json",
         },
-        body: JSON.stringify(credentials)
-    }
+        body: JSON.stringify(credentials),
+    };
 
-    const sendRequest = await fetch("http://localhost:4000/login" , configuration)
-    const responseJson = sendRequest.json()
-    return responseJson
+    const sendRequest = await fetch(config.serverRoute + "login", configuration);
+    const responseJson = sendRequest.json();
+    return responseJson;
 }
 
 async function validateToken(token) {
@@ -25,13 +26,13 @@ async function validateToken(token) {
         method: "POST",
         headers: {
             "Content-type": "application/json",
-            "x-access-token": token
-        }
-    }
+            "x-access-token": token,
+        },
+    };
 
-    const sendRequest = await fetch("http://localhost:4000/validateToken" , configuration)
-    const responseJson = sendRequest.json()
-    return responseJson
+    const sendRequest = await fetch(config.serverRoute + "validateToken", configuration);
+    const responseJson = sendRequest.json();
+    return responseJson;
 }
 
 async function profileUpdate() {
@@ -39,11 +40,11 @@ async function profileUpdate() {
         method: "POST",
         headers: {
             "Content-type": "application/json",
-            "x-access-token": cookie.load("userToken")
-        }
-    }
+            "x-access-token": cookie.load("userToken"),
+        },
+    };
 
-    const sendRequest = await fetch("http://localhost:4000/profileUpdated" , configuration)
-    const responseJson = sendRequest.json()
-    return responseJson
+    const sendRequest = await fetch(config.serverRoute + "profileUpdated", configuration);
+    const responseJson = sendRequest.json();
+    return responseJson;
 }

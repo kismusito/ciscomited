@@ -38,9 +38,9 @@
     width: 70px;
     height: 70px;
     position: absolute;
-    background-color: rgb(35,130,118);
+    background-color: rgb(35, 130, 118);
     border-radius: 50%;
-    animation-delay: .6s;
+    animation-delay: 0.6s;
     animation: overlay_to_effect 2s infinite ease;
     z-index: -1;
 }
@@ -50,9 +50,9 @@
     width: 90px;
     height: 90px;
     position: absolute;
-    background-color: rgb(35,130,118);
+    background-color: rgb(35, 130, 118);
     border-radius: 50%;
-    animation-delay: .4s;
+    animation-delay: 0.4s;
     animation: overlay_to_effect 2s infinite ease;
     z-index: -1;
 }
@@ -61,7 +61,7 @@
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    border: 2px solid rgb(35,130,118);
+    border: 2px solid rgb(35, 130, 118);
     background-color: #fff;
     display: flex;
     justify-content: center;
@@ -69,12 +69,12 @@
 }
 
 .overlay_white svg {
-    color: rgb(35,130,118);
+    color: rgb(35, 130, 118);
     font-size: 2em;
 }
 
 .select_text {
-    color: rgb(35,130,118);
+    color: rgb(35, 130, 118);
     font-size: 1.2em;
 }
 
@@ -84,7 +84,7 @@
     position: absolute;
     z-index: 999;
     border-radius: 10px;
-    background-color: rgb(35,130,118);
+    background-color: rgb(35, 130, 118);
     animation: loading_start 1s ease;
     right: 0;
     top: 0;
@@ -113,7 +113,7 @@
     border-style: solid;
     border-width: 2px;
     border-color: #fff #fff #fff transparent;
-    animation: loader_upload .6s infinite linear;
+    animation: loader_upload 0.6s infinite linear;
 }
 
 @keyframes loader_upload {
@@ -134,13 +134,13 @@
 @keyframes overlay_to_effect {
     0% {
         opacity: 1;
-        -webkit-transform: scale(.5);
-        transform: scale(.5);
-      }
-    
-      100% {
+        -webkit-transform: scale(0.5);
+        transform: scale(0.5);
+    }
+
+    100% {
         opacity: 0;
         -webkit-transform: scale(1.5);
         transform: scale(1.5);
-      }
+    }
 }

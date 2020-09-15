@@ -40,7 +40,7 @@
 }
 
 .circle2_desing {
-    opacity: .8;
+    opacity: 0.8;
     position: absolute;
     background-color: var(--sena-orange-color);
     width: 900px;
@@ -55,7 +55,7 @@
     width: 1100px;
     height: 1100px;
     border-radius: 40%;
-    opacity: .6;
+    opacity: 0.6;
     animation: rotate_right_circle 7s infinite linear;
 }
 
@@ -77,7 +77,7 @@
     text-align: center;
 }
 
-.message_circle_white p{
+.message_circle_white p {
     text-align: center;
     font-size: 1.5em;
     opacity: 1;
@@ -121,7 +121,7 @@
 @keyframes rotate_left_circle {
     to {
         transform: rotate(-360deg);
-        opacity: .7;
+        opacity: 0.7;
     }
 }
 
@@ -161,17 +161,16 @@
     color: rgb(95, 95, 95);
 }
 
-.form_group .MuiFormControl-root .MuiInput-underline:hover:not(.Mui-disabled):before{
+.form_group .MuiFormControl-root .MuiInput-underline:hover:not(.Mui-disabled):before {
     border-bottom: none;
 }
 
-.form_group .MuiFormControl-root .MuiInput-underline::after{
+.form_group .MuiFormControl-root .MuiInput-underline::after {
     border-bottom: none;
 }
 
 .form_group .MuiFormControl-root {
     outline: none !important;
-    
 }
 
 .form_group .MuiFormControl-root .MuiInput-underline::before {
@@ -213,11 +212,9 @@
     color: tomato;
 }
 
-
 /*
     Responsive components for login
 */
-
 
 @media screen and (max-width: 1200px) {
     .custom_desing_circles_left {
@@ -235,7 +232,7 @@
     }
 
     .custom_desing_circles_left {
-        right: -800px
+        right: -800px;
     }
 
     .circle2_desing {
@@ -252,7 +249,7 @@
 }
 
 @media screen and (max-width: 450px) {
-    .links_section_form { 
+    .links_section_form {
         flex-direction: column;
         align-items: start;
     }

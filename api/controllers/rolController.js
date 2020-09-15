@@ -1,40 +1,42 @@
-const rolMethods = {}
-const Rol = require('../models/Rol')
+const rolMethods = {};
+const { db } = require("../models/Rol");
+const Rol = require("../models/Rol");
+const User = require("../models/User");
 
-rolMethods.getAllRols = async (req , res) => {
-    const roles = await Rol.find()
+rolMethods.getAllRols = async (req, res) => {
+    const roles = await Rol.find();
     if (roles) {
         return res.json({
             status: true,
             body: roles,
-            message: "Roles found" 
-        })
+            message: "Roles found",
+        });
     } else {
         return res.json({
             status: false,
             body: null,
-            message: "No rols found" 
-        })
+            message: "No rols found",
+        });
     }
-}
+};
 
-rolMethods.addNewRol = async (req , res) => {
-    const {name , isAdmin} = req.body
+rolMethods.addNewRol = async (req, res) => {
+    const { name, isAdmin } = req.body;
     const addRol = new Rol({
-        role_name: name , 
-        isAdmin
-    })
-    if(addRol.save()) {
+        role_name: name,
+        isAdmin,
+    });
+    if (addRol.save()) {
         return res.json({
             status: true,
-            message: "El rol fue creado correctamente"
-        })
+            message: "El rol fue creado correctamente",
+        });
     } else {
         return res.json({
             status: false,
-            message: "Hubo un error al crear el rol"
-        })
+            message: "Hubo un error al crear el rol",
+        });
     }
-}
+};
 
-module.exports = rolMethods
+module.exports = rolMethods;

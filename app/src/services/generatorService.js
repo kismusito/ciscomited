@@ -1,23 +1,24 @@
-import cookie from 'react-cookies'
+import cookie from "react-cookies";
+import { config } from "../config";
 
 export const generatorService = {
     generateCitation,
-    generateMinute
-}
+    generateMinute,
+};
 
 async function generateCitation(dataCitation) {
     const configuration = {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "x-access-token": cookie.load("userToken")
+            "x-access-token": cookie.load("userToken"),
         },
-        body: JSON.stringify(dataCitation)
-    }
+        body: JSON.stringify(dataCitation),
+    };
 
-    const requestResponse = await fetch("http://localhost:4000/generateCitation" , configuration)
-    const responseJson = await requestResponse.json()
-    return responseJson
+    const requestResponse = await fetch(config.serverRoute + "generateCitation", configuration);
+    const responseJson = await requestResponse.json();
+    return responseJson;
 }
 
 async function generateMinute(data) {
@@ -25,13 +26,12 @@ async function generateMinute(data) {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "x-access-token": cookie.load("userToken")
+            "x-access-token": cookie.load("userToken"),
         },
-        body: JSON.stringify(data)
-    }
+        body: JSON.stringify(data),
+    };
 
-    const requestResponse = await fetch("http://localhost:4000/generateMinute" , configuration)
-    const responseJson = await requestResponse.json()
-    return responseJson
+    const requestResponse = await fetch(config.serverRoute + "generateMinute", configuration);
+    const responseJson = await requestResponse.json();
+    return responseJson;
 }
-

@@ -20,7 +20,7 @@
     padding: 5px 10px;
     position: relative;
     cursor: pointer;
-    transition: .5s all;
+    transition: 0.5s all;
 }
 
 .citation_item:hover {
@@ -84,7 +84,7 @@
     color: #fff;
 }
 
-.uploadNewFile svg{
+.uploadNewFile svg {
     font-size: 3em;
 }
 
@@ -110,19 +110,19 @@
     right: 10px;
     border: 1px solid var(--sena-green-color);
     padding: 5px 10px;
-    font-size: .7em;
+    font-size: 0.7em;
     font-weight: 500;
-    transition: .5s all;
+    transition: 0.5s all;
 }
 
 .floating_button a {
     text-decoration: none;
     color: var(--sena-green-color);
-    transition: .5s all;
+    transition: 0.5s all;
 }
 
 .floating_button:hover {
-    background-color: var(--sena-green-color);;
+    background-color: var(--sena-green-color);
 }
 
 .floating_button:hover a {

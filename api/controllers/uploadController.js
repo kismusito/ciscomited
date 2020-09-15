@@ -1,15 +1,15 @@
-const uploadMethods = {}
-const fs = require('fs');
-const xml2js = require('xml2js')
-const Appretice = require('../models/Appretice')
+const uploadMethods = {};
+const fs = require("fs");
+const xml2js = require("xml2js");
+const Appretice = require("../models/Appretice");
 
-const parser = new xml2js.Parser()
+const parser = new xml2js.Parser();
 
 async function saveAppretices(arr) {
-    var totalSaved = 0
-    var totalRefused = 0
+    var totalSaved = 0;
+    var totalRefused = 0;
     for (i in arr) {
-        const actualAppretice = arr[i]
+        const actualAppretice = arr[i];
         const appreticeProgram = {
             codigo_sede: actualAppretice.CODIGO_SEDE,
             sede: actualAppretice.SEDE,
@@ -21,32 +21,35 @@ async function saveAppretices(arr) {
             version_prograna: actualAppretice.VERSION_PROGRANA,
             programa: actualAppretice.PROGRAMA,
             nivel_de_formacion: actualAppretice.NIVEL_DE_FORMACION,
-        }
-        
-        const searchIfAppreticeExist = await Appretice.findOne({ numero_documento: actualAppretice.NUMERO_DOCUMENTO })
+        };
+
+        const searchIfAppreticeExist = await Appretice.findOne({
+            numero_documento: actualAppretice.NUMERO_DOCUMENTO,
+        });
         if (searchIfAppreticeExist) {
-            let userActualPrograms = searchIfAppreticeExist.programas_formacion
-            let addProgram = true
-            userActualPrograms.map(program => {
+            let userActualPrograms = searchIfAppreticeExist.programas_formacion;
+            let addProgram = true;
+            userActualPrograms.map((program) => {
                 if (program.ficha == appreticeProgram.ficha) {
-                    addProgram = false
+                    addProgram = false;
                 }
-            })
+            });
 
             if (addProgram) {
-                userActualPrograms.push(appreticeProgram)
-                const saveAppretice = await searchIfAppreticeExist.updateOne({ programas_formacion: userActualPrograms })
+                userActualPrograms.push(appreticeProgram);
+                const saveAppretice = await searchIfAppreticeExist.updateOne({
+                    programas_formacion: userActualPrograms,
+                });
                 if (saveAppretice) {
-                    totalSaved += 1
+                    totalSaved += 1;
                 } else {
-                    totalRefused += 1
+                    totalRefused += 1;
                 }
             } else {
-                totalRefused += 1
+                totalRefused += 1;
             }
-            
         } else {
-            const programAppretice = [appreticeProgram]
+            const programAppretice = [appreticeProgram];
             const appretice = new Appretice({
                 programas_formacion: programAppretice,
                 tipo_documento: actualAppretice.TIPO_DOCUMENTO,
@@ -54,44 +57,44 @@ async function saveAppretices(arr) {
                 nombre: actualAppretice.NOMBRE,
                 primer_apellido: actualAppretice.PRIMER_APELLIDO,
                 segundo_apellido: actualAppretice.SEGUNDO_APELLIDO,
-                estado_aprendiz: actualAppretice.ESTADO_APRENDIZ
-            })
-            const savedAppretice = await appretice.save()
-            if(savedAppretice) {
-                totalSaved += 1
+                estado_aprendiz: actualAppretice.ESTADO_APRENDIZ,
+            });
+            const savedAppretice = await appretice.save();
+            if (savedAppretice) {
+                totalSaved += 1;
             } else {
-                totalRefused += 1
+                totalRefused += 1;
             }
         }
     }
 
     return {
-        "Success": totalSaved,
-        "Failure": totalRefused
-    }
+        Success: totalSaved,
+        Failure: totalRefused,
+    };
 }
 
 uploadMethods.uploadAppretices = async (req, res) => {
-    console.log(req.file)
+    console.log(req.file);
     if (req.file) {
-        const uri = '../api/assets/XML/' + req.file.filename
+        const uri = "../api/assets/XML/" + req.file.filename;
         fs.readFile(uri, (err, data) => {
             parser.parseString(data, async (err, result) => {
-                const readJxML = result.Workbook.Worksheet[0].Table[0].Row
-                const totalFiles = []
-                readJxML.map(ele => {
-                    totalFiles.push(ele.Cell)
-                })
-                const totalArray = []
+                const readJxML = result.Workbook.Worksheet[0].Table[0].Row;
+                const totalFiles = [];
+                readJxML.map((ele) => {
+                    totalFiles.push(ele.Cell);
+                });
+                const totalArray = [];
                 totalFiles.map((file, i) => {
-                    const actualArray = []
-                    file.map(t => {
-                        actualArray.push(t.Data)
-                    })
-                    totalArray.push(actualArray)
-                })
+                    const actualArray = [];
+                    file.map((t) => {
+                        actualArray.push(t.Data);
+                    });
+                    totalArray.push(actualArray);
+                });
 
-                const AllRegisters = []
+                const AllRegisters = [];
                 for (i in totalArray) {
                     const actualJSON = {
                         CODIGO_SEDE: totalArray[i][0][0]._,
@@ -109,24 +112,23 @@ uploadMethods.uploadAppretices = async (req, res) => {
                         NOMBRE: totalArray[i][12][0]._,
                         PRIMER_APELLIDO: totalArray[i][13][0]._,
                         SEGUNDO_APELLIDO: totalArray[i][14][0]._,
-                        ESTADO_APRENDIZ: totalArray[i][15][0]._
-                    }
+                        ESTADO_APRENDIZ: totalArray[i][15][0]._,
+                    };
                     if (actualJSON.ESTADO_FICHA == "En ejecucion") {
-                        AllRegisters.push(actualJSON)
+                        AllRegisters.push(actualJSON);
                     }
                 }
 
-                const getData = await saveAppretices(AllRegisters)
+                const getData = await saveAppretices(AllRegisters);
 
                 return res.json({
                     status: true,
                     total: getData,
-                    message: "Se ha terminado la operación"
-                })
-
-            })
-        })
+                    message: "Se ha terminado la operación",
+                });
+            });
+        });
     }
-}
+};
 
-module.exports = uploadMethods
+module.exports = uploadMethods;

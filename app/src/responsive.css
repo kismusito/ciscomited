@@ -15,14 +15,13 @@
 }
 
 @media screen and (max-width: 650px) {
-
     .min_width_editor {
         width: 500px !important;
     }
 }
 
 @media screen and (max-width: 550px) {
-    .btn_orange { 
+    .btn_orange {
         width: 100%;
     }
 
@@ -32,7 +31,7 @@
     }
 
     .col_6 {
-        width: 100% ;
+        width: 100%;
     }
 
     .rows {
@@ -42,7 +41,7 @@
     .rows > .col_6:nth-child(1) {
         margin-bottom: 15px;
     }
-    
+
     .image_profile {
         margin: 0 auto;
     }
@@ -93,11 +92,11 @@
         height: 120px;
     }
 
-    .action_buttons > .btn_orange{
+    .action_buttons > .btn_orange {
         width: 48%;
     }
 
-    .action_buttons > .btn_teal{
+    .action_buttons > .btn_teal {
         width: 48%;
         text-align: center;
     }

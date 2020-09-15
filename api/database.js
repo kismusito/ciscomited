@@ -1,23 +1,22 @@
-require('dotenv').config()
-const mongoose = require('mongoose')
-const uri = process.env.URI
-const db = mongoose.connection
-
+require("dotenv").config();
+const mongoose = require("mongoose");
+const uri = process.env.URI;
+const db = mongoose.connection;
 
 function connectDB() {
-    mongoose.connect(uri , {
+    mongoose.connect(uri, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
-        useCreateIndex: true
-    })
+        useCreateIndex: true,
+    });
 
-    db.on('open' , _ => {
-        console.log("Database connect")
-    })
+    db.on("open", (_) => {
+        console.log("Database connect");
+    });
 
-    db.on('error' , err => {
-        throw err
-    })
+    db.on("error", (err) => {
+        throw err;
+    });
 }
 
-connectDB()
+connectDB();

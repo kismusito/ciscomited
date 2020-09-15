@@ -1,19 +1,18 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { NavbarSidebar } from '../'
-import './MyCitations.css'
-import { userActions } from '../../_actions'
-import { HighlightOff, CloudUpload } from '@material-ui/icons'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { NavbarSidebar } from "../";
+import "./MyCitations.css";
+import { userActions } from "../../_actions";
+import { HighlightOff, CloudUpload } from "@material-ui/icons";
 
 class MyCitations extends Component {
-
     componentDidMount() {
         this.props.getCitaions();
     }
 
-    eHancleClickCitation = citationID => {
-        this.props.getSelected(citationID)
-    }
+    eHancleClickCitation = (citationID) => {
+        this.props.getSelected(citationID);
+    };
 
     getMonth(n) {
         switch (n + 1) {
@@ -46,21 +45,20 @@ class MyCitations extends Component {
         }
     }
 
-    eHandleHideModal = _ => {
-        this.props.hideSelectedModal()
-    }
+    eHandleHideModal = (_) => {
+        this.props.hideSelectedModal();
+    };
 
-    eHandleNewDocumentUpload = citationID => {
+    eHandleNewDocumentUpload = (citationID) => {
         const formData = new FormData(this.formUploadNewStatus);
         this.props.uploadStatus(citationID, formData);
-    }
+    };
 
-    hideModalNewChange = _ => {
+    hideModalNewChange = (_) => {
         this.props.hideModalUpload();
-    }
+    };
 
     render() {
-
         const { citationsReducer, citationSelectedReducer, uploadNewStatusCitation } = this.props;
 
         return (
@@ -71,69 +69,136 @@ class MyCitations extends Component {
                         <div className="container_white_edit min_height_big center_elements">
                             <div className="block_container">
                                 <div className="title">Tus citaciones</div>
-                                <div className="subtitle">En esta lista podrás encontrar todas las citaciones que hayas generado, tambien podrás actualizar sus estados en cada fase del proceso.</div>
+                                <div className="subtitle">
+                                    En esta lista podrás encontrar todas las citaciones que hayas
+                                    generado, tambien podrás actualizar sus estados en cada fase del
+                                    proceso.
+                                </div>
                                 <div className="container_scrollable">
                                     {citationsReducer.status &&
-                                        citationsReducer.citations.map(citation => (
-                                            <div key={citation._id} onClick={() => this.eHancleClickCitation(citation._id)} className="citation_item">
+                                        citationsReducer.citations.map((citation) => (
+                                            <div
+                                                key={citation._id}
+                                                onClick={() =>
+                                                    this.eHancleClickCitation(citation._id)
+                                                }
+                                                className="citation_item"
+                                            >
                                                 <div className="title_search">Descripción</div>
-                                                <div className="subtitle">{citation.description}</div>
-                                                <div className="title_search">Fecha de generación</div>
+                                                <div className="subtitle">
+                                                    {citation.description}
+                                                </div>
+                                                <div className="title_search">
+                                                    Fecha de generación
+                                                </div>
                                                 <div className="subtitle">{citation.date}</div>
                                             </div>
-                                        ))
-                                    }
+                                        ))}
                                 </div>
                             </div>
 
-                            {citationSelectedReducer.status &&
+                            {citationSelectedReducer.status && (
                                 <div className="modal_overlay_role">
-                                    <div className="close_modal" onClick={() => this.eHandleHideModal()}>
+                                    <div
+                                        className="close_modal"
+                                        onClick={() => this.eHandleHideModal()}
+                                    >
                                         <HighlightOff />
                                     </div>
 
-                                    {uploadNewStatusCitation.status &&
+                                    {uploadNewStatusCitation.status && (
                                         <div className="modalMessageOverlay">
-                                            <span className="textMessageUploadNew">{uploadNewStatusCitation.message}</span>
-                                            <button className="btn btn_teal" onClick={this.hideModalNewChange}>Aceptar</button>
+                                            <span className="textMessageUploadNew">
+                                                {uploadNewStatusCitation.message}
+                                            </span>
+                                            <button
+                                                className="btn btn_teal"
+                                                onClick={this.hideModalNewChange}
+                                            >
+                                                Aceptar
+                                            </button>
                                         </div>
-                                    }
+                                    )}
 
-                                    {uploadNewStatusCitation.status === false &&
+                                    {uploadNewStatusCitation.status === false && (
                                         <div className="modalMessageOverlay">
-                                            <span className="textMessageUploadNew">{uploadNewStatusCitation.message}</span>
-                                            <button className="btn btn_orange" onClick={this.hideModalNewChange}>Aceptar</button>
+                                            <span className="textMessageUploadNew">
+                                                {uploadNewStatusCitation.message}
+                                            </span>
+                                            <button
+                                                className="btn btn_orange"
+                                                onClick={this.hideModalNewChange}
+                                            >
+                                                Aceptar
+                                            </button>
                                         </div>
-                                    }
-
-
+                                    )}
 
                                     <div className="info_citation_container">
                                         <div className="title">Ultimo cambio</div>
-                                        <div className="subtitle">Este es el utlimo cambio generado de la citación si quieres ver los cambios anteriores puedes encontrarlos en la parte inferior</div>
-
+                                        <div className="subtitle">
+                                            Este es el utlimo cambio generado de la citación si
+                                            quieres ver los cambios anteriores puedes encontrarlos
+                                            en la parte inferior
+                                        </div>
 
                                         <div className="container_info_uploads">
-
                                             <div className="col_6">
-
-                                                {citationSelectedReducer.citations.map(citation =>
-                                                    citation._id === citationSelectedReducer.parent.lastChange ?
-                                                        (<div key={citation._id} className="last_change_uploaded">
-                                                            <img src="/assets/img/pdfCitations.png" className="image_responsive" alt="pdf uploaded" />
+                                                {citationSelectedReducer.citations.map((citation) =>
+                                                    citation._id ===
+                                                    citationSelectedReducer.parent.lastChange ? (
+                                                        <div
+                                                            key={citation._id}
+                                                            className="last_change_uploaded"
+                                                        >
+                                                            <img
+                                                                src="/assets/img/pdfCitations.png"
+                                                                className="image_responsive"
+                                                                alt="pdf uploaded"
+                                                            />
                                                             <div className="action_buttons">
-                                                                <button className="btn btn_orange">Enviar</button>
-                                                                <a href={citation.pdfLink} target="_blank" rel="noopener noreferrer" className="btn btn_teal">Ver PDF</a>
+                                                                <button className="btn btn_orange">
+                                                                    Enviar
+                                                                </button>
+                                                                <a
+                                                                    href={citation.pdfLink}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    className="btn btn_teal"
+                                                                >
+                                                                    Ver PDF
+                                                                </a>
                                                             </div>
-                                                        </div>)
-                                                        : ("")
+                                                        </div>
+                                                    ) : (
+                                                        ""
+                                                    )
                                                 )}
-
                                             </div>
                                             <div className="col_6 upload_new_file_change">
-                                                <form method="POST" className="uploadNewFileContainer" ref={input => this.formUploadNewStatus = input}>
+                                                <form
+                                                    method="POST"
+                                                    className="uploadNewFileContainer"
+                                                    ref={(input) =>
+                                                        (this.formUploadNewStatus = input)
+                                                    }
+                                                >
                                                     <div className="container_to_ipload">
-                                                        <input type="file" name="newFileToUpload" id="newFileToUpload" className="uploadNewFileContainer" onChange={() => this.eHandleNewDocumentUpload(citationSelectedReducer.parent._id)} ref={input => this.fileNewUpload = input} />
+                                                        <input
+                                                            type="file"
+                                                            name="newFileToUpload"
+                                                            id="newFileToUpload"
+                                                            className="uploadNewFileContainer"
+                                                            onChange={() =>
+                                                                this.eHandleNewDocumentUpload(
+                                                                    citationSelectedReducer.parent
+                                                                        ._id
+                                                                )
+                                                            }
+                                                            ref={(input) =>
+                                                                (this.fileNewUpload = input)
+                                                            }
+                                                        />
                                                         <div className="uploadNewFile">
                                                             <CloudUpload />
                                                             <span>Subir nuevo archivo</span>
@@ -141,49 +206,76 @@ class MyCitations extends Component {
                                                     </div>
                                                 </form>
 
-                                                {uploadNewStatusCitation.searchLoading &&
+                                                {uploadNewStatusCitation.searchLoading && (
                                                     <div className="loading_file">
-                                                        <div className="text_loading_new">Estamos procesando el archivo.</div>
+                                                        <div className="text_loading_new">
+                                                            Estamos procesando el archivo.
+                                                        </div>
                                                         <div className="loader_upload"></div>
                                                     </div>
-                                                }
+                                                )}
                                             </div>
-
-
                                         </div>
-
 
                                         <div className="title_search">Listado de cambios</div>
                                         <div className="citationScrollChanges">
                                             {citationSelectedReducer.status &&
-                                                citationSelectedReducer.citations.map(citation => (
-
-                                                    <div key={citation._id} className="citation_item center_vertical">
-                                                        <div className="title_search">Fecha de generación</div>
-                                                        <div className="subtitle">{new Date(citation.createdAt).getDate() + " de " + this.getMonth(new Date(citation.createdAt).getMonth()) + " del " + new Date(citation.createdAt).getFullYear()}</div>
-                                                        <div className="floating_button">
-                                                            <a href={citation.pdfLink} target="_blank" rel="noopener noreferrer">Ver PDF</a>
+                                                citationSelectedReducer.citations.map(
+                                                    (citation) => (
+                                                        <div
+                                                            key={citation._id}
+                                                            className="citation_item center_vertical"
+                                                        >
+                                                            <div className="title_search">
+                                                                Fecha de generación
+                                                            </div>
+                                                            <div className="subtitle">
+                                                                {new Date(
+                                                                    citation.createdAt
+                                                                ).getDate() +
+                                                                    " de " +
+                                                                    this.getMonth(
+                                                                        new Date(
+                                                                            citation.createdAt
+                                                                        ).getMonth()
+                                                                    ) +
+                                                                    " del " +
+                                                                    new Date(
+                                                                        citation.createdAt
+                                                                    ).getFullYear()}
+                                                            </div>
+                                                            <div className="floating_button">
+                                                                <a
+                                                                    href={citation.pdfLink}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                >
+                                                                    Ver PDF
+                                                                </a>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                ))
-                                            }
+                                                    )
+                                                )}
                                         </div>
                                     </div>
                                 </div>
-                            }
-
-
+                            )}
                         </div>
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }
 
 function mapStateToProps(state) {
-    const { authReducer, citationsReducer, citationSelectedReducer, uploadNewStatusCitation } = state
-    return { authReducer, citationsReducer, citationSelectedReducer, uploadNewStatusCitation }
+    const {
+        authReducer,
+        citationsReducer,
+        citationSelectedReducer,
+        uploadNewStatusCitation,
+    } = state;
+    return { authReducer, citationsReducer, citationSelectedReducer, uploadNewStatusCitation };
 }
 
 const actionCreator = {
@@ -191,8 +283,8 @@ const actionCreator = {
     getSelected: userActions.getSelectedCitaion,
     hideSelectedModal: userActions.hideModalSelectedCitation,
     uploadStatus: userActions.uploadCitationStatus,
-    hideModalUpload: userActions.hideModalNewChange
-}
+    hideModalUpload: userActions.hideModalNewChange,
+};
 
-const myCitationsComponent = connect(mapStateToProps, actionCreator)(MyCitations)
-export { myCitationsComponent as MyCitations }
+const myCitationsComponent = connect(mapStateToProps, actionCreator)(MyCitations);
+export { myCitationsComponent as MyCitations };

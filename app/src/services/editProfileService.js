@@ -1,19 +1,20 @@
-import cookie from 'react-cookies'
+import cookie from "react-cookies";
+import { config } from "../config";
 
 export const editProfileService = {
-    editProfile
-}
+    editProfile,
+};
 
 async function editProfile(form) {
     const configuration = {
         method: "POST",
         headers: {
-            "x-access-token": cookie.load("userToken")
+            "x-access-token": cookie.load("userToken"),
         },
-        body: form
-    }
+        body: form,
+    };
 
-    const requestJson = await fetch("http://localhost:4000/editProfile" , configuration)
-    const convertJson = await requestJson.json()
-    return convertJson
+    const requestJson = await fetch(config.serverRoute + "editProfile", configuration);
+    const convertJson = await requestJson.json();
+    return convertJson;
 }

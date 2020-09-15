@@ -1,23 +1,24 @@
-import cookie from 'react-cookies'
+import cookie from "react-cookies";
+import { config } from "../config";
 
 export const searchService = {
     searchAppretices,
-    searchAppretice
-}
+    searchAppretice,
+};
 
 async function searchAppretices(search) {
     const configuration = {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "x-access-token": cookie.load("userToken")
+            "x-access-token": cookie.load("userToken"),
         },
-        body: JSON.stringify(search)
-    }
+        body: JSON.stringify(search),
+    };
 
-    const requestResponse = await fetch("http://localhost:4000/searchAppretices" , configuration)
-    const responseJson = await requestResponse.json()
-    return responseJson
+    const requestResponse = await fetch(config.serverRoute + "searchAppretices", configuration);
+    const responseJson = await requestResponse.json();
+    return responseJson;
 }
 
 async function searchAppretice(appreticeID) {
@@ -25,14 +26,14 @@ async function searchAppretice(appreticeID) {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "x-access-token": cookie.load("userToken")
+            "x-access-token": cookie.load("userToken"),
         },
         body: JSON.stringify({
-            appretice: appreticeID
-        })
-    }
+            appretice: appreticeID,
+        }),
+    };
 
-    const requestResponse = await fetch("http://localhost:4000/searchAppretice" , configuration)
-    const responseJson = await requestResponse.json()
-    return responseJson
+    const requestResponse = await fetch(config.serverRoute + "searchAppretice", configuration);
+    const responseJson = await requestResponse.json();
+    return responseJson;
 }

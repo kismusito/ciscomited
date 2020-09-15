@@ -1,37 +1,46 @@
-import { uploadConstants } from '../_constants'
-import { uploadService } from '../services'
+import { uploadConstants } from "../_constants";
+import { uploadService } from "../services";
 
 export const uploadActions = {
     uploadApprentices,
-    hideAlert
-}
+    hideAlert,
+};
 
 function uploadApprentices(form) {
-    return dispatch => {
-        dispatch(request())
+    return (dispatch) => {
+        dispatch(request());
 
-        uploadService.uploadAppretices(form)
-            .then(response => {
-                if(response.status) {
-                    dispatch(success(response))
+        uploadService
+            .uploadAppretices(form)
+            .then((response) => {
+                if (response.status) {
+                    dispatch(success(response));
                 } else {
-                    dispatch(failure(response))
+                    dispatch(failure(response));
                 }
-            }) 
-            .catch(err => {
-                dispatch(failure(err))
             })
-    }
+            .catch((err) => {
+                dispatch(failure(err));
+            });
+    };
 
-    function request() { return { type: uploadConstants.APPRENTICESUPLOAD_REQUEST } }
-    function success(response) { return { type: uploadConstants.APPRENTICESUPLOAD_SUCCESS , response } }
-    function failure(response) { return { type: uploadConstants.APPRENTICESUPLOAD_FAILURE , response } }
+    function request() {
+        return { type: uploadConstants.APPRENTICESUPLOAD_REQUEST };
+    }
+    function success(response) {
+        return { type: uploadConstants.APPRENTICESUPLOAD_SUCCESS, response };
+    }
+    function failure(response) {
+        return { type: uploadConstants.APPRENTICESUPLOAD_FAILURE, response };
+    }
 }
 
 function hideAlert() {
-    return dispatch => {
-        dispatch(hideAlert())
-    }
+    return (dispatch) => {
+        dispatch(hideAlert());
+    };
 
-    function hideAlert() { return { type: uploadConstants.UPLOADALERT_HIDE } }
+    function hideAlert() {
+        return { type: uploadConstants.UPLOADALERT_HIDE };
+    }
 }

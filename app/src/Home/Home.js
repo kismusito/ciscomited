@@ -187,6 +187,23 @@ class Home extends Component {
                                     </div>
                                 </Link>
                             </li>
+
+                            <li className="list_item_apps">
+                                <Link className="list_item_apps_link" to="/generateMinutes">
+                                    <div>
+                                        <img
+                                            src="/assets/img/email_icon.png"
+                                            alt="edit roles"
+                                        />
+                                    </div>
+                                    <div className="title">Emails</div>
+                                    <div className="subtitle">
+                                        Envia emails emails masivos a todos los aprendices que selecciones.
+                                    </div>
+                                </Link>
+                            </li>
+
+
                         </ul>
                     </div>
                 </div>

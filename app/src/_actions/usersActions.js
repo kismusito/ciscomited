@@ -14,6 +14,7 @@ export const userActions = {
     hideModalSelectedCitation,
     uploadCitationStatus,
     hideModalNewChange,
+    updatePassword,
 };
 
 function getAllRoles() {
@@ -383,5 +384,34 @@ function hideModalNewChange() {
     };
     function hideModal() {
         return { type: userConstants.UPLOADNEWCITATIONSTATUS_HIDEMODAL };
+    }
+}
+
+function updatePassword(data) {
+    return (dispatch) => {
+        dispatch(request());
+
+        userService
+            .updatePassword(data)
+            .then((response) => {
+                if (response.status) {
+                    dispatch(success(response));
+                } else {
+                    dispatch(failure(response));
+                }
+            })
+            .catch((err) => {
+                dispatch(failure(err));
+            });
+    };
+
+    function request() {
+        return { type: userConstants.USERUPDATEPASSWORD_REQUEST };
+    }
+    function success(response) {
+        return { type: userConstants.USERUPDATEPASSWORD_SUCCESS, response };
+    }
+    function failure(response) {
+        return { type: userConstants.USERUPDATEPASSWORD_FAILURE, response };
     }
 }

@@ -10,7 +10,7 @@ const {
     getCitations,
     getSelectedCitation,
     uploadNewCitationStatus,
-    registerAdmin,
+    updatePassword,
 } = require("../controllers/userController");
 const upload = require("../controllers/pdfControllerUpload");
 
@@ -21,6 +21,7 @@ router.post("/searchUser", verifyMiddleware, searchUser);
 router.post("/editUser", verifyMiddleware, editUserSearch);
 router.post("/getCitations", verifyMiddleware, getCitations);
 router.post("/getSelectedCitation", verifyMiddleware, getSelectedCitation);
+router.post("/updatePassword", verifyMiddleware, updatePassword);
 router.post(
     "/uploadNewCitationStatus",
     verifyMiddleware,

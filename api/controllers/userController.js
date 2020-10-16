@@ -369,4 +369,47 @@ userMethods.uploadNewCitationStatus = async (req, res) => {
     }
 };
 
+userMethods.updatePassword = async (req, res) => {
+    const { currentPassword, newPassword, confirmPassword } = req.body;
+    const getUser = await User.findById(req.userID);
+    if (getUser) {
+        const confirmPasswordBD = await getUser.confirmPassword(currentPassword);
+        if (confirmPasswordBD) {
+            if (newPassword === confirmPassword) {
+                const passwordEncrypt = await getUser.encryptPassword(newPassword);
+                const updated = await getUser.updateOne({
+                    $set: {
+                        password: passwordEncrypt,
+                    },
+                });
+
+                if (updated) {
+                    return res.status(200).json({
+                        status: true,
+                        message: "Tu contraseña ha sido actualizada correctamente",
+                    });
+                } else {
+                    return res.status(400).json({
+                        status: false,
+                        type: "general",
+                        message: "Ha ocurrido un error intentalo de nuevo",
+                    });
+                }
+            } else {
+                return res.status(400).json({
+                    status: false,
+                    type: "math",
+                    message: "Las constraseñas no coinciden",
+                });
+            }
+        } else {
+            return res.status(400).json({
+                status: false,
+                type: "current",
+                message: "Tu contraseña no coincide",
+            });
+        }
+    }
+};
+
 module.exports = userMethods;

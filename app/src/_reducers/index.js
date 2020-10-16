@@ -15,6 +15,7 @@ import { generateConstantReducer } from "./generateConstantReducer";
 import { citationsReducer } from "./citationsReducer";
 import { citationSelectedReducer } from "./citationSelectedReducer";
 import { uploadNewStatusCitation } from "./uploadNewStatusCitation";
+import { chagePasswordReducer } from "./chagePasswordReducer";
 
 const rootReducer = combineReducers({
     authReducer,
@@ -33,6 +34,7 @@ const rootReducer = combineReducers({
     citationsReducer,
     citationSelectedReducer,
     uploadNewStatusCitation,
+    chagePasswordReducer,
 });
 
 export default rootReducer;

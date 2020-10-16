@@ -96,8 +96,7 @@ class GenerateMinutes extends Component {
         });
     };
 
-    eHandleSubmitGenerate = (e) => {
-        e.preventDefault();
+    eHandleSubmit = _ => {
         const citationInfo = {
             appretices: this.state.appreticesSelected,
             date: this.state.dateSelected,
@@ -106,6 +105,11 @@ class GenerateMinutes extends Component {
         };
 
         this.props.generateMinute(citationInfo);
+    }
+
+    eHandleSubmitGenerate = (e) => {
+        e.preventDefault();
+        this.eHandleSubmit()
     };
 
     eHandleDateChange = (value) => {
@@ -130,15 +134,58 @@ class GenerateMinutes extends Component {
         });
     };
 
+    resetForm = _ => {
+        console.log(this.contentMinute)
+        this.setState({
+            appreticesSelected: [],
+            content: "",
+        })
+        this.contentMinute.innerHTML = ""
+        this.props.resetMinute();
+    }
+
+    reintentForm = _ => {
+        this.eHandleSubmit()
+    }
+
+
     render() {
-        const { searchReducer } = this.props;
+        const { searchReducer, generateConstantReducer } = this.props;
 
         return (
             <div className="background_login">
                 <NavbarSidebar />
                 <div className="custom_background_sidebar">
                     <div className="center_container">
+                        {generateConstantReducer.status && (
+                            <div className="show_alert_popUp alert_show">
+                                <img
+                                    src="assets/img/check_alert.png"
+                                    className="image_responsive_popup"
+                                    alt="alert popup confirm"
+                                />
+                                <div className="subtitle">
+                                    Revisa el PDF antes de cerrar esta pestaña
+                                </div>
+
+                                <div className="btn_section_flex">
+                                    <a className="btn mt-5 w50 btn_teal" href={generateConstantReducer.pdfLink} rel="noopener noreferrer" target="_blank">Ver PDF</a>
+
+                                    <button className="btn mt-5 w50 btn_teal" onClick={() => this.resetForm()}>Aceptar</button>
+
+                                    <button className="btn mt-5 w50 btn_orange" onClick={() => this.reintentForm()}>Reintentar</button>
+                                </div>
+                            </div>
+                        )}
+
                         <div className="container_white_edit no_over_hidden min_width_editor">
+                            {generateConstantReducer.loading && (
+                                <div className="loading_file">
+                                    <div className="text_loading">Estamos procesando los datos</div>
+                                    <div className="loader_upload"></div>
+                                </div>
+                            )}
+
                             <div className="title">Actas</div>
                             <div className="subtitle mb-4">
                                 Para generar una citacion necesitaremos varios datos, puedes
@@ -146,7 +193,7 @@ class GenerateMinutes extends Component {
                                 y dale clic.
                             </div>
 
-                            <form autoComplete="off" onSubmit={this.eHandleSubmitGenerate}>
+                            <form autoComplete="off" ref={input => this.mainForm = input} onSubmit={this.eHandleSubmitGenerate}>
                                 <div className="title_search leftMargin">Aprendizes</div>
                                 <div className="form_group_search cmp">
                                     <input
@@ -253,6 +300,7 @@ class GenerateMinutes extends Component {
                                 <div className="form_group_search">
                                     <div className="title_search leftMargin">Contenido</div>
                                     <JoditEditor
+                                        value={this.state.content}
                                         ref={(input) => (this.contentMinute = input)}
                                         onBlur={(content) => this.eHandleEditContent(content)}
                                     />
@@ -271,13 +319,14 @@ class GenerateMinutes extends Component {
 }
 
 function mapStateToProps(state) {
-    const { authReducer, searchReducer } = state;
-    return { authReducer, searchReducer };
+    const { authReducer, searchReducer, generateConstantReducer } = state;
+    return { authReducer, searchReducer, generateConstantReducer };
 }
 
 const actionCreator = {
     searchAppretice: searchActions.searchAppretices,
     generateMinute: generatorActions.generateMinute,
+    resetMinute: generatorActions.resetCitationMinute
 };
 
 const generateMinutesComponent = connect(mapStateToProps, actionCreator)(GenerateMinutes);

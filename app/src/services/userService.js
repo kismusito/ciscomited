@@ -10,6 +10,7 @@ export const userService = {
     getMyCitations,
     getSelectedCitation,
     uploadNewCitationStatus,
+    updatePassword,
 };
 
 async function registerUser(user) {
@@ -134,6 +135,21 @@ async function uploadNewCitationStatus(citationID, formData) {
     };
 
     const sendRequest = await fetch(config.serverRoute + "uploadNewCitationStatus", configuration);
+    const converJson = await sendRequest.json();
+    return converJson;
+}
+
+async function updatePassword(data) {
+    const configuration = {
+        method: "POST",
+        headers: {
+            "Content-type": "application/json",
+            "x-access-token": cookie.load("userToken"),
+        },
+        body: JSON.stringify(data),
+    };
+
+    const sendRequest = await fetch(config.serverRoute + "updatePassword", configuration);
     const converJson = await sendRequest.json();
     return converJson;
 }

@@ -6,6 +6,7 @@ export const generatorActions = {
     generateCitation,
     hideAndRedirect,
     generateMinute,
+    resetCitationMinute,
 };
 
 function generateCitation(data) {
@@ -78,5 +79,15 @@ function generateMinute(data) {
     }
     function failure(response) {
         return { type: generatorConstants.GENERATORMINUTE_FAILURE, response };
+    }
+}
+
+function resetCitationMinute() {
+    return (dispatch) => {
+        dispatch(reset());
+    };
+
+    function reset() {
+        return { type: generatorConstants.RESETACTION_MINUTE };
     }
 }

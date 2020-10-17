@@ -9,3 +9,5 @@ export * from "./searchAppretices";
 export * from "./searchAppreticesToCitation";
 export * from "./myCitations";
 export * from "./generateMinutes";
+export * from "./solicities";
+export * from "./uploadInstructors";

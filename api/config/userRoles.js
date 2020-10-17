@@ -1,6 +1,16 @@
-const userRoles = {
-    administrator: 1,
-    guest: 2,
-};
+const userRoles = [
+    {
+        name: "Administrador",
+        rolCapacity: "admin"
+    },
+    {
+        name: "Director",
+        rolCapacity: "director"
+    },
+    {
+        name: "Instructor",
+        rolCapacity: "instructor"
+    },
+];
 
 module.exports = userRoles;

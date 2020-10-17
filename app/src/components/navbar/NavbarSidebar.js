@@ -120,7 +120,7 @@ class NavbarSidebar extends Component {
 
                 <div className="list_of_apps">
                     <ul>
-                        <li className="list_item" onClick={this.logout}>
+                        <li className="list_item logout_button" onClick={this.logout}>
                             {!this.state.mobileView && <span>Cerrar sesión</span>}
 
                             {this.state.mobileView && (

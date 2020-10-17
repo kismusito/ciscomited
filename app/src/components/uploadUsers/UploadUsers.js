@@ -39,7 +39,7 @@ class UploadUsers extends Component {
                                 method="POST"
                                 encType="multipart/form-data"
                                 onSubmit={this.eHandleSubmitForm}
-                                className="form_total_size center_elements"
+                                className="form_total_size center_elements h300"
                                 ref={(input) => (this.formData = input)}
                             >
                                 <input

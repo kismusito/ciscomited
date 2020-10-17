@@ -15,6 +15,7 @@ export const userActions = {
     uploadCitationStatus,
     hideModalNewChange,
     updatePassword,
+    getCapacities
 };
 
 function getAllRoles() {
@@ -43,6 +44,36 @@ function getAllRoles() {
     }
     function failure(response) {
         return { type: rolConstant.GETROLES_FAILURE, response };
+    }
+}
+
+
+function getCapacities() {
+    return (dispatch) => {
+        dispatch(request());
+
+        roleService
+            .getCapacities()
+            .then((response) => {
+                if (response.status) {
+                    dispatch(success(response));
+                } else {
+                    dispatch(failure(response));
+                }
+            })
+            .catch((err) => {
+                dispatch(failure(err));
+            });
+    };
+
+    function request() {
+        return { type: rolConstant.GETROLCAPACITIES_REQUEST };
+    }
+    function success(response) {
+        return { type: rolConstant.GETROLCAPACITIES_SUCCESS, response };
+    }
+    function failure(response) {
+        return { type: rolConstant.GETROLCAPACITIES_FAILURE, response };
     }
 }
 

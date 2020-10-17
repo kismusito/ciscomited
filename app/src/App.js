@@ -18,6 +18,8 @@ import {
     SearchAppreticesToCitation,
     MyCitations,
     GenerateMinutes,
+    Solicities,
+    UploadInstructors
 } from "./components";
 import "./App.css";
 import "./_vars.css";
@@ -84,6 +86,11 @@ class App extends Component {
                         auth={authReducer.auth}
                     />
                     <PrivateRoute
+                        path="/uploadInstructors"
+                        component={UploadInstructors}
+                        auth={authReducer.auth}
+                    />
+                    <PrivateRoute
                         path="/searchAppretices"
                         component={SearchAppretices}
                         auth={authReducer.auth}
@@ -101,6 +108,11 @@ class App extends Component {
                     <PrivateRoute
                         path="/generateMinutes"
                         component={GenerateMinutes}
+                        auth={authReducer.auth}
+                    />
+                    <PrivateRoute
+                        path="/solicities"
+                        component={Solicities}
                         auth={authReducer.auth}
                     />
                     <Route component={Login} path="/login" />

@@ -4,6 +4,7 @@ import { config } from "../config";
 export const roleService = {
     getAllRoles,
     addNewRol,
+    getCapacities
 };
 
 async function getAllRoles() {
@@ -30,6 +31,21 @@ async function addNewRol(rol) {
     };
 
     const requestResponse = await fetch(config.serverRoute + "addRol", configuration);
+    const responseJson = await requestResponse.json();
+    return responseJson;
+}
+
+
+async function getCapacities() {
+    const configuration = {
+        method: "GET",
+        headers: {
+            "Content-type": "application/json",
+            "x-access-token": cookie.load("userToken"),
+        }
+    };
+
+    const requestResponse = await fetch(config.serverRoute + "getRolCapacities", configuration);
     const responseJson = await requestResponse.json();
     return responseJson;
 }

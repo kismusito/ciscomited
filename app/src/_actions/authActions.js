@@ -80,6 +80,6 @@ function logout() {
     };
 
     function logout() {
-        return { type: userConstants.USERLOGOUT };
+        return { type: userConstants.USER_LOGOUT };
     }
 }

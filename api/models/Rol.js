@@ -1,3 +1,4 @@
+const { json } = require("body-parser");
 const { Schema, model } = require("mongoose");
 
 const rolSchema = new Schema({
@@ -5,8 +6,8 @@ const rolSchema = new Schema({
         type: String,
         required: true,
     },
-    isAdmin: {
-        type: Boolean,
+    capacity: {
+        type: String,
         default: false,
     },
 });

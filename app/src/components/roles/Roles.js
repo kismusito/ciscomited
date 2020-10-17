@@ -11,13 +11,14 @@ class Roles extends Component {
 
         this.state = {
             showModalRoleNew: false,
-            adminSelect: false,
+            selectedRol: "",
             allRoles: [],
         };
     }
 
     async componentDidMount() {
         this.props.getRoles();
+        this.props.getCapacities();
     }
 
     addNewRoleModal = (_) => {
@@ -32,9 +33,9 @@ class Roles extends Component {
         });
     };
 
-    isAdminSelected = (_) => {
+    addSelectedRol = (rol) => {
         this.setState({
-            adminSelect: !this.state.adminSelect,
+            selectedRol: rol,
         });
     };
 
@@ -42,25 +43,24 @@ class Roles extends Component {
         e.preventDefault();
         const newRol = {
             name: this.rolName.value,
-            isAdmin: this.isAdmin.value,
+            capacity: this.state.selectedRol,
         };
+        this.props.addRol(newRol);
         e.target.reset();
         this.setState({
-            adminSelect: false,
+            selectedRol: "",
         });
-
-        this.props.addRol(newRol);
     };
 
     render() {
-        const { roleReducer, addRoleReducer } = this.props;
+        const { roleReducer, addRoleReducer, getRoleCapacitiesReducer } = this.props;
 
         return (
             <div className="background_login">
                 <NavbarSidebar />
                 <div className="custom_background_sidebar">
                     <div className="center_container">
-                        <div className="container_white_edit min_height min_height_mobile">
+                        <div className="container_white_edit min_height min_height_mobile show_overflow">
                             <div className="role_container">
                                 <div className="roleList">
                                     <div className="title">Roles</div>
@@ -125,25 +125,22 @@ class Roles extends Component {
                                                     Selecciona las capacidades de este rol
                                                 </div>
 
-                                                <div
-                                                    className={
-                                                        this.state.adminSelect
-                                                            ? "capacitySelect selectedCapacity"
-                                                            : "capacitySelect"
-                                                    }
-                                                    onClick={this.isAdminSelected}
-                                                >
-                                                    Administrador
-                                                </div>
-
-                                                <input
-                                                    type="hidden"
-                                                    name="capacity"
-                                                    ref={(input) => (this.isAdmin = input)}
-                                                    defaultValue={this.state.adminSelect}
-                                                    className="form_control"
-                                                    placeholder="Capacidad"
-                                                />
+                                                {getRoleCapacitiesReducer.status &&
+                                                    getRoleCapacitiesReducer.capacities.map(
+                                                        (capacity) => (
+                                                            <div
+                                                            key={capacity.rolCapacity}
+                                                                className={
+                                                                    this.state.selectedRol === capacity.rolCapacity
+                                                                        ? "capacitySelect selectedCapacity"
+                                                                        : "capacitySelect"
+                                                                }
+                                                                onClick={() => this.addSelectedRol(capacity.rolCapacity)}
+                                                            >
+                                                                {capacity.name}
+                                                            </div>
+                                                        )
+                                                    )}
                                             </div>
 
                                             <button className="btn btn_big btn_orange">
@@ -174,13 +171,14 @@ class Roles extends Component {
 }
 
 function mapStateToProps(state) {
-    const { authReducer, roleReducer, addRoleReducer } = state;
-    return { authReducer, roleReducer, addRoleReducer };
+    const { authReducer, roleReducer, addRoleReducer, getRoleCapacitiesReducer } = state;
+    return { authReducer, roleReducer, addRoleReducer, getRoleCapacitiesReducer };
 }
 
 const actionCreator = {
     getRoles: userActions.getAllRoles,
     addRol: userActions.addRol,
+    getCapacities: userActions.getCapacities,
 };
 
 const rolesComponent = connect(mapStateToProps, actionCreator)(Roles);

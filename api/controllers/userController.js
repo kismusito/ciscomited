@@ -6,7 +6,7 @@ const domain = require("../config/domain");
 const { response } = require("express");
 
 async function getRole(roleID) {
-    const getRole = await Rol.findById({ _id: roleID }, { role_name: true, isAdmin: true });
+    const getRole = await Rol.findById({ _id: roleID }, { role_name: true, capacity: true });
     return getRole;
 }
 

@@ -1,10 +1,12 @@
 import { combineReducers } from "redux";
+import { userConstants } from "../_constants";
 import { authReducer } from "./authReducer";
 import { editProfileReducer } from "./editProfileReducer";
 import { roleReducer } from "./rolesReducer";
 import { addRoleReducer } from "./addRoleReducer";
 import { registerUserReducer } from "./registerUserReducer";
 import { getRolInfoReducer } from "./getRoleInfoReducer";
+import { getRoleCapacitiesReducer } from "./getRoleCapacitiesReducer";
 import { searchUsersReducer } from "./searchUsersReducer";
 import { searchedUserReducer } from "./searchedUserReducer";
 import { editUserSearchReducer } from "./editUserReducer";
@@ -35,6 +37,8 @@ const rootReducer = combineReducers({
     citationSelectedReducer,
     uploadNewStatusCitation,
     chagePasswordReducer,
+    getRoleCapacitiesReducer,
 });
 
-export default rootReducer;
+export default (state, action) =>
+    rootReducer(action.type === userConstants.USER_LOGOUT ? undefined : state, action);

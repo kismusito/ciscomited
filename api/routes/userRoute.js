@@ -12,7 +12,7 @@ const {
     uploadNewCitationStatus,
     updatePassword,
 } = require("../controllers/userController");
-const upload = require("../controllers/pdfControllerUpload");
+const upload = require("../controllers/uploads/pdfControllerUpload");
 
 router.post("/register", verifyMiddleware, register);
 router.post("/getRoleInfo", verifyMiddleware, getRoleInfo);

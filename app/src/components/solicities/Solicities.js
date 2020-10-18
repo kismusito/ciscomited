@@ -1,16 +1,69 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { NavbarSidebar } from "../";
+import { SelectAppretices } from "../../components";
+import { MenuItem, FormControl, Select, TextareaAutosize } from "@material-ui/core";
+import { CloudUpload } from "@material-ui/icons";
+import { uploadActions } from "../../_actions";
 import "./Solicities.css";
+import { Link } from "react-router-dom";
 
 class Solicities extends Component {
-    constructor(props) {
-       super(props)
+    constructor() {
+        super();
+
+        this.state = {
+            selectedMotiveOrProhibition: "",
+            filesUploaded: [],
+            solicityID: "",
+            execute: false,
+        };
     }
 
+    componentDidMount() {
+        this.props.getDrawSolicity();
+    }
+
+    eHandleSubmit = (e) => {
+        e.preventDefault();
+        const solicityData = {
+            appretices: e.target.appreticesSelected.value,
+        };
+    };
+
+    onChangeMotiveOrProhibition = (event) => {
+        this.setState({
+            selectedMotiveOrProhibition: event.target.value,
+        });
+    };
+
+    onChangeUploadFile = (e) => {
+        e.preventDefault();
+        const formData = new FormData(this.fileNewUpload);
+        this.fileNewUpload.reset();
+        this.setState({
+            execute: false
+        })
+        this.props.uploadFile(formData , this.state.solicityID);
+    };
+
+    setNewFilesReducer = (_) => {
+        this.setState({
+            filesUploaded: this.props.uploadSolicityFilesReducer.solicity.attachFiles,
+            solicityID: this.props.uploadSolicityFilesReducer.solicity._id,
+            execute: true
+        });
+    };
 
     render() {
-        
+        const { authReducer, uploadSolicityFilesReducer } = this.props;
+
+        if (uploadSolicityFilesReducer.status && !this.state.execute) {
+            setTimeout((_) => {
+                this.setNewFilesReducer();
+            }, 200);
+        }
+
         return (
             <div className="background_login">
                 <NavbarSidebar />
@@ -18,7 +71,103 @@ class Solicities extends Component {
                     <div className="center_container">
                         <div className="container_white_edit show_overflow_on_mobile">
                             <div className="title">Generar solicitudes</div>
-                            
+                            <form onSubmit={this.eHandleSubmit}>
+                                <SelectAppretices />
+                                <div className="form_group">
+                                    <FormControl>
+                                        <Select
+                                            value={this.state.selectedMotiveOrProhibition}
+                                            onChange={this.onChangeMotiveOrProhibition}
+                                            displayEmpty
+                                        >
+                                            <MenuItem value="">Motivos o prohibiciones</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </div>
+                                <div className="form_group">
+                                    <div className="rows">
+                                        <div className="col_6">
+                                            <button className="btn btn_big btn_teal">Vocero</button>
+                                        </div>
+                                        <div className="col_6">
+                                            <button className="btn btn_big btn_orange">
+                                                Otros participantes
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="form_group">
+                                    <TextareaAutosize
+                                        className="text_area_custom"
+                                        rowsMin={3}
+                                        placeholder="Mensaje"
+                                    />
+                                </div>
+                                <button className="btn btn_big btn_teal">Generar solicitud</button>
+                            </form>
+                        </div>
+                        <div className="supplier_containers_data">
+                            <div className="container_white_edit show_overflow_on_mobile w300">
+                                <div className="title text_center">Adjuntar archivos</div>
+                                <form method="POST" ref={(input) => (this.fileNewUpload = input)}>
+                                    <div className="uploadNewArchiveSolicity">
+                                        <div className="container_to_ipload_archive_solicity">
+                                            <input
+                                                type="file"
+                                                name="fileUpload"
+                                                id="fileUpload"
+                                                className="uploadNewArchiveSolicityInput"
+                                                onChange={this.onChangeUploadFile}
+                                                multiple={true}
+                                            />
+                                            <div className="uploadNewArchiveSolicityText">
+                                                <CloudUpload />
+                                                <span>Subir nuevo archivo</span>
+                                            </div>
+                                        </div>
+
+                                        {uploadSolicityFilesReducer.loading && (
+                                                <div className="loading_file">
+                                                    <div className="text_loading_new">
+                                                        Estamos procesando el archivo.
+                                                    </div>
+                                                    <div className="loader_upload"></div>
+                                                </div>
+                                            )}
+                                    </div>
+                                </form>
+
+                                {this.state.filesUploaded.map((file , key) => (
+                                        <div key={key} className="customArchiveUploaded">
+                                            <div className="customArchiveUploadedName">{file.originalname}</div>
+                                        </div>
+                                    ))}
+                            </div>
+                            <div className="container_white_edit show_overflow_on_mobile w300">
+                                <div className="title text_center">Tus datos</div>
+                                {authReducer.auth && (
+                                    <div className="full_width center_elements column_direction">
+                                        <div className="customInfoInstructor">
+                                            <strong className="color_teal">Email: </strong>
+                                            <span>{authReducer.userInfo.email}</span>
+                                        </div>
+                                        <div className="customInfoInstructor">
+                                            <strong className="color_teal">Nombre: </strong>
+                                            <span>{authReducer.userInfo.first_name}</span>
+                                        </div>
+                                        <div className="customInfoInstructor">
+                                            <strong className="color_teal">Apellido: </strong>
+                                            <span>{authReducer.userInfo.last_name}</span>
+                                        </div>
+                                        <Link
+                                            to="/editProfile"
+                                            className="btn btn_big btn_teal center_margin text_center"
+                                        >
+                                            Cambar datos
+                                        </Link>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -28,11 +177,13 @@ class Solicities extends Component {
 }
 
 function mapStateToProps(state) {
-    const { authReducer } = state;
-    return { authReducer };
+    const { authReducer, uploadSolicityFilesReducer , getSolicityDrawReducer} = state;
+    return { authReducer, uploadSolicityFilesReducer , getSolicityDrawReducer};
 }
 
 const actionCreator = {
+    uploadFile: uploadActions.uploadNewFileSolicity,
+    getDrawSolicity: uploadActions.getDrawSolicity
 };
 
 const solicitiesComponent = connect(mapStateToProps, actionCreator)(Solicities);

@@ -5,8 +5,10 @@ const Appretice = require("../models/Appretice");
 const Instructor = require("../models/Instructor");
 const Rol = require("../models/Rol");
 const User = require("../models/User");
+const Solocity = require("../models/Solocity");
 const userRoles = require("../config/userRoles");
-
+const { promisify } = require("util");
+const unlinkAsync = promisify(fs.unlink);
 const parser = new xml2js.Parser();
 
 async function saveAppretices(arr) {
@@ -123,7 +125,7 @@ uploadMethods.uploadAppretices = async (req, res) => {
                 }
 
                 const getData = await saveAppretices(AllRegisters);
-
+                await unlinkAsync(req.file.path);
                 return res.json({
                     status: true,
                     total: getData,
@@ -237,7 +239,7 @@ uploadMethods.uploadInstructors = async (req, res) => {
                     }
                 }
                 const getData = await saveInstructors(AllRegisters);
-
+                await unlinkAsync(req.file.path);
                 return res.json({
                     status: true,
                     total: getData,
@@ -245,6 +247,54 @@ uploadMethods.uploadInstructors = async (req, res) => {
                 });
             });
         });
+    }
+};
+
+uploadMethods.uploadSolicityFiles = async (req, res) => {
+    if (req.files) {
+        const solicityID = req.headers['solicityid'];
+        if (!solicityID) {
+            const newSolicity = new Solocity({
+                userID: req.userID,
+                attachFiles: req.files,
+            });
+
+            if (await newSolicity.save()) {
+                return res.status(200).json({
+                    status: true,
+                    solicity: newSolicity,
+                });
+            } else {
+                return res.status(400).json({
+                    status: false,
+                    message: "There was an error",
+                });
+            }
+        } else {
+            const findB = {_id: solicityID}
+            const getSolicity = await Solocity.findOne(findB);
+
+            if (getSolicity) {
+                let pushFiles = [];
+                getSolicity.attachFiles.map(ele => {
+                    pushFiles.push(ele);
+                })
+                const newFiles = new Object(...req.files);
+                pushFiles.push(newFiles);
+
+                await getSolicity.update({ $set: { attachFiles: pushFiles } });
+                const getSolicityUpdate = await Solocity.findOne(findB);
+                return res.status(200).json({
+                    status: true,
+                    solicity: getSolicityUpdate,
+                });
+            } else {
+                return res.status(400).json({
+                    status: false,
+                    message: "The solicity not exist",
+                });
+            }
+        }
     }
 };
 

@@ -11,3 +11,4 @@ export * from "./myCitations";
 export * from "./generateMinutes";
 export * from "./solicities";
 export * from "./uploadInstructors";
+export * from "./selectAppretices";

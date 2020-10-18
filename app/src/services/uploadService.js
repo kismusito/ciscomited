@@ -4,6 +4,8 @@ import { config } from "../config";
 export const uploadService = {
     uploadAppretices,
     uploadInstructors,
+    uploadNewFileSolicity,
+    getDrawSolicity,
 };
 
 async function uploadAppretices(form) {
@@ -30,6 +32,34 @@ async function uploadInstructors(form) {
     };
 
     const sendRequest = await fetch(config.serverRoute + "uploadInstructors", configuration);
+    const convertRequest = await sendRequest.json();
+    return convertRequest;
+}
+
+async function uploadNewFileSolicity(form, solicityID) {
+    const configuration = {
+        method: "POST",
+        headers: {
+            "x-access-token": cookie.load("userToken"),
+            solicityID: solicityID,
+        },
+        body: form,
+    };
+
+    const sendRequest = await fetch(config.serverRoute + "uploadNewFileSolicity", configuration);
+    const convertRequest = await sendRequest.json();
+    return convertRequest;
+}
+
+async function getDrawSolicity() {
+    const configuration = {
+        method: "GET",
+        headers: {
+            "x-access-token": cookie.load("userToken"),
+        },
+    };
+
+    const sendRequest = await fetch(config.serverRoute + "getDrawSolicity", configuration);
     const convertRequest = await sendRequest.json();
     return convertRequest;
 }

@@ -26,5 +26,7 @@ app.use(require("./routes/uploadRoute"));
 app.use(require("./routes/searchRoute"));
 app.use(require("./routes/generatorRoute"));
 app.use(require("./routes/mainRoute"));
+app.use(require("./routes/solicityRoute"));
+app.use(require("./routes/appreticeRoute"));
 
 module.exports = app;

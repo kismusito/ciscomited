@@ -17,6 +17,8 @@ const appreticeSchema = new Schema({
     primer_apellido: String,
     segundo_apellido: String,
     estado_aprendiz: String,
+    email: String,
+    phone: String,
 });
 
 module.exports = model("Appretice", appreticeSchema);

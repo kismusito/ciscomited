@@ -99,7 +99,10 @@ class Home extends Component {
                             {getRolInfoReducer.status &&
                                 getRolInfoReducer.rolInfo.capacity === "admin" && (
                                     <li className="list_item_apps">
-                                        <Link className="list_item_apps_link" to="/uploadInstructors">
+                                        <Link
+                                            className="list_item_apps_link"
+                                            to="/uploadInstructors"
+                                        >
                                             <div>
                                                 <img
                                                     src="/assets/img/upload_teacher.png"

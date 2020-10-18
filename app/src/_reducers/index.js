@@ -18,6 +18,10 @@ import { citationsReducer } from "./citationsReducer";
 import { citationSelectedReducer } from "./citationSelectedReducer";
 import { uploadNewStatusCitation } from "./uploadNewStatusCitation";
 import { chagePasswordReducer } from "./chagePasswordReducer";
+import { uploadSolicityFilesReducer } from "./uploadSolicityFilesReducer";
+import { getSolicityDrawReducer } from "./getDrawsSolicityReducer";
+import { getAppreticeInfoReducer } from "./getAppreticeInfoReducer";
+import { saveAppreticeInfoReducer } from "./saveAppreticeInfoReducer";
 
 const rootReducer = combineReducers({
     authReducer,
@@ -38,6 +42,10 @@ const rootReducer = combineReducers({
     uploadNewStatusCitation,
     chagePasswordReducer,
     getRoleCapacitiesReducer,
+    uploadSolicityFilesReducer,
+    getSolicityDrawReducer,
+    getAppreticeInfoReducer,
+    saveAppreticeInfoReducer,
 });
 
 export default (state, action) =>

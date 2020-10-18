@@ -55,6 +55,7 @@
     right: 10px;
     color: var(--sena-green-color);
     cursor: pointer;
+    z-index: 9999;
 }
 
 .form_desing_rol {

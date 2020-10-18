@@ -1,12 +1,11 @@
-import { uploadConstants , solicityConstants} from "../_constants";
+import { uploadConstants} from "../_constants";
 import { uploadService } from "../services";
 
 export const uploadActions = {
     uploadApprentices,
     hideAlert,
     uploadInstructors,
-    uploadNewFileSolicity,
-    getDrawSolicity
+    uploadNewFileSolicity
 };
 
 function uploadApprentices(form) {
@@ -99,35 +98,6 @@ function uploadNewFileSolicity(form , solicityID) {
     }
     function clear() {
         return { type: uploadConstants.UPLOADNEWFILESOLICITY_CLEAR };
-    }
-}
-
-function getDrawSolicity() {
-    return (dispatch) => {
-        dispatch(request());
-
-        uploadService
-            .getDrawSolicity()
-            .then((response) => {
-                if (response.status) {
-                    dispatch(success(response));
-                } else {
-                    dispatch(failure(response));
-                }
-            })
-            .catch((err) => {
-                dispatch(failure(err));
-            });
-    };
-
-    function request() {
-        return { type: solicityConstants.GETSOLICITYDRAW_REQUEST };
-    }
-    function success(response) {
-        return { type: uploadConstants.UPLOADNEWFILESOLICITY_SUCCESS, response };
-    }
-    function failure(response) {
-        return { type: solicityConstants.GETSOLICITYDRAW_FAILURE, response };
     }
 }
 

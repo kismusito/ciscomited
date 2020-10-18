@@ -6,3 +6,4 @@ export * from "./uploadService";
 export * from "./searchService";
 export * from "./generatorService";
 export * from "./appreticeService";
+export * from "./solicityService";

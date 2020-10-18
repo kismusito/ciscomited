@@ -22,6 +22,7 @@ import { uploadSolicityFilesReducer } from "./uploadSolicityFilesReducer";
 import { getSolicityDrawReducer } from "./getDrawsSolicityReducer";
 import { getAppreticeInfoReducer } from "./getAppreticeInfoReducer";
 import { saveAppreticeInfoReducer } from "./saveAppreticeInfoReducer";
+import { getMotivesOrProhibitionsReducer, saveMotiveOrProhibitionReducer } from "./Solicity";
 
 const rootReducer = combineReducers({
     authReducer,
@@ -46,6 +47,8 @@ const rootReducer = combineReducers({
     getSolicityDrawReducer,
     getAppreticeInfoReducer,
     saveAppreticeInfoReducer,
+    getMotivesOrProhibitionsReducer,
+    saveMotiveOrProhibitionReducer,
 });
 
 export default (state, action) =>

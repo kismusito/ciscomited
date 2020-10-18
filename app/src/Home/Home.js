@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { NavbarSidebar } from "../components";
+import { Navbar } from "../components";
 import "./Home.css";
 import { Link } from "react-router-dom";
 import { userActions } from "../_actions";
@@ -15,7 +15,7 @@ class Home extends Component {
 
         return (
             <div className="background_login">
-                <NavbarSidebar />
+                <Navbar />
                 <div className="custom_background_sidebar">
                     <div className="custom_background_apps">
                         <ul className="apps_items_list">
@@ -153,14 +153,14 @@ class Home extends Component {
                             {getRolInfoReducer.status &&
                                 getRolInfoReducer.rolInfo.capacity === "admin" && (
                                     <li className="list_item_apps">
-                                        <Link className="list_item_apps_link" to="/myCitations">
+                                        <Link className="list_item_apps_link" to="/citations">
                                             <div>
                                                 <img
                                                     src="/assets/img/icon_add_file.png"
                                                     alt="edit roles"
                                                 />
                                             </div>
-                                            <div className="title">Mis citaciones</div>
+                                            <div className="title">Citaciones</div>
                                             <div className="subtitle">
                                                 Con esta herramienta podrás administrar todas tus
                                                 citaciones, enviarlas y cambiar su estado.
@@ -172,14 +172,14 @@ class Home extends Component {
                             {getRolInfoReducer.status &&
                                 getRolInfoReducer.rolInfo.capacity === "admin" && (
                                     <li className="list_item_apps">
-                                        <Link className="list_item_apps_link" to="/citations">
+                                        <Link className="list_item_apps_link" to="/generateCitation">
                                             <div>
                                                 <img
                                                     src="/assets/img/icon_add_citation.png"
                                                     alt="edit roles"
                                                 />
                                             </div>
-                                            <div className="title">Citaciones</div>
+                                            <div className="title">Crear citación</div>
                                             <div className="subtitle">
                                                 Construye dinámicamente una citación, con esta
                                                 herramienta podrás construir citaciones en cuestión
@@ -260,6 +260,25 @@ class Home extends Component {
                                                 />
                                             </div>
                                             <div className="title">Emails</div>
+                                            <div className="subtitle">
+                                                Envia emails emails masivos a todos los aprendices
+                                                que selecciones.
+                                            </div>
+                                        </Link>
+                                    </li>
+                                )}
+
+                                {getRolInfoReducer.status &&
+                                getRolInfoReducer.rolInfo.capacity === "admin" && (
+                                    <li className="list_item_apps">
+                                        <Link className="list_item_apps_link" to="/motivesAndProhibitions">
+                                            <div>
+                                                <img
+                                                    src="/assets/img/email_icon.png"
+                                                    alt="edit roles"
+                                                />
+                                            </div>
+                                            <div className="title">Motivos o prohibiciones</div>
                                             <div className="subtitle">
                                                 Envia emails emails masivos a todos los aprendices
                                                 que selecciones.

@@ -26,9 +26,14 @@ class GenerateSolicity extends Component {
 
     eHandleSubmit = (e) => {
         e.preventDefault();
-        // const solicityData = {
-        //     appretices: e.target.appreticesSelected.value,
-        // };
+        const solicityData = {
+            solicityID: this.state.solicityID,
+            motiveOrProhibition: this.state.selectedMotiveOrProhibition,
+            appretices: e.target.appreticesSelected.value,
+            message: this.messageSolicity.value
+        };
+
+        console.log(solicityData);
     };
 
     onChangeMotiveOrProhibition = (event) => {
@@ -80,6 +85,7 @@ class GenerateSolicity extends Component {
                                             value={this.state.selectedMotiveOrProhibition}
                                             onChange={this.onChangeMotiveOrProhibition}
                                             displayEmpty
+                                            required
                                         >
                                             <MenuItem value="">Motivos o prohibiciones</MenuItem>
                                             {getMotivesOrProhibitionsReducer.status &&
@@ -107,6 +113,8 @@ class GenerateSolicity extends Component {
                                         className="text_area_custom"
                                         rowsMin={3}
                                         placeholder="Mensaje"
+                                        ref={input => this.messageSolicity = input}
+                                        required
                                     />
                                 </div>
                                 <button className="btn btn_big btn_teal">Generar solicitud</button>

@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Navbar , SelectAppretices} from "../../../components";
+import { Navbar, SelectAppretices } from "../../../components";
 import { MenuItem, FormControl, Select, TextareaAutosize } from "@material-ui/core";
 import { CloudUpload } from "@material-ui/icons";
-import { uploadActions , solicityActions } from "../../../_actions";
+import { uploadActions, solicityActions } from "../../../_actions";
 import "./generateSolicity.css";
 import { Link } from "react-router-dom";
 
@@ -21,7 +21,7 @@ class GenerateSolicity extends Component {
 
     componentDidMount() {
         this.props.getDrawSolicity();
-        this.props.getMotivesOrProhibitions()
+        this.props.getMotivesOrProhibitions();
     }
 
     eHandleSubmit = (e) => {
@@ -30,10 +30,11 @@ class GenerateSolicity extends Component {
             solicityID: this.state.solicityID,
             motiveOrProhibition: this.state.selectedMotiveOrProhibition,
             appretices: e.target.appreticesSelected.value,
-            message: this.messageSolicity.value
+            message: this.messageSolicity.value,
+            appreticeSpokeMan: e.target.appreticeSpokeMan.value,
         };
 
-        console.log(solicityData);
+        this.props.saveSolicity(solicityData);
     };
 
     onChangeMotiveOrProhibition = (event) => {
@@ -47,21 +48,26 @@ class GenerateSolicity extends Component {
         const formData = new FormData(this.fileNewUpload);
         this.fileNewUpload.reset();
         this.setState({
-            execute: false
-        })
-        this.props.uploadFile(formData , this.state.solicityID);
+            execute: false,
+        });
+        this.props.uploadFile(formData, this.state.solicityID);
     };
 
     setNewFilesReducer = (_) => {
         this.setState({
             filesUploaded: this.props.uploadSolicityFilesReducer.solicity.attachFiles,
             solicityID: this.props.uploadSolicityFilesReducer.solicity._id,
-            execute: true
+            execute: true,
         });
     };
 
     render() {
-        const { authReducer, uploadSolicityFilesReducer , getMotivesOrProhibitionsReducer} = this.props;
+        const {
+            authReducer,
+            uploadSolicityFilesReducer,
+            getMotivesOrProhibitionsReducer,
+            saveSolicityReducer,
+        } = this.props;
 
         if (uploadSolicityFilesReducer.status && !this.state.execute) {
             setTimeout((_) => {
@@ -75,8 +81,26 @@ class GenerateSolicity extends Component {
                 <div className="custom_background_sidebar">
                     <div className="center_container">
                         <div className="container_white_edit show_overflow_on_mobile">
+                            {saveSolicityReducer.loading && (
+                                <div className="loading_file">
+                                    <div className="text_loading">
+                                        Estamos procesando la solicitud.
+                                    </div>
+                                    <div className="loader_upload"></div>
+                                </div>
+                            )}
+                            {saveSolicityReducer.status &&  (
+                                <div className="loading_file">
+                                    <div className="text_loading">
+                                        {saveSolicityReducer.message}
+                                    </div>
+                                </div>
+                            )}
                             <div className="title">Generar solicitudes</div>
-                            <div className="subtitle mb-2">Si subes archivos la solicitud se va a guardar en estado de borrador hasta que la envies.</div>
+                            <div className="subtitle mb-2">
+                                Si subes archivos la solicitud se va a guardar en estado de borrador
+                                hasta que la envies.
+                            </div>
                             <form onSubmit={this.eHandleSubmit}>
                                 <SelectAppretices />
                                 <div className="form_group">
@@ -89,31 +113,27 @@ class GenerateSolicity extends Component {
                                         >
                                             <MenuItem value="">Motivos o prohibiciones</MenuItem>
                                             {getMotivesOrProhibitionsReducer.status &&
-                                                getMotivesOrProhibitionsReducer.motiverOrProhibions.map(item => (
-                                                    <MenuItem value={item._id} key={item._id}>{item.title}</MenuItem>
-                                                ))
-                                            }
+                                                getMotivesOrProhibitionsReducer.motiverOrProhibions.map(
+                                                    (item) => (
+                                                        <MenuItem value={item._id} key={item._id}>
+                                                            {item.title}
+                                                        </MenuItem>
+                                                    )
+                                                )}
                                         </Select>
                                     </FormControl>
                                 </div>
-                                <div className="form_group">
-                                    <div className="rows">
-                                        <div className="col_6">
-                                            <button className="btn btn_big btn_teal">Vocero</button>
-                                        </div>
-                                        <div className="col_6">
-                                            <button className="btn btn_big btn_orange">
-                                                Otros participantes
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
+                                {/* <div className="form_group">
+                                    <button className="btn btn_big btn_orange">
+                                        Otros participantes
+                                    </button>
+                                </div> */}
                                 <div className="form_group">
                                     <TextareaAutosize
                                         className="text_area_custom"
                                         rowsMin={3}
                                         placeholder="Mensaje"
-                                        ref={input => this.messageSolicity = input}
+                                        ref={(input) => (this.messageSolicity = input)}
                                         required
                                     />
                                 </div>
@@ -141,21 +161,23 @@ class GenerateSolicity extends Component {
                                         </div>
 
                                         {uploadSolicityFilesReducer.loading && (
-                                                <div className="loading_file">
-                                                    <div className="text_loading_new">
-                                                        Estamos procesando el archivo.
-                                                    </div>
-                                                    <div className="loader_upload"></div>
+                                            <div className="loading_file">
+                                                <div className="text_loading_new">
+                                                    Estamos procesando el archivo.
                                                 </div>
-                                            )}
+                                                <div className="loader_upload"></div>
+                                            </div>
+                                        )}
                                     </div>
                                 </form>
 
-                                {this.state.filesUploaded.map((file , key) => (
-                                        <div key={key} className="customArchiveUploaded">
-                                            <div className="customArchiveUploadedName">{file.originalname}</div>
+                                {this.state.filesUploaded.map((file, key) => (
+                                    <div key={key} className="customArchiveUploaded">
+                                        <div className="customArchiveUploadedName">
+                                            {file.originalname}
                                         </div>
-                                    ))}
+                                    </div>
+                                ))}
                             </div>
                             <div className="container_white_edit show_overflow_on_mobile w300">
                                 <div className="title text_center">Tus datos</div>
@@ -191,14 +213,27 @@ class GenerateSolicity extends Component {
 }
 
 function mapStateToProps(state) {
-    const { authReducer, uploadSolicityFilesReducer , getSolicityDrawReducer , getMotivesOrProhibitionsReducer} = state;
-    return { authReducer, uploadSolicityFilesReducer , getSolicityDrawReducer , getMotivesOrProhibitionsReducer};
+    const {
+        authReducer,
+        uploadSolicityFilesReducer,
+        getSolicityDrawReducer,
+        getMotivesOrProhibitionsReducer,
+        saveSolicityReducer,
+    } = state;
+    return {
+        authReducer,
+        uploadSolicityFilesReducer,
+        getSolicityDrawReducer,
+        getMotivesOrProhibitionsReducer,
+        saveSolicityReducer,
+    };
 }
 
 const actionCreator = {
     uploadFile: uploadActions.uploadNewFileSolicity,
     getDrawSolicity: solicityActions.getDrawSolicity,
     getMotivesOrProhibitions: solicityActions.getMotiveOrProhibitions,
+    saveSolicity: solicityActions.saveSolicity,
 };
 
 const generateSolicityComponent = connect(mapStateToProps, actionCreator)(GenerateSolicity);

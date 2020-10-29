@@ -11,9 +11,13 @@ const appreticeSchema = new Schema({
     otherIntegrants: Array,
     attachFiles: Array,
     spokesman: Object,
-    status: {
+    draw: {
         type: Boolean,
-        default: false
+        default: true
+    },
+    statusDetail: {
+        type: String,
+        default: "Pendiente"
     },
     create_at: {
         type: Date,

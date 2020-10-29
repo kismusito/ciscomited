@@ -1,0 +1,20 @@
+.solicityList {
+    margin-top: 10px;
+    list-style: none;
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.solicityListItem {
+    width: 100%;
+    border: 1px solid #b3b3b3;
+    min-height: 55px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

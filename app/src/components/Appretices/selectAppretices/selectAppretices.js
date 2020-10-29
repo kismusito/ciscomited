@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { HighlightOff, EditOutlined } from "@material-ui/icons";
+import { HighlightOff, EditOutlined , StarBorder , Star} from "@material-ui/icons";
 import { searchActions, appreticeActions } from "../../../_actions";
 import "./selectAppretices.css";
 
@@ -16,6 +16,7 @@ class SelectAppretices extends Component {
             showModalInfoAppretice: false,
             appreticesSelected: [],
             showModalAppreticeInfo: false,
+            spokeMan: ""
         };
     }
 
@@ -107,6 +108,12 @@ class SelectAppretices extends Component {
         });
     };
 
+    setAppreticeSpokeMan = appreticeID => {
+        this.setState({
+            spokeMan: appreticeID
+        })
+    }
+
     render() {
         const { searchReducer, getAppreticeInfoReducer, saveAppreticeInfoReducer } = this.props;
         return (
@@ -143,6 +150,19 @@ class SelectAppretices extends Component {
                             <div className="appreticesAreaContainer">
                                 <div
                                     className="icon_delete_selected"
+                                    onClick={() => this.setAppreticeSpokeMan(appretices.appreticeID)}
+                                >
+                                    {this.state.spokeMan === appretices.appreticeID &&
+                                        <Star />
+                                    }
+                                    {this.state.spokeMan !== appretices.appreticeID &&
+                                        <StarBorder />
+                                    }
+                                    
+                                    
+                                </div>
+                                <div
+                                    className="icon_delete_selected"
                                     onClick={() => this.editAppreticeInfo(appretices.appreticeID)}
                                 >
                                     <EditOutlined />
@@ -159,6 +179,8 @@ class SelectAppretices extends Component {
                         </div>
                     ))}
                 </div>
+
+                <input type="hidden" name="appreticeSpokeMan" id="appreticeSpokeMan" value={this.state.spokeMan} ref={input => this.spokeMan = input} />
 
                 {this.state.showModalAppreticeInfo && (
                     <div className="showOverlayUpdateInfo center_elements">

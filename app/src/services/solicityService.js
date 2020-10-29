@@ -4,7 +4,9 @@ import { config } from "../config";
 export const solicityService = {
     getDrawSolicity,
     getMotivesOrProhibitions,
-    saveMotivesOrProhibitions
+    saveMotivesOrProhibitions,
+    saveSolicity,
+    getSolicites
 };
 
 async function getDrawSolicity() {
@@ -44,6 +46,35 @@ async function saveMotivesOrProhibitions(data) {
     };
 
     const sendRequest = await fetch(config.serverRoute + "saveMotiveOrProhibition", configuration);
+    const convertRequest = await sendRequest.json();
+    return convertRequest;
+}
+
+async function saveSolicity(data) {
+    const configuration = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "x-access-token": cookie.load("userToken"),
+        },
+        body: JSON.stringify(data)
+    };
+
+    const sendRequest = await fetch(config.serverRoute + "saveSolicity", configuration);
+    const convertRequest = await sendRequest.json();
+    return convertRequest;
+}
+
+async function getSolicites() {
+    const configuration = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "x-access-token": cookie.load("userToken"),
+        },
+    };
+
+    const sendRequest = await fetch(config.serverRoute + "getSolicities", configuration);
     const convertRequest = await sendRequest.json();
     return convertRequest;
 }

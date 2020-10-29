@@ -20,7 +20,8 @@ import {
     GenerateMinutes,
     GenerateSolicity,
     UploadInstructors,
-    MotivesAndProhibitions
+    MotivesAndProhibitions,
+    Solicities
 } from "./components";
 import "./App.css";
 import "./_vars.css";
@@ -112,8 +113,13 @@ class App extends Component {
                         auth={authReducer.auth}
                     />
                     <PrivateRoute
-                        path="/solicities"
+                        path="/createSolicitiy"
                         component={GenerateSolicity}
+                        auth={authReducer.auth}
+                    />
+                    <PrivateRoute
+                        path="/solicities"
+                        component={Solicities}
                         auth={authReducer.auth}
                     />
                     <PrivateRoute

@@ -212,7 +212,7 @@ class Home extends Component {
                             {getRolInfoReducer.status &&
                                 getRolInfoReducer.rolInfo.capacity === "instructor" && (
                                     <li className="list_item_apps">
-                                        <Link className="list_item_apps_link" to="/solicities">
+                                        <Link className="list_item_apps_link" to="/createSolicitiy">
                                             <div>
                                                 <img
                                                     src="/assets/img/icon_add_citation.png"

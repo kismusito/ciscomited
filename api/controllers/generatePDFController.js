@@ -2,6 +2,8 @@ const generatePDF = {};
 const pdf = require("html-pdf");
 const Appretice = require("../models/Appretice");
 const Citations = require("../models/Citations");
+const Solicity = require("../models/Solocity");
+const User = require("../models/User");
 const domain = require("../config/domain");
 
 function generateRamdomPDF(n) {
@@ -139,7 +141,7 @@ function generatePDFLayout(appreticesSelected, leader, date, hour, meetingLink) 
             </div>
             <div>Asunto: Citación Comité de Evaluación y Seguimiento</div>
     
-            <p>Por medio de esta comunicación, le informamos que la Instructora líder ${leader}, ha solicitado que se le convoque a un comité de evaluación y seguimiento debido a incumplimiento con el reglamento al aprendiz.</p>
+            <p>Por medio de esta comunicación, le informamos que el instructor líder ${leader.first_name + ' ' + leader.last_name}, ha solicitado que se le convoque a un comité de evaluación y seguimiento debido a incumplimiento con el reglamento al aprendiz.</p>
     
             <p>Dichos comportamientos constituyen falta al Reglamento del Aprendiz, que establece: <strong>CAPITULO III DEBERES DEL APRENDIZ SENA. ARTÍCULO 9o. </strong> “Se entiende por deber, la obligación legal, social y moral que compromete a la persona a cumplir condeterminada actuación, asumiendo con responsabilidad todos sus actos, para propiciar la armonía, el respeto, la integración, el bienestar común, la sana convivencia, el servicio a los demás, la seguridad de las personas y de los bienes de la institución. Son deberes del aprendiz SENA durante el proceso de ejecución de la formación, los siguientes numerales: <strong>13</strong> “Conocer y asumir las políticas y directrices institucionales establecidas, así como el Reglamento del Aprendiz SENA, y convivir en comunidad de acuerdo con ellos”</p>
             
@@ -403,45 +405,68 @@ async function getAppreticesInfo(appretices) {
 }
 
 generatePDF.generateCitation = async (req, res) => {
-    const { leader, appretices, date, hour, description, meetingLink } = req.body;
-    const getAppretices = await getAppreticesInfo(appretices);
-    const html = generatePDFLayout(getAppretices, leader, date, hour, meetingLink);
-    const pdfNameRamdom = generateRamdomPDF(40);
-    pdf.create(html).toFile("assets/Citations/" + pdfNameRamdom, (err, resoponse) => {
-        if (err) {
+    const { solicityID, citationDate, citationHour, citationLink } = req.body;
+    if (solicityID) {
+        const solicity = await Solicity.findById(solicityID);
+        if (solicity) {
+            const getAppretices = await getAppreticesInfo(JSON.parse(solicity.appretices));
+            const leader = await User.findById(solicity.userID)
+            const html = generatePDFLayout(getAppretices, leader, citationDate, citationHour, citationLink);
+            console.log(html)
+        } else {
             return res.json({
                 status: false,
-                message: "PDF error",
+                message: "Ha ocurrido un error",
             });
-        } else {
-            const saveCitation = new Citations({
-                userID: req.userID,
-                pdfLink: pdfNameRamdom,
-                description: description,
-            });
-
-            saveCitation.lastChange = saveCitation._id;
-            saveCitation.parentID = saveCitation._id;
-
-            if (saveCitation.save()) {
-                return res.json({
-                    status: true,
-                    pdfLink: domain + "Citations/" + pdfNameRamdom,
-                    message: "PDF Generated",
-                });
-            } else {
-                return res.json({
-                    status: false,
-                    message: "PDF error",
-                });
-            }
         }
-    });
+    } else {
+        return res.json({
+            status: false,
+            message: "El id es requerido",
+        });
+    }
 };
+
+// generatePDF.generateCitation = async (req, res) => {
+//     const { leader, appretices, date, hour, description, meetingLink } = req.body;
+//     const getAppretices = await getAppreticesInfo(appretices);
+//     const html = generatePDFLayout(getAppretices, leader, date, hour, meetingLink);
+//     const pdfNameRamdom = generateRamdomPDF(40);
+//     pdf.create(html).toFile("assets/Citations/" + pdfNameRamdom, (err, resoponse) => {
+//         if (err) {
+//             return res.json({
+//                 status: false,
+//                 message: "PDF error",
+//             });
+//         } else {
+//             const saveCitation = new Citations({
+//                 userID: req.userID,
+//                 pdfLink: pdfNameRamdom,
+//                 description: description,
+//             });
+
+//             saveCitation.lastChange = saveCitation._id;
+//             saveCitation.parentID = saveCitation._id;
+
+//             if (saveCitation.save()) {
+//                 return res.json({
+//                     status: true,
+//                     pdfLink: domain + "Citations/" + pdfNameRamdom,
+//                     message: "PDF Generated",
+//                 });
+//             } else {
+//                 return res.json({
+//                     status: false,
+//                     message: "PDF error",
+//                 });
+//             }
+//         }
+//     });
+// };
 
 generatePDF.generateMinute = async (req, res) => {
     const { appretices, date, hour, content } = req.body;
-    console.log(appretices, date, hour, content)
+    console.log(appretices, date, hour, content);
     const getAppretices = await getAppreticesInfo(appretices);
     const html = generatePDFLayoutMinutes(getAppretices, date, hour, content);
     const pdfNameRamdom = generateRamdomPDF(40);

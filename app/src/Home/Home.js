@@ -160,6 +160,16 @@ class Home extends Component {
                                     alt="Motives or prohibitions"
                                 />
                             )}
+
+                            {getRolInfoReducer.status && this.showComponent(["admin"]) && (
+                                <CardComponent
+                                    title="Plantillas"
+                                    subtitle="Envia emails emails masivos a todos los aprendices que selecciones."
+                                    redirect="templates"
+                                    image="template_icon.png"
+                                    alt="Templates"
+                                />
+                            )}
                         </ul>
                     </div>
                 </div>

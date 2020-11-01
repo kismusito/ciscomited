@@ -80,7 +80,7 @@ class GenerateSolicity extends Component {
                 <Navbar />
                 <div className="custom_background_sidebar">
                     <div className="center_container">
-                        <div className="container_white_edit show_overflow_on_mobile">
+                        <div className="container_white_edit show_overflow_on_mobile position_relative">
                             {saveSolicityReducer.loading && (
                                 <div className="loading_file">
                                     <div className="text_loading">

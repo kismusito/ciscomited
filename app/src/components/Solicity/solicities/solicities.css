@@ -66,6 +66,7 @@
     width: 48%;
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.356);
     margin-bottom: 20px;
+    min-height: 220px;
 }
 
 .file_item_solicity_details {
@@ -83,4 +84,25 @@
 .custom_container_details {
     max-height: 600px !important;
     overflow: auto !important;
+}
+
+.grid_pickers {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form_group_material {
+    width: 100%;
+}
+
+.MuiDialog-root {
+    z-index: 999999 !important;
+}
+
+.left-align {
+    align-items: flex-start !important;
+}
+
+.position_relative {
+    position: relative !important;
 }

@@ -1,4 +1,4 @@
-<h1 align="center">Welcome to SISCOMITED 👋</h1>
+<h1 align="center">SISCOMITED 👋</h1>
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000" />
   <a href="#" target="_blank">
@@ -8,7 +8,7 @@
 
 > Este proyecto esta realizado para ayudar en el gestion en la parte de bienestar del SENA
 
-## Install
+## Instalación
 
 ### Front-end
 
@@ -17,11 +17,24 @@ cd app
 npm install
 ```
 
+Servidor de prueba
+```sh
+npm start
+```
+
+Build
+```sh
+npm run build
+```
+
+##### 
+
 ### Back-end
 
 ```sh
 cd app
 npm install
+npm run serve
 ```
 
 ## Author

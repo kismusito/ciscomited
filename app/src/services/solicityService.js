@@ -6,7 +6,9 @@ export const solicityService = {
     getMotivesOrProhibitions,
     saveMotivesOrProhibitions,
     saveSolicity,
-    getSolicites
+    getSolicites,
+    changeSolicityStatus,
+    getSolicityDetails
 };
 
 async function getDrawSolicity() {
@@ -75,6 +77,35 @@ async function getSolicites() {
     };
 
     const sendRequest = await fetch(config.serverRoute + "getSolicities", configuration);
+    const convertRequest = await sendRequest.json();
+    return convertRequest;
+}
+
+async function changeSolicityStatus(data) {
+    const configuration = {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "x-access-token": cookie.load("userToken"),
+        },
+        body: JSON.stringify(data)
+    };
+
+    const sendRequest = await fetch(config.serverRoute + "changeSolicityStatus", configuration);
+    const convertRequest = await sendRequest.json();
+    return convertRequest;
+}
+
+async function getSolicityDetails(id) {
+    const configuration = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "x-access-token": cookie.load("userToken"),
+        }
+    };
+
+    const sendRequest = await fetch(config.serverRoute + "getSolicityDetails/" + id, configuration);
     const convertRequest = await sendRequest.json();
     return convertRequest;
 }

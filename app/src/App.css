@@ -143,8 +143,8 @@ body {
     box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.034);
     padding: 20px;
     border-radius: 10px;
-    min-width: 500px;
-    width: 500px;
+    min-width: 600px;
+    width: 600px;
 }
 
 .rows {

@@ -1,8 +1,11 @@
 const solicityMethods = {};
-const roles = require("../config/userRoles");
+const translateSolicity = require("../config/solicities");
+const domain = require("../config/domain");
 const User = require("../models/User");
 const Rol = require("../models/Rol");
+const Appretice = require("../models/Appretice");
 const Solocity = require("../models/Solocity");
+const MotivesOrProhibitions = require("../models/MotivesOrProhibitions");
 const MotivesOrProhibition = require("../models/MotivesOrProhibitions");
 
 solicityMethods.getDrawSolicity = async (req, res) => {
@@ -16,6 +19,116 @@ solicityMethods.getDrawSolicity = async (req, res) => {
         return res.json({
             status: false,
             message: "NO solicities found",
+        });
+    }
+};
+
+function getStatusDetail(value) {
+    for (let i in translateSolicity) {
+        if (i === value) {
+            return translateSolicity[i];
+        }
+    }
+}
+
+solicityMethods.changeSolicityStatus = async (req, res) => {
+    const { solicityID, status } = req.body;
+    if (solicityID) {
+        const getSolicity = await Solocity.findById(solicityID);
+        const statusDetail = getStatusDetail(status);
+
+        if (getSolicity) {
+            const update = await getSolicity.updateOne({
+                $set: {
+                    status: status,
+                    statusDetail: statusDetail,
+                },
+            });
+
+            if (update) {
+                return res.status(200).json({
+                    status: true,
+                    message: "Se ha actualizado",
+                });
+            } else {
+                return res.status(400).json({
+                    status: false,
+                    message: "Ha ocurrido un error",
+                });
+            }
+        } else {
+            return res.status(400).json({
+                status: false,
+                message: "No se ha encontrado la solicitud",
+            });
+        }
+    } else {
+        return res.status(400).json({
+            status: false,
+            message: "El id es requerido",
+        });
+    }
+};
+
+async function appreticesDetails(appretices = []) {
+    const appreticesArray = JSON.parse(appretices);
+    let totalAppretices = [];
+    for (let x in appreticesArray) {
+        const appreticeItem = await Appretice.findById(appreticesArray[x].appreticeID);
+        const appreticeData = {
+            appretice_id: appreticeItem._id,
+            full_name:
+                appreticeItem.nombre +
+                " " +
+                appreticeItem.primer_apellido +
+                " " +
+                appreticeItem.segundo_apellido,
+            phone: appreticeItem.phone,
+            email: appreticeItem.email,
+            attemded: appreticesArray[x].attemded,
+        };
+        totalAppretices.push(appreticeData);
+    }
+    return totalAppretices;
+}
+
+solicityMethods.getSolicityDetails = async (req, res) => {
+    const solicityID = req.params["id"];
+    if (solicityID) {
+        const solicity = await Solocity.findById(solicityID);
+        if (solicity) {
+            try {
+                return res.status(200).json({
+                    status: true,
+                    solicity: {
+                        instructor: await User.findById(solicity.userID),
+                        appretices: await appreticesDetails(solicity.appretices),
+                        motivesOrProhibition: await MotivesOrProhibitions.findById(
+                            solicity.motiveOrProhibition
+                        ),
+                        spokesman: solicity.spokeman,
+                        statusDetail: solicity.statusDetail,
+                        files: solicity.attachFiles,
+                        fileDomail: domain + "Solicities/",
+                    },
+                    message: "Se ha encontrado la solicitud",
+                });
+            } catch (error) {
+                return res.status(400).json({
+                    status: false,
+                    message: error,
+                });
+            }
+        } else {
+            return res.status(400).json({
+                status: false,
+                message: "No se encontro la solicitud",
+            });
+        }
+    } else {
+        return res.status(400).json({
+            status: false,
+            message: "El id es requerido",
         });
     }
 };

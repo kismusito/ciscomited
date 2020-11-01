@@ -8,6 +8,9 @@ export const solicityActions = {
     saveMotiveOrProhibitions,
     saveSolicity,
     getSolicities,
+    changeSolicityStatus,
+    getSolicityDetails,
+    closeSolicityDetail,
 };
 
 function getDrawSolicity() {
@@ -185,5 +188,90 @@ function saveSolicity(data) {
     }
     function finish() {
         return { type: solicityConstants.SAVESOLICITY_FINISH };
+    }
+}
+
+function changeSolicityStatus(data) {
+    return (dispatch) => {
+        dispatch(request());
+
+        solicityService
+            .changeSolicityStatus(data)
+            .then((response) => {
+                if (response.status) {
+                    dispatch(success(response));
+                    solicityService
+                        .getSolicites()
+                        .then((response) => {
+                            if (response.status) {
+                                dispatch(successGet(response));
+                            } else {
+                                dispatch(failureGet(response));
+                            }
+                        })
+                        .catch((err) => {
+                            dispatch(failureGet(err));
+                        });
+                } else {
+                    dispatch(failure(response));
+                }
+            })
+            .catch((err) => {
+                dispatch(failure(err));
+            });
+    };
+
+    function request() {
+        return { type: solicityConstants.CHANGESOLICITYSTATUS_REQUEST };
+    }
+    function success(response) {
+        return { type: solicityConstants.CHANGESOLICITYSTATUS_SUCCESS, response };
+    }
+    function failure(response) {
+        return { type: solicityConstants.CHANGESOLICITYSTATUS_FAILURE, response };
+    }
+    function successGet(response) {
+        return { type: solicityConstants.GETSOLICITIES_SUCCESS, response };
+    }
+    function failureGet(response) {
+        return { type: solicityConstants.GETSOLICITIES_FAILURE, response };
+    }
+}
+
+function getSolicityDetails(id) {
+    return (dispatch) => {
+        dispatch(request());
+
+        solicityService
+            .getSolicityDetails(id)
+            .then((response) => {
+                if (response.status) {
+                    dispatch(success(response));
+                } else {
+                    dispatch(failure(response));
+                }
+            })
+            .catch((err) => {
+                dispatch(failure(err));
+            });
+    };
+
+    function request() {
+        return { type: solicityConstants.GETSOLICITIE_REQUEST };
+    }
+    function success(response) {
+        return { type: solicityConstants.GETSOLICITIE_SUCCESS, response };
+    }
+    function failure(response) {
+        return { type: solicityConstants.GETSOLICITIE_FAILURE, response };
+    }
+}
+function closeSolicityDetail() {
+    return (dispatch) => {
+        dispatch(closeModal());
+    };
+
+    function closeModal() {
+        return { type: solicityConstants.GETSOLICITIE_CLOSE_MODAL };
     }
 }

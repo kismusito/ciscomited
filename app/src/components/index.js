@@ -4,7 +4,6 @@ export * from "./Citation";
 //export * from "./Instructors";
 export * from "./Minute";
 export * from "./navbar";
-export * from "./searchAppreticesToCitation";
 export * from "./Solicity";
 export * from "./Upload";
 export * from "./User";

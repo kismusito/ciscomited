@@ -17,6 +17,10 @@ const citationSchema = new Schema({
         type: String,
         required: true,
     },
+    solicity: {
+        type: String,
+        required: true,
+    },
     description: String,
     createdAt: {
         type: Date,

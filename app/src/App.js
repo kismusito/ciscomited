@@ -15,7 +15,6 @@ import {
     ChangePassword,
     UploadUsers,
     SearchAppretices,
-    SearchAppreticesToCitation,
     Citations,
     GenerateMinutes,
     GenerateSolicity,
@@ -95,11 +94,6 @@ class App extends Component {
                     <PrivateRoute
                         path="/searchAppretices"
                         component={SearchAppretices}
-                        auth={authReducer.auth}
-                    />
-                    <PrivateRoute
-                        path="/generateCitation"
-                        component={SearchAppreticesToCitation}
                         auth={authReducer.auth}
                     />
                     <PrivateRoute

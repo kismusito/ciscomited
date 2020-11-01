@@ -68,6 +68,7 @@ class SelectAppretices extends Component {
                 appreticeID,
                 name,
                 lastName,
+                attemded: false
             });
 
             this.setState({

@@ -19,6 +19,11 @@ const appreticeSchema = new Schema({
         type: String,
         default: "Pendiente"
     },
+    status: {
+        type: String,
+        enum: ['approved' , 'pending' , 'reject'],
+        default: 'pending'
+    },
     create_at: {
         type: Date,
         default: new Date()

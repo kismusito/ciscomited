@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Navbar } from "../../../components";
+import { SolicityDetail } from "../../Solicity/solicities/solicityDetail";
 import "./citations.css";
-import { userActions } from "../../../_actions";
+import { userActions, solicityActions } from "../../../_actions";
 import { HighlightOff, CloudUpload } from "@material-ui/icons";
+import { Link } from 'react-router-dom'
 
 class Citations extends Component {
     componentDidMount() {
@@ -45,6 +46,10 @@ class Citations extends Component {
         }
     }
 
+    eHandleShowDetails = (key) => {
+        this.props.getDetails(key);
+    };
+
     eHandleHideModal = (_) => {
         this.props.hideSelectedModal();
     };
@@ -59,12 +64,17 @@ class Citations extends Component {
     };
 
     render() {
-        const { citationsReducer, citationSelectedReducer, uploadNewStatusCitation } = this.props;
+        const {
+            citationsReducer,
+            citationSelectedReducer,
+            uploadNewStatusCitation,
+            getSolicityReducer,
+        } = this.props;
 
         return (
             <div className="background_login">
-                <Navbar />
                 <div className="custom_background_sidebar">
+                    {getSolicityReducer.status && <SolicityDetail />}
                     <div className="center_container">
                         <div className="container_white_edit min_height_big center_elements">
                             <div className="block_container">
@@ -160,6 +170,7 @@ class Citations extends Component {
                                                                 <button className="btn btn_orange">
                                                                     Enviar
                                                                 </button>
+                                                                
                                                                 <a
                                                                     href={citation.pdfLink}
                                                                     target="_blank"
@@ -169,13 +180,17 @@ class Citations extends Component {
                                                                     Ver PDF
                                                                 </a>
                                                             </div>
+
+                                                            <Link className="button_generate_citation btn_big mt-5" to={'/generateMinutes/' + citation._id}>
+                                                                    Generar acta
+                                                            </Link>
                                                         </div>
                                                     ) : (
                                                         ""
                                                     )
                                                 )}
                                             </div>
-                                            <div className="col_6 upload_new_file_change">
+                                            <div className="col_6 upload_new_file_change column_direction">
                                                 <form
                                                     method="POST"
                                                     className="uploadNewFileContainer"
@@ -205,6 +220,17 @@ class Citations extends Component {
                                                         </div>
                                                     </div>
                                                 </form>
+
+                                                <div
+                                                    className="button_generate_citation mt-5"
+                                                    onClick={() =>
+                                                        this.eHandleShowDetails(
+                                                            citationSelectedReducer.parent.solicity
+                                                        )
+                                                    }
+                                                >
+                                                    Ver solicitud
+                                                </div>
 
                                                 {uploadNewStatusCitation.searchLoading && (
                                                     <div className="loading_file">
@@ -274,8 +300,15 @@ function mapStateToProps(state) {
         citationsReducer,
         citationSelectedReducer,
         uploadNewStatusCitation,
+        getSolicityReducer,
     } = state;
-    return { authReducer, citationsReducer, citationSelectedReducer, uploadNewStatusCitation };
+    return {
+        authReducer,
+        citationsReducer,
+        citationSelectedReducer,
+        uploadNewStatusCitation,
+        getSolicityReducer,
+    };
 }
 
 const actionCreator = {
@@ -284,6 +317,7 @@ const actionCreator = {
     hideSelectedModal: userActions.hideModalSelectedCitation,
     uploadStatus: userActions.uploadCitationStatus,
     hideModalUpload: userActions.hideModalNewChange,
+    getDetails: solicityActions.getSolicityDetails,
 };
 
 const citationsComponent = connect(mapStateToProps, actionCreator)(Citations);

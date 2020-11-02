@@ -81,6 +81,10 @@ body {
     margin-left: 10px;
 }
 
+.justify_right {
+    justify-content: flex-end !important;
+}
+
 .mb-2 {
     margin-bottom: 5px;
 }
@@ -152,8 +156,20 @@ body {
     justify-content: space-between;
 }
 
+.col_4 {
+    width: 38%;
+}
+
 .col_6 {
     width: 48%;
+}
+
+.col_8 {
+    width: 60%;
+}
+
+.white_spaces_break {
+    white-space: pre-wrap;
 }
 
 .center_horizontal {

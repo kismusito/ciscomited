@@ -6,4 +6,5 @@ export * from "./searchActions";
 export * from "./generatorActions";
 export * from "./appreticeActions";
 export * from "./solicityActions";
+export * from "./templateActions";
 

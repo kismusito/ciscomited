@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Navbar } from "../../../components";
 import "./changePassword.css";
 import { userActions } from "../../../_actions";
 
@@ -63,7 +62,6 @@ class ChangePassword extends Component {
 
         return (
             <div className="background_login">
-                <Navbar />
                 <div className="custom_background_sidebar">
                     <div className="center_container">
                         <div className="container_white_edit">

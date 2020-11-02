@@ -33,14 +33,23 @@
 
 .button_generate_citation {
     margin-left: 10px;
+    text-align: center;
+    text-decoration: none;
     color: var(--sena-green-color);
     border: 1px solid var(--sena-green-color);
     padding: 6px 10px;
     cursor: pointer;
     transition: .5s all ;
+    background-color: transparent;
+    outline: none;
 }
 
 .button_generate_citation:hover {
+    background-color: var(--sena-green-color);
+    color: #fff;
+}
+
+.selected_print_color {
     background-color: var(--sena-green-color);
     color: #fff;
 }
@@ -93,6 +102,7 @@
 
 .form_group_material {
     width: 100%;
+    margin: 10px 0;
 }
 
 .MuiDialog-root {
@@ -105,4 +115,12 @@
 
 .position_relative {
     position: relative !important;
+}
+
+.btn_white {
+    background-color: #fff;
+    margin-top: 10px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--sena-green-color);
 }

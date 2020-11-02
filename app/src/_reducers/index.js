@@ -8,6 +8,12 @@ import { registerUserReducer, authReducer } from "./Auth";
 import { chagePasswordReducer, editProfileReducer, editUserSearchReducer } from "./Edit";
 import { getAppreticeInfoReducer, saveAppreticeInfoReducer } from "./Appretice";
 import {
+    getCustomFieldsReducer,
+    templateModalReducer,
+    createTemplateReducer,
+    templatesReducer,
+} from "./Template";
+import {
     searchReducer,
     searchUsersReducer,
     searchedUserReducer,
@@ -52,6 +58,10 @@ const rootReducer = combineReducers({
     getSolicitiesReducer,
     updateSolicityStatusReducer,
     getSolicityReducer,
+    getCustomFieldsReducer,
+    templateModalReducer,
+    createTemplateReducer,
+    templatesReducer,
 });
 
 export default (state, action) =>

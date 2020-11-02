@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Navbar } from "../../../components";
 import { SolicityDetail } from "./solicityDetail";
-import { solicityActions , generatorActions} from "../../../_actions";
+import { solicityActions, generatorActions, templateActions } from "../../../_actions";
 import DateFnsUtils from "@date-io/date-fns";
 import {
     MuiPickersUtilsProvider,
@@ -10,9 +9,10 @@ import {
     KeyboardDatePicker,
 } from "@material-ui/pickers";
 import { HighlightOff } from "@material-ui/icons";
-import { TextField } from "@material-ui/core/";
+import { TextField, MenuItem, FormControl, Select } from "@material-ui/core/";
 import moment from "moment";
 import "./solicities.css";
+import { Link } from "react-router-dom";
 
 class Solicities extends Component {
     constructor(props) {
@@ -24,11 +24,14 @@ class Solicities extends Component {
             solicityDate: new Date(),
             solicityHour: new Date(),
             solicityLink: "",
+            selectTemplate: "",
+            citationDescription: "",
         };
     }
 
     componentDidMount() {
         this.props.getSolicities();
+        this.props.getTemplates();
     }
 
     eHandleChangeStatus = (key) => {
@@ -76,6 +79,12 @@ class Solicities extends Component {
         });
     };
 
+    changeCitationDescription = (ref) => {
+        this.setState({
+            citationDescription: ref.target.value,
+        });
+    };
+
     eSubmitGenerateSolicity = (e) => {
         e.preventDefault();
         const citationData = {
@@ -83,20 +92,59 @@ class Solicities extends Component {
             citationDate: this.state.solicityDate,
             citationHour: this.state.solicityHour,
             citationLink: this.state.solicityLink,
+            template: this.state.selectTemplate,
+            description: this.state.citationDescription,
         };
-        this.props.generateCitation(citationData)
+        this.props.generateCitation(citationData);
+    };
+
+    onChangeTemplate = (event) => {
+        this.setState({
+            selectTemplate: event.target.value,
+        });
     };
 
     render() {
-        const { getSolicitiesReducer, getRolInfoReducer, getSolicityReducer } = this.props;
+        const {
+            getSolicitiesReducer,
+            getRolInfoReducer,
+            getSolicityReducer,
+            templatesReducer,
+            generateConstantReducer,
+        } = this.props;
         return (
             <div className="background_login">
-                <Navbar />
                 <div className="custom_background_sidebar">
                     {getSolicityReducer.status && <SolicityDetail />}
                     {this.state.showGenerateModal && (
                         <div className="center_container overlay_black">
                             <div className="container_white_edit custom_container_details">
+                                {generateConstantReducer.loading && (
+                                    <div className="loading_file">
+                                        <div className="text_loading">
+                                            Estamos procesando los datos
+                                        </div>
+                                        <div className="loader_upload"></div>
+                                    </div>
+                                )}
+
+                                {generateConstantReducer.status && (
+                                    <div className="loading_file">
+                                        <div className="text_loading">
+                                            La citación se ha generado correctamente
+                                        </div>
+                                        <Link to="/citations" className="btn btn_white">
+                                            Ver citaciones
+                                        </Link>
+                                    </div>
+                                )}
+
+                                {generateConstantReducer.status === false && (
+                                    <div className="push_template push_template_error">
+                                        La plantilla se ha credo correctamente
+                                    </div>
+                                )}
+
                                 <div
                                     className="close_modal"
                                     onClick={() => this.hideGenerateModal()}
@@ -145,6 +193,35 @@ class Solicities extends Component {
                                             onChange={this.changeLink}
                                             variant="outlined"
                                         />
+                                    </div>
+                                    <div className="form_group_material">
+                                        <TextField
+                                            label="Descripción"
+                                            multiline
+                                            fullWidth
+                                            required
+                                            value={this.state.citationDescription}
+                                            onChange={this.changeCitationDescription}
+                                            variant="outlined"
+                                        />
+                                    </div>
+                                    <div className="form_group">
+                                        <FormControl>
+                                            <Select
+                                                value={this.state.selectTemplate}
+                                                onChange={this.onChangeTemplate}
+                                                displayEmpty
+                                                required
+                                            >
+                                                <MenuItem value="">Plantilla</MenuItem>
+                                                {templatesReducer.status &&
+                                                    templatesReducer.templates.map((item) => (
+                                                        <MenuItem value={item._id} key={item._id}>
+                                                            {item.templateName}
+                                                        </MenuItem>
+                                                    ))}
+                                            </Select>
+                                        </FormControl>
                                     </div>
                                     <button className="btn btn_big btn_teal mt-5">Generar</button>
                                 </form>
@@ -232,12 +309,16 @@ function mapStateToProps(state) {
         updateSolicityStatusReducer,
         getRolInfoReducer,
         getSolicityReducer,
+        templatesReducer,
+        generateConstantReducer,
     } = state;
     return {
         getSolicitiesReducer,
         updateSolicityStatusReducer,
         getRolInfoReducer,
         getSolicityReducer,
+        templatesReducer,
+        generateConstantReducer,
     };
 }
 
@@ -245,7 +326,8 @@ const actionCreator = {
     getSolicities: solicityActions.getSolicities,
     changeStatus: solicityActions.changeSolicityStatus,
     getDetails: solicityActions.getSolicityDetails,
-    generateCitation: generatorActions.generateCitation
+    generateCitation: generatorActions.generateCitation,
+    getTemplates: templateActions.getTemplates,
 };
 
 const solicitiesComponent = connect(mapStateToProps, actionCreator)(Solicities);

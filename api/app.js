@@ -28,6 +28,6 @@ app.use(require("./routes/generatorRoute"));
 app.use(require("./routes/mainRoute"));
 app.use(require("./routes/solicityRoute"));
 app.use(require("./routes/appreticeRoute"));
-app.use(require("./routes/citationRoute"));
+app.use(require("./routes/templateRoute"));
 
 module.exports = app;

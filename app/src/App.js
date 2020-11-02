@@ -6,6 +6,7 @@ import { PrivateRoute } from "./helpers";
 import { Login } from "./auth";
 import { Home } from "./Home";
 import cookie from "react-cookies";
+import { Navbar } from "./components";
 import { authActions, uploadActions } from "./_actions";
 import {
     EditProfile,
@@ -20,7 +21,8 @@ import {
     GenerateSolicity,
     UploadInstructors,
     MotivesAndProhibitions,
-    Solicities
+    Solicities,
+    Templates,
 } from "./components";
 import "./App.css";
 import "./_vars.css";
@@ -36,11 +38,21 @@ class App extends Component {
         } else {
             history.push("/login");
         }
+
+        this.state = {
+            showNavbar: false,
+        };
     }
 
     eHandleHideAlert = (_) => {
         this.props.hideAlert();
     };
+
+    componentDidMount() {
+        this.setState({
+            showNavbar: true,
+        });
+    }
 
     render() {
         const { authReducer, uploadReducer } = this.props;
@@ -65,6 +77,8 @@ class App extends Component {
                         </button>
                     </div>
                 )}
+
+                {authReducer.auth && this.state.showNavbar && <Navbar />}
 
                 <Switch>
                     <PrivateRoute path="/" exact component={Home} auth={authReducer.auth} />
@@ -96,13 +110,9 @@ class App extends Component {
                         component={SearchAppretices}
                         auth={authReducer.auth}
                     />
+                    <PrivateRoute path="/citations" component={Citations} auth={authReducer.auth} />
                     <PrivateRoute
-                        path="/citations"
-                        component={Citations}
-                        auth={authReducer.auth}
-                    />
-                    <PrivateRoute
-                        path="/generateMinutes"
+                        path="/generateMinutes/:id"
                         component={GenerateMinutes}
                         auth={authReducer.auth}
                     />
@@ -121,6 +131,7 @@ class App extends Component {
                         component={MotivesAndProhibitions}
                         auth={authReducer.auth}
                     />
+                    <PrivateRoute path="/templates" component={Templates} auth={authReducer.auth} />
                     <Route component={Login} path="/login" />
                 </Switch>
             </Router>

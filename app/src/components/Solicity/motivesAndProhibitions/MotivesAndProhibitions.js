@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Navbar } from "../../../components";
 import { Add, HighlightOff, EditOutlined, DeleteOutlined } from "@material-ui/icons";
 import { TextareaAutosize } from "@material-ui/core";
 import { solicityActions } from "../../../_actions";
@@ -47,7 +46,6 @@ class MotivesAndProhibitions extends Component {
 
         return (
             <div className="background_login">
-                <Navbar />
                 <div className="custom_background_sidebar">
                     <div className="center_container">
                         <div className="container_white_edit min_height min_height_mobile show_overflow">

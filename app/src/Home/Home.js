@@ -1,15 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Navbar } from "../components";
 import "./Home.css";
 import { CardComponent } from "./cardComponent";
 import { userActions } from "../_actions";
 
 class Home extends Component {
-    componentDidMount() {
-        this.props.getRoleInfo(this.props.authReducer.userInfo.user_role);
-    }
-
     showComponent(rols = []) {
         const userRol = this.props.getRolInfoReducer.rolInfo.capacity;
         const searhRol = rols.indexOf(userRol);
@@ -25,7 +20,6 @@ class Home extends Component {
 
         return (
             <div className="background_login">
-                <Navbar />
                 <div className="custom_background_sidebar">
                     <div className="custom_background_apps">
                         <ul className="apps_items_list">
@@ -128,16 +122,6 @@ class Home extends Component {
                                     redirect="createSolicitiy"
                                     image="icon_add_citation.png"
                                     alt="Add citations"
-                                />
-                            )}
-
-                            {getRolInfoReducer.status && this.showComponent(["admin"]) && (
-                                <CardComponent
-                                    title="Actas"
-                                    subtitle="Construye dinámicamente tus actas, con esta herramienta podrás construir actas en cuestión de segundos."
-                                    redirect="generateMinutes"
-                                    image="icon_add_citation.png"
-                                    alt="Minutes"
                                 />
                             )}
 

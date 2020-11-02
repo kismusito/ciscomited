@@ -7,7 +7,7 @@ import { Home, Face, Build, ExitToApp } from "@material-ui/icons";
 
 class Navbar extends Component {
     constructor(props) {
-        super(props);
+        super();
 
         this.state = {
             mobileView: false,

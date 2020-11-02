@@ -13,3 +13,50 @@
     width: 46%;
     text-align: center;
 }
+
+.timer_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.timer {
+    color: #333;
+    padding: 10px;
+    font-size: 2em;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+}
+
+.timer_actions {
+    width: 100%;
+    display: flex;
+}
+
+.timer_actions button {
+    width: 25%;
+    border: 0;
+    cursor: pointer;
+    transition: .5s all;
+    background-color: var(--sena-green-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 25px;
+    outline: none;
+}
+
+.timer_actions button svg {
+    font-size: 1.2em;
+    color: #fff;
+}
+
+.timer_actions button:hover {
+    background-color: rgb(58, 160, 146);
+}
+
+.text_fields_dates > div{
+    margin-bottom: 15px;
+}

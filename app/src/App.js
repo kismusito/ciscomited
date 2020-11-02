@@ -23,6 +23,7 @@ import {
     MotivesAndProhibitions,
     Solicities,
     Templates,
+    Mails,
 } from "./components";
 import "./App.css";
 import "./_vars.css";
@@ -131,6 +132,7 @@ class App extends Component {
                         component={MotivesAndProhibitions}
                         auth={authReducer.auth}
                     />
+                    <PrivateRoute path="/mails" component={Mails} auth={authReducer.auth} />
                     <PrivateRoute path="/templates" component={Templates} auth={authReducer.auth} />
                     <Route component={Login} path="/login" />
                 </Switch>

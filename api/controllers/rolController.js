@@ -1,8 +1,6 @@
 const rolMethods = {};
-const { db } = require("../models/Rol");
 const Rol = require("../models/Rol");
-const User = require("../models/User");
-const userRoles = require('../config/userRoles')
+const userRoles = require("../config/userRoles");
 
 rolMethods.getAllRols = async (req, res) => {
     const roles = await Rol.find();
@@ -21,12 +19,12 @@ rolMethods.getAllRols = async (req, res) => {
     }
 };
 
-rolMethods.getRolsCapacities = async ( req , res) => {
+rolMethods.getRolsCapacities = async (req, res) => {
     return res.json({
         status: true,
-        capacities: userRoles
-    })
-}
+        capacities: userRoles,
+    });
+};
 
 rolMethods.addNewRol = async (req, res) => {
     const { name, capacity } = req.body;

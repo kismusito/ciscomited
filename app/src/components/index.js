@@ -8,3 +8,4 @@ export * from "./Solicity";
 export * from "./Upload";
 export * from "./User";
 export * from "./Template";
+export * from "./Mail";

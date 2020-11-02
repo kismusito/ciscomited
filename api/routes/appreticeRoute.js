@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const { verifyMiddleware } = require("../controllers/verifyMiddleware");
+const { verifyMiddleware } = require("../middlewares/verifyMiddleware");
 const { getAppreticeInfo, saveAppreticeInfo } = require("../controllers/appreticeController");
 
-router.post("/getAppreticeInfo", verifyMiddleware, getAppreticeInfo);
-router.post("/saveAppreticeInfo", verifyMiddleware, saveAppreticeInfo);
+router
+    .post("/getAppreticeInfo", verifyMiddleware, getAppreticeInfo)
+    .post("/saveAppreticeInfo", verifyMiddleware, saveAppreticeInfo);
 
 module.exports = router;

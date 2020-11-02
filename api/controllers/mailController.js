@@ -31,4 +31,12 @@ mailMethods.test = async (req, res) => {
     });
 };
 
+mailMethods.createMailType = async ( req , res ) => {
+
+}
+
+mailMethods.createMailConfig = async ( req , res ) => {
+
+}
+
 module.exports = mailMethods;

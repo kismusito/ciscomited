@@ -98,7 +98,7 @@ class Home extends Component {
                                 this.showComponent(["admin", "director", "instructor"]) && (
                                     <CardComponent
                                         title="Solicitudes"
-                                        subtitle="Construye dinámicamente una citación, con esta herramienta podrás construir citaciones en cuestión de segundos."
+                                        subtitle="Encuentra todas las solicitudes generadas hasta la fecha, si eres instructor solo te saldrán tus solicitudes."
                                         redirect="solicities"
                                         image="icon_add_citation.png"
                                         alt="Solicities"
@@ -108,7 +108,7 @@ class Home extends Component {
                             {getRolInfoReducer.status && this.showComponent(["admin"]) && (
                                 <CardComponent
                                     title="Citaciones"
-                                    subtitle="Con esta herramienta podrás administrar todas tus citaciones, enviarlas y cambiar su estado."
+                                    subtitle="Con esta herramienta podrás administrar todas las citaciones, enviarlas y cambiar su estado."
                                     redirect="citations"
                                     image="icon_add_file.png"
                                     alt="Citations"
@@ -118,7 +118,7 @@ class Home extends Component {
                             {getRolInfoReducer.status && this.showComponent(["instructor"]) && (
                                 <CardComponent
                                     title="Crear solicitud"
-                                    subtitle="Construye dinámicamente una citación, con esta herramienta podrás construir citaciones en cuestión de segundos."
+                                    subtitle="Con esta herramienta podrás crear solicitudes en cuestion de segundos de una forma fácil y sencilla."
                                     redirect="createSolicitiy"
                                     image="icon_add_citation.png"
                                     alt="Add citations"
@@ -128,7 +128,7 @@ class Home extends Component {
                             {getRolInfoReducer.status && this.showComponent(["admin"]) && (
                                 <CardComponent
                                     title="Emails"
-                                    subtitle="Envia emails emails masivos a todos los aprendices que selecciones."
+                                    subtitle="Gestiona los envios de emails para cada uno de los estados del sistema."
                                     redirect="generateMinutes"
                                     image="email_icon.png"
                                     alt="Emails"
@@ -138,9 +138,9 @@ class Home extends Component {
                             {getRolInfoReducer.status && this.showComponent(["admin"]) && (
                                 <CardComponent
                                     title="Motivos o prohibiciones"
-                                    subtitle="Envia emails emails masivos a todos los aprendices que selecciones."
+                                    subtitle="Gestiona todos los motivos o prohibiciones que van a estar en las solicitudes de los instructores."
                                     redirect="motivesAndProhibitions"
-                                    image="email_icon.png"
+                                    image="motivesAndProhibitions.png"
                                     alt="Motives or prohibitions"
                                 />
                             )}
@@ -148,7 +148,7 @@ class Home extends Component {
                             {getRolInfoReducer.status && this.showComponent(["admin"]) && (
                                 <CardComponent
                                     title="Plantillas"
-                                    subtitle="Envia emails emails masivos a todos los aprendices que selecciones."
+                                    subtitle="Crear plantillas de manera dinámica para maquetar tus archivos PDF."
                                     redirect="templates"
                                     image="template_icon.png"
                                     alt="Templates"

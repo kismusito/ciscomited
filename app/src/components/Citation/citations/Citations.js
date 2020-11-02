@@ -181,7 +181,7 @@ class Citations extends Component {
                                                                 </a>
                                                             </div>
 
-                                                            <Link className="button_generate_citation btn_big mt-5" to={'/generateMinutes/' + citation._id}>
+                                                            <Link className="button_generate_citation btn_big mt-5" to={'/generateMinutes/' + citation.solicity}>
                                                                     Generar acta
                                                             </Link>
                                                         </div>

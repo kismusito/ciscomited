@@ -358,7 +358,7 @@ async function getInfoByAppretice(ID) {
         email: userGet.email,
         phone: userGet.phone,
     };
-    
+
     return userProgramInfo;
 }
 
@@ -372,7 +372,14 @@ async function getAppreticesInfo(appretices) {
 }
 
 generatePDF.generateCitation = async (req, res) => {
-    const { solicityID, citationDate, citationHour, citationLink, template , description} = req.body;
+    const {
+        solicityID,
+        citationDate,
+        citationHour,
+        citationLink,
+        template,
+        description,
+    } = req.body;
     if (solicityID) {
         const solicity = await Solicity.findById(solicityID);
         if (solicity) {
@@ -433,14 +440,6 @@ generatePDF.generateCitation = async (req, res) => {
         });
     }
 };
-
-// generatePDF.generateCitation = async (req, res) => {
-//     const { leader, appretices, date, hour, description, meetingLink } = req.body;
-//     const getAppretices = await getAppreticesInfo(appretices);
-//     const html = generatePDFLayout(getAppretices, leader, date, hour, meetingLink);
-//
-//
-// };
 
 generatePDF.generateMinute = async (req, res) => {
     const { appretices, date, hour, content } = req.body;

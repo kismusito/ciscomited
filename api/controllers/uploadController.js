@@ -252,7 +252,7 @@ uploadMethods.uploadInstructors = async (req, res) => {
 
 uploadMethods.uploadSolicityFiles = async (req, res) => {
     if (req.files) {
-        const solicityID = req.headers['solicityid'];
+        const solicityID = req.headers["solicityid"];
         if (!solicityID) {
             const newSolicity = new Solocity({
                 userID: req.userID,
@@ -271,14 +271,14 @@ uploadMethods.uploadSolicityFiles = async (req, res) => {
                 });
             }
         } else {
-            const findB = {_id: solicityID}
+            const findB = { _id: solicityID };
             const getSolicity = await Solocity.findOne(findB);
 
             if (getSolicity) {
                 let pushFiles = [];
-                getSolicity.attachFiles.map(ele => {
+                getSolicity.attachFiles.map((ele) => {
                     pushFiles.push(ele);
-                })
+                });
                 const newFiles = new Object(...req.files);
                 pushFiles.push(newFiles);
 

@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const { verifyMiddleware } = require("../controllers/verifyMiddleware");
-const { getAllRols, addNewRol , getRolsCapacities} = require("../controllers/rolController");
+const { verifyMiddleware } = require("../middlewares/verifyMiddleware");
+const { getAllRols, addNewRol, getRolsCapacities } = require("../controllers/rolController");
 
-router.post("/getAddRoles", verifyMiddleware, getAllRols);
-router.post("/addRol", verifyMiddleware, addNewRol);
-router.get("/getRolCapacities", verifyMiddleware, getRolsCapacities);
+router
+    .get("/getRolCapacities", verifyMiddleware, getRolsCapacities)
+    .post("/getAddRoles", verifyMiddleware, getAllRols)
+    .post("/addRol", verifyMiddleware, addNewRol);
 
 module.exports = router;

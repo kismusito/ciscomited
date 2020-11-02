@@ -20,9 +20,9 @@ async function verifyEmail(email) {
     }
 }
 
-profileMethods.editProfile = async (req, res , err) => {
+profileMethods.editProfile = async (req, res, err) => {
     const userID = req.userID;
-    console.log(req)
+    console.log(req);
     const { firstName, lastName, username, email } = req.body;
     const searchUser = await User.findById(userID);
     if (searchUser) {
@@ -69,7 +69,7 @@ profileMethods.editProfile = async (req, res , err) => {
                 }
             }
         }
-        
+
         if (req.file) {
             await searchUser.update({
                 profilePicture: domain + "img/" + req.file.filename,

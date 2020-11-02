@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { verifyMiddleware } = require("../controllers/verifyMiddleware");
+const { verifyMiddleware } = require("../middlewares/verifyMiddleware");
 const { getFields, create , getTemplates} = require("../controllers/templateController");
 
 router

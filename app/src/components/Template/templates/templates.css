@@ -38,6 +38,7 @@
     border-radius: 5px;
     align-items: center;
     transition: .5s all;
+    margin-bottom: 10px;
 }
 
 .templates_item:hover {

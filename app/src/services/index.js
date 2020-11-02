@@ -8,3 +8,4 @@ export * from "./generatorService";
 export * from "./appreticeService";
 export * from "./solicityService";
 export * from "./templateService";
+export * from "./minuteService";

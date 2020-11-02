@@ -65,13 +65,14 @@ class ChangePassword extends Component {
                 <div className="custom_background_sidebar">
                     <div className="center_container">
                         <div className="container_white_edit">
-                            <h3>Cambiar contraseña</h3>
+                            <h3 className="title">Cambiar contraseña</h3>
+                            <p className="subtitle mb-2">Gestiona tu contraseña de una forma fácil, recuerda confirmar tu correo por si se te olvida tu contraseña.</p>
                             <form
                                 method="POST"
                                 onSubmit={this.eHandleSubmit}
                                 ref={(input) => (this.changePasswordForm = input)}
                             >
-                                <div className="form_group">
+                                <div className="form_group mt-30">
                                     <label htmlFor="current-password" className="labelText">
                                         Contraseña actual
                                     </label>
@@ -84,7 +85,7 @@ class ChangePassword extends Component {
                                     />
                                 </div>
 
-                                <div className="form_group">
+                                <div className="form_group mt-30">
                                     <label htmlFor="new-password" className="labelText">
                                         Nueva contraseña
                                     </label>
@@ -97,7 +98,7 @@ class ChangePassword extends Component {
                                     />
                                 </div>
 
-                                <div className="form_group">
+                                <div className="form_group mt-30">
                                     <label htmlFor="repeat-password" className="labelText">
                                         Repetir contraseña
                                     </label>

@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { searchActions, generatorActions } from "../../../_actions";
+import { searchActions, generatorActions, minuteActions } from "../../../_actions";
 import Speech from "./speechRecognition";
 import Timer from "./timer";
+import { Attended } from "./attended";
 import "./generateMinutes.css";
 
 class GenerateMinutes extends Component {
@@ -48,15 +49,16 @@ class GenerateMinutes extends Component {
     };
 
     takeAttended = (key) => {
-        console.log(key);
+        this.props.getAttendees(key);
     };
 
     render() {
-        const { generateConstantReducer } = this.props;
+        const { generateConstantReducer, getAttendeesReducer } = this.props;
 
         return (
             <div className="background_login">
                 <div className="custom_background_sidebar">
+                    {getAttendeesReducer.status && <Attended />}
                     <div className="center_container">
                         {generateConstantReducer.status && (
                             <div className="show_alert_popUp alert_show">
@@ -133,14 +135,16 @@ class GenerateMinutes extends Component {
 }
 
 function mapStateToProps(state) {
-    const { authReducer, searchReducer, generateConstantReducer } = state;
-    return { authReducer, searchReducer, generateConstantReducer };
+    const { authReducer, searchReducer, generateConstantReducer, getAttendeesReducer } = state;
+    return { authReducer, searchReducer, generateConstantReducer, getAttendeesReducer };
 }
 
 const actionCreator = {
     searchAppretice: searchActions.searchAppretices,
     generateMinute: generatorActions.generateMinute,
     resetMinute: generatorActions.resetCitationMinute,
+    resetMinute: generatorActions.resetCitationMinute,
+    getAttendees: minuteActions.getAttendees,
 };
 
 const generateMinutesComponent = connect(mapStateToProps, actionCreator)(GenerateMinutes);

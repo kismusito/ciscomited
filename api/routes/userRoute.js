@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { verifyMiddleware } = require("../controllers/verifyMiddleware");
+const { verifyMiddleware } = require("../middlewares/verifyMiddleware");
 const {
     register,
     getRoleInfo,
@@ -14,19 +14,20 @@ const {
 } = require("../controllers/userController");
 const upload = require("../controllers/uploads/pdfControllerUpload");
 
-router.post("/register", verifyMiddleware, register);
-router.post("/getRoleInfo", verifyMiddleware, getRoleInfo);
-router.post("/searchUsers", verifyMiddleware, searchUsers);
-router.post("/searchUser", verifyMiddleware, searchUser);
-router.post("/editUser", verifyMiddleware, editUserSearch);
-router.post("/getCitations", verifyMiddleware, getCitations);
-router.post("/getSelectedCitation", verifyMiddleware, getSelectedCitation);
-router.post("/updatePassword", verifyMiddleware, updatePassword);
-router.post(
-    "/uploadNewCitationStatus",
-    verifyMiddleware,
-    upload.single("newFileToUpload"),
-    uploadNewCitationStatus
-);
+router
+    .post("/register", verifyMiddleware, register)
+    .post("/getRoleInfo", verifyMiddleware, getRoleInfo)
+    .post("/searchUsers", verifyMiddleware, searchUsers)
+    .post("/searchUser", verifyMiddleware, searchUser)
+    .post("/editUser", verifyMiddleware, editUserSearch)
+    .post("/getCitations", verifyMiddleware, getCitations)
+    .post("/getSelectedCitation", verifyMiddleware, getSelectedCitation)
+    .post("/updatePassword", verifyMiddleware, updatePassword)
+    .post(
+        "/uploadNewCitationStatus",
+        verifyMiddleware,
+        upload.single("newFileToUpload"),
+        uploadNewCitationStatus
+    );
 
 module.exports = router;

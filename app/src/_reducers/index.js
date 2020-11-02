@@ -7,6 +7,7 @@ import { uploadNewStatusCitation, uploadReducer, uploadSolicityFilesReducer } fr
 import { registerUserReducer, authReducer } from "./Auth";
 import { chagePasswordReducer, editProfileReducer, editUserSearchReducer } from "./Edit";
 import { getAppreticeInfoReducer, saveAppreticeInfoReducer } from "./Appretice";
+import { getAttendeesReducer } from "./Minute";
 import {
     getCustomFieldsReducer,
     templateModalReducer,
@@ -62,6 +63,7 @@ const rootReducer = combineReducers({
     templateModalReducer,
     createTemplateReducer,
     templatesReducer,
+    getAttendeesReducer,
 });
 
 export default (state, action) =>

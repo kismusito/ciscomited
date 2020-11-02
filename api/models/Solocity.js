@@ -3,7 +3,7 @@ const { Schema, model } = require("mongoose");
 const appreticeSchema = new Schema({
     userID: {
         type: String,
-        required: true
+        required: true,
     },
     appretices: Array,
     motiveOrProhibition: String,
@@ -13,21 +13,21 @@ const appreticeSchema = new Schema({
     spokesman: Object,
     draw: {
         type: Boolean,
-        default: true
+        default: true,
     },
     statusDetail: {
         type: String,
-        default: "Pendiente"
+        default: "Pendiente",
     },
     status: {
         type: String,
-        enum: ['approved' , 'pending' , 'reject'],
-        default: 'pending'
+        enum: ["approved", "pending", "reject"],
+        default: "pending",
     },
     create_at: {
         type: Date,
-        default: new Date()
-    }
+        default: new Date(),
+    },
 });
 
 module.exports = model("Solicity", appreticeSchema);

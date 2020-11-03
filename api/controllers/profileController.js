@@ -22,7 +22,6 @@ async function verifyEmail(email) {
 
 profileMethods.editProfile = async (req, res, err) => {
     const userID = req.userID;
-    console.log(req);
     const { firstName, lastName, username, email } = req.body;
     const searchUser = await User.findById(userID);
     if (searchUser) {

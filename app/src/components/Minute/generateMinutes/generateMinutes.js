@@ -143,7 +143,6 @@ const actionCreator = {
     searchAppretice: searchActions.searchAppretices,
     generateMinute: generatorActions.generateMinute,
     resetMinute: generatorActions.resetCitationMinute,
-    resetMinute: generatorActions.resetCitationMinute,
     getAttendees: minuteActions.getAttendees,
 };
 

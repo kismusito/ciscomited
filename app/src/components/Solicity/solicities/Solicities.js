@@ -166,7 +166,7 @@ class Solicities extends Component {
                                                 format="MM/dd/yyyy"
                                                 required
                                                 value={this.state.solicityDate}
-                                                onChange={this.changeValues}
+                                                onChange={this.changeDate}
                                                 KeyboardButtonProps={{
                                                     "aria-label": "change date",
                                                 }}

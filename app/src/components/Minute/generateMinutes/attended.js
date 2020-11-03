@@ -41,7 +41,5 @@ function mapStateToProps(state) {
     return { getAttendeesReducer };
 }
 
-const actionCreator = {};
-
 const attendedComponent = connect(mapStateToProps)(Attended);
 export { attendedComponent as Attended };

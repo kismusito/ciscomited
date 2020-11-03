@@ -9,7 +9,11 @@ const {
     getSolicities,
     changeSolicityStatus,
     getSolicityDetails,
+    updateMotiveOrProhibition,
+    deleteMotiveOrProhibition,
+    uploadSolicityFiles
 } = require("../controllers/solicityController");
+const uploadSolicities = require("../controllers/uploads/solicityUploadFiles");
 
 router
     .get("/getDrawSolicity", verifyMiddleware, getDrawSolicity)
@@ -18,6 +22,14 @@ router
     .get("/getMotiverOrProhibitions", verifyMiddleware, getMotiverOrProhibitions)
     .post("/saveMotiveOrProhibition", verifyMiddleware, saveMotiveOrProhibition)
     .post("/saveSolicity", verifyMiddleware, saveSolicity)
-    .put("/changeSolicityStatus", verifyMiddleware, changeSolicityStatus);
+    .post(
+        "/uploadNewFileSolicity",
+        verifyMiddleware,
+        uploadSolicities.any("fileUpload"),
+        uploadSolicityFiles
+    )
+    .put("/changeSolicityStatus", verifyMiddleware, changeSolicityStatus)
+    .put("/updateMotiveOrProhibition", verifyMiddleware, updateMotiveOrProhibition)
+    .delete("/deleteMotiveOrProhibition", verifyMiddleware, deleteMotiveOrProhibition);
 
 module.exports = router;

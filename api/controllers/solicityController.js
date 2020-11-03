@@ -254,4 +254,56 @@ solicityMethods.getSolicities = async (req, res) => {
     }
 };
 
+solicityMethods.uploadSolicityFiles = async (req, res) => {
+    if (req.files) {
+        const solicityID = req.headers["solicityid"];
+        if (!solicityID) {
+            const newSolicity = new Solocity({
+                userID: req.userID,
+                attachFiles: req.files,
+            });
+
+            if (await newSolicity.save()) {
+                return res.status(200).json({
+                    status: true,
+                    solicity: newSolicity,
+                });
+            } else {
+                return res.status(400).json({
+                    status: false,
+                    message: "There was an error",
+                });
+            }
+        } else {
+            const findB = { _id: solicityID };
+            const getSolicity = await Solocity.findOne(findB);
+
+            if (getSolicity) {
+                let pushFiles = [];
+                getSolicity.attachFiles.map((ele) => {
+                    pushFiles.push(ele);
+                });
+                const newFiles = new Object(...req.files);
+                pushFiles.push(newFiles);
+
+                await getSolicity.update({ $set: { attachFiles: pushFiles } });
+                const getSolicityUpdate = await Solocity.findOne(findB);
+                return res.status(200).json({
+                    status: true,
+                    solicity: getSolicityUpdate,
+                });
+            } else {
+                return res.status(400).json({
+                    status: false,
+                    message: "The solicity not exist",
+                });
+            }
+        }
+    }
+};
+
+solicityMethods.updateMotiveOrProhibition = async (req, res) => {}
+
+solicityMethods.deleteMotiveOrProhibition = async (req, res) => {}
+
 module.exports = solicityMethods;

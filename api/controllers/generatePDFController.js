@@ -443,7 +443,6 @@ generatePDF.generateCitation = async (req, res) => {
 
 generatePDF.generateMinute = async (req, res) => {
     const { appretices, date, hour, content } = req.body;
-    console.log(appretices, date, hour, content);
     const getAppretices = await getAppreticesInfo(appretices);
     const html = generatePDFLayoutMinutes(getAppretices, date, hour, content);
     const pdfNameRamdom = generateRamdomPDF(40);

@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { mailActions } from "../../_actions";
+//import { mailActions } from "../../_actions";
 
 class Mails extends Component {
     render() {
-        const {} = this.props;
+        //const {} = this.props;
 
         return (
             <div className="background_login">
@@ -16,12 +16,12 @@ class Mails extends Component {
     }
 }
 
-function mapStateToProps(state) {
-    const {} = state;
-    return {};
-}
+// function mapStateToProps(state) {
+//     const {} = state;
+//     return {};
+// }
 
-const actionCreator = {};
+// const actionCreator = {};
 
-const mailsComponent = connect(mapStateToProps, actionCreator)(Mails);
+const mailsComponent = connect()(Mails);
 export { mailsComponent as Mails };

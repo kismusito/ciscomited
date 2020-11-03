@@ -45,4 +45,8 @@ rolMethods.addNewRol = async (req, res) => {
     }
 };
 
+rolMethods.updateRol = async (req, res) => {};
+
+rolMethods.deleteRol = async (req, res) => {};
+
 module.exports = rolMethods;

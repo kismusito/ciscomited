@@ -1,7 +1,7 @@
 const { model, Schema } = require("mongoose");
 
 const mailSchema = new Schema({
-    identificationName: {
+    name: {
         type: String,
         required: true,
     },

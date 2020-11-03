@@ -5,7 +5,7 @@ const mailTypeSchema = new Schema({
         type: String,
         required: true,
     },
-    permits: {
+    permit: {
         type: String,
         enum: ['admin' , 'radication' , 'lawyer' , 'director'],
         required: true,

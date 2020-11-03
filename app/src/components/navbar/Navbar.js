@@ -72,7 +72,7 @@ class Navbar extends Component {
 
                     {!this.state.mobileView && (
                         <div className="profile_info">
-                            <span>{authReducer.userInfo.email}</span>
+                            <span>{authReducer.userInfo.first_name + " " + authReducer.userInfo.last_name}</span>
                             {getRolInfoReducer.status && (
                                 <span>{getRolInfoReducer.rolInfo.role_name}</span>
                             )}

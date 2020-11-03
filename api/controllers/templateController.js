@@ -54,4 +54,8 @@ templateMethods.create = async (req, res) => {
     }
 };
 
+templateMethods.updateTemplate = async (req, res) => {}
+
+templateMethods.deleteTemplate = async (req, res) => {}
+
 module.exports = templateMethods;

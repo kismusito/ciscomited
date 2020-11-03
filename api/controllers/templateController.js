@@ -34,7 +34,31 @@ templateMethods.getTemplates = async (req, res) => {
     }
 };
 
-templateMethods.create = async (req, res) => {
+templateMethods.getTemplate = async (req, res) => {
+    const templateID = req.params["id"];
+    if (templateID) {
+        try {
+            const template = await Template.findById(templateID);
+            return res.status(200).json({
+                status: true,
+                template: template,
+                message: "Fields encounter",
+            });
+        } catch (error) {
+            return res.status(400).json({
+                status: false,
+                message: error,
+            });
+        }
+    } else {
+        return res.status(400).json({
+            status: false,
+            message: "El id es requerido",
+        });
+    }
+};
+
+templateMethods.createTemplate = async (req, res) => {
     const { templateName, template } = req.body;
     const createTemplate = new Template({
         templateName,
@@ -54,8 +78,71 @@ templateMethods.create = async (req, res) => {
     }
 };
 
-templateMethods.updateTemplate = async (req, res) => {}
+templateMethods.updateTemplate = async (req, res) => {
+    const { templateID , templateName, template } = req.body;
+    if (templateID) {
+        try {
+            const getTemplate = await Template.findById(templateID);
+            const updated = await getTemplate.updateOne({
+                $set: {
+                    templateName,
+                    template,
+                },
+            });
 
-templateMethods.deleteTemplate = async (req, res) => {}
+            if (updated) {
+                return res.status(200).json({
+                    status: true,
+                    message: "La plantilla fue actualizada correctamente",
+                });
+            } else {
+                return res.status(400).json({
+                    status: false,
+                    message: "Ha ocurrido un error intentalo nuevamente",
+                });
+            }
+        } catch (error) {
+            return res.status(400).json({
+                status: false,
+                message: error,
+            });
+        }
+    } else {
+        return res.status(400).json({
+            status: false,
+            message: "El id es requerido",
+        });
+    }
+};
+
+templateMethods.deleteTemplate = async (req, res) => {
+    const { templateID } = req.body;
+    if (templateID) {
+        try {
+            const removed = await Template.findById(templateID);
+            if (removed.remove()) {
+                return res.status(200).json({
+                    status: true,
+                    message: "La plantilla fue eliminada correctamente",
+                });
+            } else {
+                return res.status(400).json({
+                    status: false,
+                    message: "Ha ocurrido un error intentalo nuevamente",
+                });
+            }
+        } catch (error) {
+            return res.status(400).json({
+                status: false,
+                message: error,
+            });
+        }
+    } else {
+        return res.status(400).json({
+            status: false,
+            message: "El id es requerido",
+        });
+    }
+};
 
 module.exports = templateMethods;

@@ -14,7 +14,7 @@ const mailTypeSchema = new Schema({
         type: Date,
         default: new Date(),
     },
-});
+} , {strict: "throw"});
 
 
 module.exports = model('MailType' , mailTypeSchema);

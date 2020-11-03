@@ -9,13 +9,13 @@ export const roleService = {
 
 async function getAllRoles() {
     const configuration = {
-        method: "POST",
+        method: "GET",
         headers: {
             "x-access-token": cookie.load("userToken"),
         },
     };
 
-    const requestResponse = await fetch(config.serverRoute + "getAddRoles", configuration);
+    const requestResponse = await fetch(config.serverRoute + "getAllRols", configuration);
     const responseJson = await requestResponse.json();
     return responseJson;
 }

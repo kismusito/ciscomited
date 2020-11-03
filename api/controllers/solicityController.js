@@ -5,7 +5,6 @@ const User = require("../models/User");
 const Rol = require("../models/Rol");
 const Appretice = require("../models/Appretice");
 const Solocity = require("../models/Solocity");
-const MotivesOrProhibitions = require("../models/MotivesOrProhibitions");
 const MotivesOrProhibition = require("../models/MotivesOrProhibitions");
 
 solicityMethods.getDrawSolicity = async (req, res) => {
@@ -103,7 +102,7 @@ solicityMethods.getSolicityDetails = async (req, res) => {
                     solicity: {
                         instructor: await User.findById(solicity.userID),
                         appretices: await appreticesDetails(solicity.appretices),
-                        motivesOrProhibition: await MotivesOrProhibitions.findById(
+                        motivesOrProhibition: await MotivesOrProhibition.findById(
                             solicity.motiveOrProhibition
                         ),
                         spokesman: solicity.spokeman,
@@ -144,6 +143,38 @@ solicityMethods.getMotiverOrProhibitions = async (req, res) => {
         return res.json({
             status: false,
             message: "Motives or prohibitions not found",
+        });
+    }
+};
+
+solicityMethods.getMotiverOrProhibition = async (req, res) => {
+    const motiveOrProhibitionID = req.params["id"];
+    if (motiveOrProhibitionID) {
+        try {
+            const motiverOrProhibitions = await MotivesOrProhibition.findById(
+                motiveOrProhibitionID
+            );
+            if (motiverOrProhibitions) {
+                return res.json({
+                    status: true,
+                    motiverOrProhibion: motiverOrProhibitions,
+                });
+            } else {
+                return res.json({
+                    status: false,
+                    message: "Motives or prohibitions not found",
+                });
+            }
+        } catch (error) {
+            return res.status(400).json({
+                status: false,
+                message: error,
+            });
+        }
+    } else {
+        return res.status(400).json({
+            status: false,
+            message: "El id es requerido",
         });
     }
 };
@@ -302,8 +333,71 @@ solicityMethods.uploadSolicityFiles = async (req, res) => {
     }
 };
 
-solicityMethods.updateMotiveOrProhibition = async (req, res) => {}
+solicityMethods.updateMotiveOrProhibition = async (req, res) => {
+    const { motiveOrProhibitionID, title, description } = req.body;
+    if (motiveOrProhibitionID) {
+        try {
+            const motiveOrProhibition = await MotivesOrProhibition.findById(motiveOrProhibitionID);
+            const updated = await motiveOrProhibition.updateOne({
+                $set: {
+                    title,
+                    description,
+                },
+            });
 
-solicityMethods.deleteMotiveOrProhibition = async (req, res) => {}
+            if (updated) {
+                return res.status(200).json({
+                    status: true,
+                    message: "El motivo o prohibición fue actualizado correctamente",
+                });
+            } else {
+                return res.status(400).json({
+                    status: false,
+                    message: "Ha ocurrido un error intentalo nuevamente",
+                });
+            }
+        } catch (error) {
+            return res.status(400).json({
+                status: false,
+                message: error,
+            });
+        }
+    } else {
+        return res.status(400).json({
+            status: false,
+            message: "El id es requerido",
+        });
+    }
+};
+
+solicityMethods.deleteMotiveOrProhibition = async (req, res) => {
+    const { motiveOrProhibitionID } = req.body;
+    if (motiveOrProhibitionID) {
+        try {
+            const removed = await MotivesOrProhibition.findById(motiveOrProhibitionID);
+            if (removed.remove()) {
+                return res.status(200).json({
+                    status: true,
+                    message: "El motivo o prohibición fue eliminado correctamente",
+                });
+            } else {
+                return res.status(400).json({
+                    status: false,
+                    message: "Ha ocurrido un error intentalo nuevamente",
+                });
+            }
+        } catch (error) {
+            return res.status(400).json({
+                status: false,
+                message: error,
+            });
+        }
+    } else {
+        return res.status(400).json({
+            status: false,
+            message: "El id es requerido",
+        });
+    }
+};
 
 module.exports = solicityMethods;

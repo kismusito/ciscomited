@@ -121,12 +121,141 @@ mailMethods.getAllMails = async (req, res) => {
     }
 };
 
-mailMethods.updateMailType = async (req, res) => {};
+mailMethods.updateMailType = async (req, res) => {
+    const { mailTypeID, name, permit } = req.body;
+    if (mailTypeID) {
+        try {
+            const mailType = await MailType.findById(mailTypeID);
+            const updated = await mailType.updateOne({
+                $set: {
+                    name,
+                    permit,
+                },
+            });
 
-mailMethods.updateMail = async (req, res) => {};
+            if (updated) {
+                return res.status(200).json({
+                    status: true,
+                    message: "El tipo fue actualizado correctamente",
+                });
+            } else {
+                return res.status(400).json({
+                    status: false,
+                    message: "Ha ocurrido un error intentalo nuevamente",
+                });
+            }
+        } catch (error) {
+            return res.status(400).json({
+                status: false,
+                message: error,
+            });
+        }
+    } else {
+        return res.status(400).json({
+            status: false,
+            message: "El id es requerido",
+        });
+    }
+};
 
-mailMethods.deleteMailType = async (req, res) => {};
+mailMethods.updateMail = async (req, res) => {
+    const { mailID, mailTypeID, name, mails } = req.body;
+    if (mailID) {
+        try {
+            const mail = await Mail.findById(mailID);
+            const updated = await mail.updateOne({
+                $set: {
+                    mailTypeID,
+                    name,
+                    mails,
+                },
+            });
 
-mailMethods.deleteMail = async (req, res) => {};
+            if (updated) {
+                return res.status(200).json({
+                    status: true,
+                    message: "El mail fue actualizado correctamente",
+                });
+            } else {
+                return res.status(400).json({
+                    status: false,
+                    message: "Ha ocurrido un error intentalo nuevamente",
+                });
+            }
+        } catch (error) {
+            return res.status(400).json({
+                status: false,
+                message: error,
+            });
+        }
+    } else {
+        return res.status(400).json({
+            status: false,
+            message: "El id es requerido",
+        });
+    }
+};
+
+mailMethods.deleteMailType = async (req, res) => {
+    const { mailTypeID } = req.body;
+
+    if (mailTypeID) {
+        try {
+            const removed = await MailType.findById(mailTypeID);
+            if (removed.remove()) {
+                return res.status(200).json({
+                    status: true,
+                    message: "El tipo de mail fue eliminado correctamente",
+                });
+            } else {
+                return res.status(400).json({
+                    status: false,
+                    message: "Ha ocurrido un error intentalo nuevamente",
+                });
+            }
+        } catch (error) {
+            return res.status(400).json({
+                status: false,
+                message: error,
+            });
+        }
+    } else {
+        return res.status(400).json({
+            status: false,
+            message: "El id es requerido",
+        });
+    }
+};
+
+mailMethods.deleteMail = async (req, res) => {
+    const { mailID } = req.body;
+
+    if (mailID) {
+        try {
+            const removed = await Mail.findById(mailID);
+            if (removed.remove()) {
+                return res.status(200).json({
+                    status: true,
+                    message: "El mail fue eliminado correctamente",
+                });
+            } else {
+                return res.status(400).json({
+                    status: false,
+                    message: "Ha ocurrido un error intentalo nuevamente",
+                });
+            }
+        } catch (error) {
+            return res.status(400).json({
+                status: false,
+                message: error,
+            });
+        }
+    } else {
+        return res.status(400).json({
+            status: false,
+            message: "El id es requerido",
+        });
+    }
+};
 
 module.exports = mailMethods;

@@ -7,11 +7,13 @@ const {
     getRolsCapacities,
     updateRol,
     deleteRol,
+    getRoleInfo
 } = require("../controllers/rolController");
 
 router
     .get("/getRolCapacities", verifyMiddleware, getRolsCapacities)
-    .post("/getAddRoles", verifyMiddleware, getAllRols)
+    .get("/getAllRols", verifyMiddleware, getAllRols)
+    .get("/getRolInfo/:id", verifyMiddleware, getRoleInfo)
     .post("/addRol", verifyMiddleware, addNewRol)
     .put("/updateRol", verifyMiddleware, updateRol)
     .delete("/deleteRol", verifyMiddleware, deleteRol);

@@ -19,7 +19,7 @@ router
     .post("/createMail", verifyMiddleware, createMail)
     .put("/updateMailType", verifyMiddleware, updateMailType)
     .put("/updateMail", verifyMiddleware, updateMail)
-    .delete("/deleteMailType", verifyMiddleware, deleteMail)
-    .delete("/deleteMail", verifyMiddleware, deleteMailType);
+    .delete("/deleteMailType", verifyMiddleware, deleteMailType)
+    .delete("/deleteMail", verifyMiddleware, deleteMail);
 
 module.exports = router;

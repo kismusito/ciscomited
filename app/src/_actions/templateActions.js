@@ -7,6 +7,9 @@ export const templateActions = {
     hideModal,
     createTemplate,
     getTemplates,
+    getTemplate,
+    updateTemplate,
+    deleteTemplate
 };
 
 function getCustomFields(type) {
@@ -67,6 +70,35 @@ function getTemplates() {
     }
 }
 
+function getTemplate(templateID) {
+    return (dispatch) => {
+        dispatch(request());
+
+        templateService
+            .getTemplate(templateID)
+            .then((response) => {
+                if (response.status) {
+                    dispatch(success(response));
+                } else {
+                    dispatch(failure(response));
+                }
+            })
+            .catch((err) => {
+                dispatch(failure(err));
+            });
+    };
+
+    function request() {
+        return { type: templateConstants.GETTEMPLATE_REQUEST };
+    }
+    function success(response) {
+        return { type: templateConstants.GETTEMPLATE_SUCCESS, response };
+    }
+    function failure(response) {
+        return { type: templateConstants.GETTEMPLATE_FAILURE, response };
+    }
+}
+
 function createTemplate(data) {
     return (dispatch) => {
         dispatch(request());
@@ -119,6 +151,64 @@ function createTemplate(data) {
     }
     function failureTemplate(response) {
         return { type: templateConstants.GETTEMPLATES_FAILURE, response };
+    }
+}
+
+function updateTemplate(data) {
+    return (dispatch) => {
+        dispatch(request());
+
+        templateService
+            .updateTemplate(data)
+            .then((response) => {
+                if (response.status) {
+                    dispatch(success(response));
+                } else {
+                    dispatch(failure(response));
+                }
+            })
+            .catch((err) => {
+                dispatch(failure(err));
+            });
+    };
+
+    function request() {
+        return { type: templateConstants.UPDATETEMPLATE_REQUEST };
+    }
+    function success(response) {
+        return { type: templateConstants.UPDATETEMPLATE_SUCCESS, response };
+    }
+    function failure(response) {
+        return { type: templateConstants.UPDATETEMPLATE_FAILURE, response };
+    }
+}
+
+function deleteTemplate(data) {
+    return (dispatch) => {
+        dispatch(request());
+
+        templateService
+            .deleteTemplate(data)
+            .then((response) => {
+                if (response.status) {
+                    dispatch(success(response));
+                } else {
+                    dispatch(failure(response));
+                }
+            })
+            .catch((err) => {
+                dispatch(failure(err));
+            });
+    };
+
+    function request() {
+        return { type: templateConstants.DELETETEMPLATE_REQUEST };
+    }
+    function success(response) {
+        return { type: templateConstants.DELETETEMPLATE_SUCCESS, response };
+    }
+    function failure(response) {
+        return { type: templateConstants.DELETETEMPLATE_FAILURE, response };
     }
 }
 

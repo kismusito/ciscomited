@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Add, HighlightOff, EditOutlined, DeleteOutlined } from "@material-ui/icons";
-import { userActions } from "../../../_actions";
+import { rolActions } from "../../../_actions";
 import "./Roles.css";
 
 class Roles extends Component {
@@ -127,13 +127,18 @@ class Roles extends Component {
                                                     getRoleCapacitiesReducer.capacities.map(
                                                         (capacity) => (
                                                             <div
-                                                            key={capacity.rolCapacity}
+                                                                key={capacity.rolCapacity}
                                                                 className={
-                                                                    this.state.selectedRol === capacity.rolCapacity
+                                                                    this.state.selectedRol ===
+                                                                    capacity.rolCapacity
                                                                         ? "capacitySelect selectedCapacity"
                                                                         : "capacitySelect"
                                                                 }
-                                                                onClick={() => this.addSelectedRol(capacity.rolCapacity)}
+                                                                onClick={() =>
+                                                                    this.addSelectedRol(
+                                                                        capacity.rolCapacity
+                                                                    )
+                                                                }
                                                             >
                                                                 {capacity.name}
                                                             </div>
@@ -174,9 +179,9 @@ function mapStateToProps(state) {
 }
 
 const actionCreator = {
-    getRoles: userActions.getAllRoles,
-    addRol: userActions.addRol,
-    getCapacities: userActions.getCapacities,
+    getRoles: rolActions.getAllRoles,
+    addRol: rolActions.addRol,
+    getCapacities: rolActions.getCapacities,
 };
 
 const rolesComponent = connect(mapStateToProps, actionCreator)(Roles);

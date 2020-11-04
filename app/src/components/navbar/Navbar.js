@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { authActions, userActions } from "../../_actions";
+import { authActions, rolActions } from "../../_actions";
 import "./Navbar.css";
 import { Home, Face, Build, ExitToApp } from "@material-ui/icons";
 
@@ -138,7 +138,7 @@ class Navbar extends Component {
 
 const actionCreator = {
     logout: authActions.logout,
-    getRoleInfo: userActions.getRoleInfo,
+    getRoleInfo: rolActions.getRoleInfo,
 };
 
 function mapStateToProps(state) {

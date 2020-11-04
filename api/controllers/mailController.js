@@ -35,30 +35,48 @@ mailMethods.test = async (req, res) => {
     });
 };
 
-mailMethods.createMailType = async (req, res) => {
-    const { name, permit } = req.body;
-    if (name && permit) {
-        const mailType = new MailType({
-            name,
-            permit,
-        });
-
-        if (await mailType.save()) {
+mailMethods.getMailType = async (req, res) => {
+    const mailTypeID = req.params["id"];
+    if (mailTypeID) {
+        try {
             return res.status(200).json({
                 status: true,
-                message: "El tipo fue creado correctamente",
+                types: await MailType.findById(mailTypeID),
+                message: "Se han encontrado tipos de mail",
             });
-        } else {
+        } catch (error) {
             return res.status(400).json({
                 status: false,
-                message:
-                    "Ha ocurrido un error mientras se creaba el tipo de mail, por favor intentalo de nuevo",
+                message: "Ha ocurrido un error, intentalo de nuevo",
             });
         }
     } else {
         return res.status(400).json({
             status: false,
-            message: "Todos los campos son requeridos",
+            message: "El id es requerido",
+        });
+    }
+};
+
+mailMethods.getMail = async (req, res) => {
+    const mailID = req.params["id"];
+    if (mailID) {
+        try {
+            return res.status(200).json({
+                status: true,
+                mail: await Mail.findById(mailID),
+                message: "Se ha encontrado el mail",
+            });
+        } catch (error) {
+            return res.status(400).json({
+                status: false,
+                message: "Ha ocurrido un error, intentalo de nuevo",
+            });
+        }
+    } else {
+        return res.status(400).json({
+            status: false,
+            message: "El id es requerido",
         });
     }
 };
@@ -69,6 +87,21 @@ mailMethods.getAllMailTypes = async (req, res) => {
             status: true,
             types: await MailType.find(),
             message: "Se han encontrado tipos de mail",
+        });
+    } catch (error) {
+        return res.status(400).json({
+            status: false,
+            message: "Ha ocurrido un error, intentalo de nuevo",
+        });
+    }
+};
+
+mailMethods.getAllMails = async (req, res) => {
+    try {
+        return res.status(200).json({
+            status: true,
+            types: await Mail.find(),
+            message: "Se han encontrado emails",
         });
     } catch (error) {
         return res.status(400).json({
@@ -106,17 +139,30 @@ mailMethods.createMail = async (req, res) => {
     }
 };
 
-mailMethods.getAllMails = async (req, res) => {
-    try {
-        return res.status(200).json({
-            status: true,
-            types: await Mail.find(),
-            message: "Se han encontrado emails",
+mailMethods.createMailType = async (req, res) => {
+    const { name, permit } = req.body;
+    if (name && permit) {
+        const mailType = new MailType({
+            name,
+            permit,
         });
-    } catch (error) {
+
+        if (await mailType.save()) {
+            return res.status(200).json({
+                status: true,
+                message: "El tipo fue creado correctamente",
+            });
+        } else {
+            return res.status(400).json({
+                status: false,
+                message:
+                    "Ha ocurrido un error mientras se creaba el tipo de mail, por favor intentalo de nuevo",
+            });
+        }
+    } else {
         return res.status(400).json({
             status: false,
-            message: "Ha ocurrido un error, intentalo de nuevo",
+            message: "Todos los campos son requeridos",
         });
     }
 };

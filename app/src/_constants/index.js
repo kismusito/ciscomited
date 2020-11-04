@@ -8,3 +8,4 @@ export * from "./appreticeConstants";
 export * from "./solicityConstants";
 export * from "./templateConstants";
 export * from "./minuteConstants";
+export * from "./mailConstants";

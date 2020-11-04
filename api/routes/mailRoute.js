@@ -6,6 +6,8 @@ const {
     createMailType,
     getAllMailTypes,
     getAllMails,
+    getMail,
+    getMailType,
     updateMail,
     updateMailType,
     deleteMail,
@@ -15,6 +17,8 @@ const {
 router
     .get("/getAllMailTypes", verifyMiddleware, getAllMailTypes)
     .get("/getAllMails", verifyMiddleware, getAllMails)
+    .get("/getMail/:id", verifyMiddleware, getMail)
+    .get("/getMailType/:id", verifyMiddleware, getMailType)
     .post("/createMailType", verifyMiddleware, createMailType)
     .post("/createMail", verifyMiddleware, createMail)
     .put("/updateMailType", verifyMiddleware, updateMailType)

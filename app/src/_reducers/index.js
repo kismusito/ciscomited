@@ -9,6 +9,18 @@ import { chagePasswordReducer, editProfileReducer, editUserSearchReducer } from 
 import { getAppreticeInfoReducer, saveAppreticeInfoReducer } from "./Appretice";
 import { getAttendeesReducer } from "./Minute";
 import {
+    getMailReducer,
+    getMailTypeReducer,
+    getMailTypesReducer,
+    getMailsReducer,
+    updateMailReducer,
+    updateMailTypeReducer,
+    deleteMailReducer,
+    deleteMailTypeReducer,
+    createMailReducer,
+    createMailTypeReducer,
+} from "./Mail";
+import {
     getCustomFieldsReducer,
     templateModalReducer,
     createTemplateReducer,
@@ -64,6 +76,16 @@ const rootReducer = combineReducers({
     createTemplateReducer,
     templatesReducer,
     getAttendeesReducer,
+    getMailReducer,
+    getMailTypeReducer,
+    getMailTypesReducer,
+    getMailsReducer,
+    updateMailReducer,
+    updateMailTypeReducer,
+    deleteMailReducer,
+    deleteMailTypeReducer,
+    createMailReducer,
+    createMailTypeReducer,
 });
 
 export default (state, action) =>

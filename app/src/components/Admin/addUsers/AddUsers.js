@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { userActions } from "../../../_actions";
+import { userActions , rolActions } from "../../../_actions";
 import "./AddUsers.css";
 
 import { MenuItem, FormControl, Select } from "@material-ui/core";
@@ -302,7 +302,7 @@ function mapStateToProps(state) {
 }
 
 const actionCreator = {
-    getRoles: userActions.getAllRoles,
+    getRoles: rolActions.getAllRoles,
     register: userActions.registerUser,
 };
 

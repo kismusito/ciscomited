@@ -6,22 +6,24 @@ import "codemirror/lib/codemirror.css";
 import "codemirror/mode/htmlmixed/htmlmixed";
 import { templateActions } from "../../../_actions";
 import { HighlightOff } from "@material-ui/icons";
-import { templateDefault } from "../../../config";
+import { defaultCitation, defaultMinute } from "../../../config";
+import { TextField } from "@material-ui/core";
 
 class CreateTemplates extends Component {
-
     constructor(props) {
-        super();
-
+        super(props);
+        console.log(props);
         this.state = {
-            code: ""
-        }
+            code: props.template ? props.template.template : "",
+            templateName: props.template ? props.template.templateName : "",
+            default: "citation",
+        };
     }
     componentDidMount() {
         this.props.getFields(this.selectType.value);
         this.setState({
-            code: templateDefault
-        })
+            code: this.state.default === "citation" ? defaultCitation : defaultMinute,
+        });
     }
 
     eHandleFields = (_) => {
@@ -35,38 +37,84 @@ class CreateTemplates extends Component {
     eHandleCreateTemplate = (e) => {
         e.preventDefault();
         const templateData = {
-            templateName: this.templateName.value,
+            templateName: this.state.templateName,
             template: this.instance.getValue(),
         };
-        
+
         this.props.create(templateData);
     };
+
+    eHandleEditTemplate = e => {
+        e.preventDefault();
+        const templateData = {
+            templateID: e.target.templateID.value,
+            templateName: this.state.templateName,
+            template: this.instance.getValue(),
+        };
+
+        this.props.updateTemplate(templateData)
+    }
 
     render() {
         const { getCustomFieldsReducer } = this.props;
 
         return (
             <div className="center_container overlay_black">
-                <div className="container_white_edit custom_container_details w900">
+                <div className="container_white_edit custom_container_details_template w900">
                     <div className="close_modal" onClick={() => this.closeNewRoleModal()}>
                         <HighlightOff />
                     </div>
-                    <form method="POST" onSubmit={this.eHandleCreateTemplate}>
+                    <form method="POST" onSubmit={!this.props.template ? this.eHandleCreateTemplate : this.eHandleEditTemplate}>
                         <div className="rows">
                             <div className="col_8">
-                                <div className="form_group">
-                                    <label>Nombre de la plantilla</label>
-                                    <input
-                                        type="text"
-                                        className="form_control mt-2"
-                                        ref={(input) => (this.templateName = input)}
-                                        placeholder="Nombre de la plantilla"
+                                <h5 className="title">Plantilla por defecto</h5>
+                                <span className="subtitle">
+                                    Escoge una plantilla por defecto para crear tu nueva plantilla.
+                                </span>
+                                {!this.props.template && (
+                                    <select
+                                        className="select_style_solicity custom_template"
+                                        value={this.state.default}
+                                        onChange={(value) =>
+                                            this.setState({
+                                                default: value.target.value,
+                                            })
+                                        }
+                                    >
+                                        <option value="citation">Citación</option>
+                                        <option value="minute">Acta</option>
+                                    </select>
+                                )}
+
+                                {this.props.template && (
+                                    <input type="hidden" name="templateID" defaultValue={this.props.template._id} required={true} />
+                                )}
+
+                                <div className="form_group_material">
+                                    <TextField
+                                        label="Nombre de la plantilla"
+                                        multiline
+                                        fullWidth
                                         required
+                                        value={this.state.templateName}
+                                        onChange={(value) =>
+                                            this.setState({
+                                                templateName: value.target.value,
+                                            })
+                                        }
+                                        variant="outlined"
                                     />
                                 </div>
+
                                 <CodeMirror
-                                    value={templateDefault}
-                                    editorDidMount={(editor) => { this.instance = editor }}
+                                    value={
+                                        this.state.default === "citation"
+                                            ? defaultCitation
+                                            : defaultMinute
+                                    }
+                                    editorDidMount={(editor) => {
+                                        this.instance = editor;
+                                    }}
                                     options={{
                                         lineNumbers: true,
                                         mode: "htmlmixed",
@@ -97,7 +145,9 @@ class CreateTemplates extends Component {
                                             )
                                         )}
                                 </ul>
-                                <button className="btn btn_big btn_teal">Crear plantilla</button>
+                                <button className="btn btn_big btn_teal">
+                                    {this.props.template ? "Editar plantilla" : "Crear plantilla"}
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -118,6 +168,7 @@ const actionCreator = {
     getFields: templateActions.getCustomFields,
     hideModal: templateActions.hideModal,
     create: templateActions.createTemplate,
+    updateTemplate: templateActions.updateTemplate,
 };
 
 const createTemplatesComponent = connect(mapStateToProps, actionCreator)(CreateTemplates);

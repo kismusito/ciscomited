@@ -72,7 +72,7 @@ async function createTemplate(data) {
 
 async function updateTemplate(data) {
     const configuration = {
-        method: "GET",
+        method: "PUT",
         headers: {
             "Content-type": "application/json",
             "x-access-token": cookie.load("userToken"),
@@ -87,7 +87,7 @@ async function updateTemplate(data) {
 
 async function deleteTemplate(data) {
     const configuration = {
-        method: "GET",
+        method: "DELETE",
         headers: {
             "Content-type": "application/json",
             "x-access-token": cookie.load("userToken"),

@@ -24,6 +24,7 @@ import {
     Solicities,
     Templates,
     Mails,
+    SearchInstructors,
 } from "./components";
 import "./App.css";
 import "./_vars.css";
@@ -109,6 +110,11 @@ class App extends Component {
                     <PrivateRoute
                         path="/searchAppretices"
                         component={SearchAppretices}
+                        auth={authReducer.auth}
+                    />
+                    <PrivateRoute
+                        path="/searchInstructors"
+                        component={SearchInstructors}
                         auth={authReducer.auth}
                     />
                     <PrivateRoute path="/citations" component={Citations} auth={authReducer.auth} />

@@ -46,6 +46,10 @@
     color: #fff;
 }
 
+.template_action_item {
+    display: flex;
+}
+
 .template_action_item svg{
     cursor: pointer;
     color: var(--sena-green-color);
@@ -79,7 +83,14 @@
     background-color: tomato;
 }
 
+.custom_container_details_template {
+    overflow: auto;
+    max-height: 700px;
+}
 
+.CodeMirror {
+    height: 600px !important;
+}
 
 @keyframes push_template {
     from {

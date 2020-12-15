@@ -9,7 +9,7 @@ export const getMailsReducer = (state = {}, action) => {
         case mailConstants.GETMAILS_SUCCESS:
             return {
                 status: action.response.status,
-                mails: action.response.mail,
+                mails: action.response.mails,
                 message: action.response.message,
             };
         case mailConstants.GETMAILS_FAILURE:

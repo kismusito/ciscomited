@@ -1,2 +1,3 @@
 export * from './config';
-export * from './templateDefault';
+export * from './defaultMinute';
+export * from './defaultCitation';

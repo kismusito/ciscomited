@@ -99,7 +99,7 @@ class SolicityDetail extends Component {
                                         alt="show uploaded file"
                                     />
                                 </div>
-                                <div className="subTitleLow mb-2">{file.originalname}</div>
+                                <div className="subTitleLow mb-2 customTextStyle">{file.originalname}</div>
                                 <a
                                     className="btn btn_big btn_teal mt-5 text_center"
                                     href={getSolicityReducer.solicity.fileDomail + file.filename}

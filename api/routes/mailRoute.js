@@ -3,27 +3,19 @@ const router = express.Router();
 const { verifyMiddleware } = require("../middlewares/verifyMiddleware");
 const {
     createMail,
-    createMailType,
-    getAllMailTypes,
     getAllMails,
+    getPermits,
     getMail,
-    getMailType,
     updateMail,
-    updateMailType,
     deleteMail,
-    deleteMailType,
 } = require("../controllers/mailController");
 
 router
-    .get("/getAllMailTypes", verifyMiddleware, getAllMailTypes)
+    .get("/getPermits", verifyMiddleware, getPermits)
     .get("/getAllMails", verifyMiddleware, getAllMails)
     .get("/getMail/:id", verifyMiddleware, getMail)
-    .get("/getMailType/:id", verifyMiddleware, getMailType)
-    .post("/createMailType", verifyMiddleware, createMailType)
     .post("/createMail", verifyMiddleware, createMail)
-    .put("/updateMailType", verifyMiddleware, updateMailType)
     .put("/updateMail", verifyMiddleware, updateMail)
-    .delete("/deleteMailType", verifyMiddleware, deleteMailType)
     .delete("/deleteMail", verifyMiddleware, deleteMail);
 
 module.exports = router;

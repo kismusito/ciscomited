@@ -4,14 +4,10 @@ import { config } from "../config";
 export const mailService = {
     getMail,
     getMails,
-    getMailType,
-    getMailTypes,
+    getMailPermits,
     createMail,
-    createMailType,
     updateMail,
-    updateMailType,
     deleteMail,
-    deleteMailType,
 };
 
 async function getMail(mailID) {
@@ -24,7 +20,7 @@ async function getMail(mailID) {
     };
 
     const requestResponse = await fetch(
-        config.serverRoute + "getMail" + mailID,
+        config.serverRoute + "getMail/" + mailID,
         configuration
     );
     const responseJson = await requestResponse.json();
@@ -45,7 +41,7 @@ async function getMails() {
     return responseJson;
 }
 
-async function getMailType(mailTypeID) {
+async function getMailPermits() {
     const configuration = {
         method: "GET",
         headers: {
@@ -55,7 +51,7 @@ async function getMailType(mailTypeID) {
     };
 
     const requestResponse = await fetch(
-        config.serverRoute + "getMailType" + mailTypeID,
+        config.serverRoute + "getPermits",
         configuration
     );
     const responseJson = await requestResponse.json();
@@ -77,35 +73,6 @@ async function createMail(data) {
     return responseJson;
 }
 
-async function createMailType(data) {
-    const configuration = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "x-access-token": cookie.load("userToken"),
-        },
-        body: JSON.stringify(data),
-    };
-
-    const requestResponse = await fetch(config.serverRoute + "createMailType", configuration);
-    const responseJson = await requestResponse.json();
-    return responseJson;
-}
-
-async function getMailTypes() {
-    const configuration = {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            "x-access-token": cookie.load("userToken"),
-        },
-    };
-
-    const requestResponse = await fetch(config.serverRoute + "getAllMailTypes", configuration);
-    const responseJson = await requestResponse.json();
-    return responseJson;
-}
-
 async function updateMail(data) {
     const configuration = {
         method: "PUT",
@@ -121,20 +88,6 @@ async function updateMail(data) {
     return responseJson;
 }
 
-async function updateMailType(data) {
-    const configuration = {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-            "x-access-token": cookie.load("userToken"),
-        },
-        body: JSON.stringify(data),
-    };
-
-    const requestResponse = await fetch(config.serverRoute + "updateMailType", configuration);
-    const responseJson = await requestResponse.json();
-    return responseJson;
-}
 
 async function deleteMail(data) {
     const configuration = {
@@ -147,21 +100,6 @@ async function deleteMail(data) {
     };
 
     const requestResponse = await fetch(config.serverRoute + "deleteMail", configuration);
-    const responseJson = await requestResponse.json();
-    return responseJson;
-}
-
-async function deleteMailType(data) {
-    const configuration = {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-            "x-access-token": cookie.load("userToken"),
-        },
-        body: JSON.stringify(data),
-    };
-
-    const requestResponse = await fetch(config.serverRoute + "deleteMailType", configuration);
     const responseJson = await requestResponse.json();
     return responseJson;
 }

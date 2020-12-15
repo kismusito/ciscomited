@@ -17,6 +17,8 @@ export const getMailReducer = (state = {}, action) => {
                 status: action.response.status,
                 message: action.response.message,
             };
+        case mailConstants.CLOSEMODAL_ALLMODALSMAILS:
+            return {};
         default:
             return state;
     }

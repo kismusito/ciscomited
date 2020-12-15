@@ -5,10 +5,14 @@ export const rolActions = {
     getRoleInfo,
     getAllRoles,
     addRol,
-    getCapacities
-}
+    getCapacities,
+    selectedRol,
+    updateRol,
+    closeUpdate,
+    deleteRol,
+};
 
-function getRoleInfo(roleID) {
+function getRoleInfo(roleID, edit = false) {
     return (dispatch) => {
         dispatch(request());
 
@@ -17,6 +21,7 @@ function getRoleInfo(roleID) {
             .then((response) => {
                 if (response.status) {
                     dispatch(success(response));
+                    dispatch(setRol(response.rolInfo.capacity));
                 } else {
                     dispatch(failure(response));
                 }
@@ -27,13 +32,32 @@ function getRoleInfo(roleID) {
     };
 
     function request() {
-        return { type: rolConstant.GETROLINFO_REQUEST };
+        return { type: !edit ? rolConstant.GETROLINFO_REQUEST : rolConstant.GETROL_REQUEST };
     }
     function success(response) {
-        return { type: rolConstant.GETROLINFO_SUCCESS, response };
+        return {
+            type: !edit ? rolConstant.GETROLINFO_SUCCESS : rolConstant.GETROL_SUCCESS,
+            response,
+        };
     }
     function failure(response) {
-        return { type: rolConstant.GETROLINFO_FAILURE, response };
+        return {
+            type: !edit ? rolConstant.GETROLINFO_FAILURE : rolConstant.GETROL_FAILURE,
+            response,
+        };
+    }
+    function setRol(rol) {
+        return { type: rolConstant.SETSELECTEDROL, rol };
+    }
+}
+
+function selectedRol(rol) {
+    return (dispatch) => {
+        dispatch(setRol(rol));
+    };
+
+    function setRol(rol) {
+        return { type: rolConstant.SETSELECTEDROL, rol };
     }
 }
 
@@ -148,5 +172,116 @@ function getCapacities() {
     }
     function failure(response) {
         return { type: rolConstant.GETROLCAPACITIES_FAILURE, response };
+    }
+}
+
+function updateRol(rol) {
+    return (dispatch) => {
+        dispatch(request());
+
+        roleService
+            .updateRol(rol)
+            .then((response) => {
+                if (response.status) {
+                    dispatch(success(response));
+                    setTimeout((_) => {
+                        dispatch(finish());
+                    }, 2000);
+                } else {
+                    dispatch(failure(response));
+                }
+            })
+            .catch((err) => {
+                dispatch(failure(err));
+            });
+    };
+
+    function request() {
+        return { type: rolConstant.UPDATEROL_REQUEST };
+    }
+    function finish() {
+        return { type: rolConstant.FINISHUPDATE };
+    }
+    function success(response) {
+        return {
+            type: rolConstant.UPDATEROL_SUCCESS,
+            response,
+        };
+    }
+    function failure(response) {
+        return {
+            type: rolConstant.UPDATEROL_FAILURE,
+            response,
+        };
+    }
+}
+
+function deleteRol(id) {
+    return (dispatch) => {
+        dispatch(request());
+
+        roleService
+            .deleteRol(id)
+            .then((response) => {
+                if (response.status) {
+                    dispatch(success(response));
+                    setTimeout(_ => {
+                        dispatch(finish())
+                    } , 1500)
+                    roleService
+                        .getAllRoles()
+                        .then((response) => {
+                            if (response.status) {
+                                dispatch(successDelete(response));
+                            } else {
+                                dispatch(failureDelete(response));
+                            }
+                        })
+                        .catch((err) => {
+                            dispatch(failureDelete(err));
+                        });
+                } else {
+                    dispatch(failure(response));
+                }
+            })
+            .catch((err) => {
+                dispatch(failure(err));
+            });
+    };
+
+    function request() {
+        return { type: rolConstant.DELETEROL_REQUEST };
+    }
+    function finish() {
+        return { type: rolConstant.FINISHDELETE };
+    }
+    function success(response) {
+        return {
+            type: rolConstant.DELETEROL_SUCCESS,
+            response,
+        };
+    }
+    function failure(response) {
+        return {
+            type: rolConstant.DELETEROL_FAILURE,
+            response,
+        };
+    }
+
+    function successDelete(response) {
+        return { type: rolConstant.GETROLES_SUCCESS, response };
+    }
+    function failureDelete(response) {
+        return { type: rolConstant.GETROLES_FAILURE, response };
+    }
+}
+
+function closeUpdate() {
+    return (dispatch) => {
+        dispatch(finish());
+    };
+
+    function finish() {
+        return { type: rolConstant.FINISHUPDATE };
     }
 }

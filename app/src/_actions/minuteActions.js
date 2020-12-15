@@ -1,8 +1,9 @@
-import { minuteConstant } from "../_constants";
+import { minuteConstant, generatorConstants } from "../_constants";
 import { minuteService } from "../services";
 
 export const minuteActions = {
     getAttendees,
+    closeModal,
 };
 
 function getAttendees(key) {
@@ -31,5 +32,14 @@ function getAttendees(key) {
     }
     function failure(response) {
         return { type: minuteConstant.GETATTENDEES_FAILURE, response };
+    }
+}
+
+function closeModal() {
+    return (dispatch) => {
+        dispatch(close());
+    };
+    function close() {
+        return { type: generatorConstants.RESETACTION_MINUTE };
     }
 }

@@ -10,3 +10,4 @@ export * from "./solicityService";
 export * from "./templateService";
 export * from "./minuteService";
 export * from "./mailService";
+export * from "./citationService";

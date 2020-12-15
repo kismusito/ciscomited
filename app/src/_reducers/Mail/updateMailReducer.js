@@ -16,6 +16,8 @@ export const updateMailReducer = (state = {}, action) => {
                 status: action.response.status,
                 message: action.response.message,
             };
+        case mailConstants.CREATEMAILCLOSEMODAL:
+            return {};
         default:
             return state;
     }

@@ -88,7 +88,7 @@ class Home extends Component {
                                     <CardComponent
                                         title="Buscar instructor"
                                         subtitle="Una forma fácil y sencilla de buscar la información de cualquier instructor."
-                                        redirect="roles"
+                                        redirect="searchInstructors"
                                         image="search_intructor.png"
                                         alt="Search instructors"
                                     />
@@ -129,7 +129,7 @@ class Home extends Component {
                                 <CardComponent
                                     title="Emails"
                                     subtitle="Gestiona los envios de emails para cada uno de los estados del sistema."
-                                    redirect="generateMinutes"
+                                    redirect="mails"
                                     image="email_icon.png"
                                     alt="Emails"
                                 />

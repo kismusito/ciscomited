@@ -58,12 +58,12 @@ class UpdateAppreticeInfo extends Component {
                             />
                         </div>
                         <div className="form_group">
-                            <button
+                            <div
                                 className="btn btn_big btn_teal"
                                 onClick={this.saveAppreticeInfo}
                             >
                                 Guardar
-                            </button>
+                            </div>
                         </div>
                         {getAppreticeInfoReducer.loading && (
                             <div className="loading_file">

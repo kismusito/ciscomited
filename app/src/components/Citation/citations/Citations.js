@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { SolicityDetail } from "../../Solicity/solicities/solicityDetail";
 import "./citations.css";
-import { userActions, solicityActions } from "../../../_actions";
+import { userActions, solicityActions, citationActions } from "../../../_actions";
 import { HighlightOff, CloudUpload } from "@material-ui/icons";
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
 
 class Citations extends Component {
     componentDidMount() {
@@ -63,20 +63,37 @@ class Citations extends Component {
         this.props.hideModalUpload();
     };
 
+    submitCitation = (id) => {
+        this.props.sendCitation({
+            citationID: id,
+        });
+    };
+
     render() {
         const {
             citationsReducer,
             citationSelectedReducer,
             uploadNewStatusCitation,
             getSolicityReducer,
+            sendCitationReducer,
         } = this.props;
 
         return (
             <div className="background_login">
                 <div className="custom_background_sidebar">
+                    {sendCitationReducer.status && (
+                        <div className="push_template push_template_success">
+                            {sendCitationReducer.message}
+                        </div>
+                    )}
+                    {sendCitationReducer.status === false && (
+                        <div className="push_template push_template_error">
+                            {sendCitationReducer.message}
+                        </div>
+                    )}
                     {getSolicityReducer.status && <SolicityDetail />}
                     <div className="center_container">
-                        <div className="container_white_edit min_height_big center_elements">
+                        <div className="container_white_edit show_overflow_on_mobile center_elements">
                             <div className="block_container">
                                 <div className="title">Tus citaciones</div>
                                 <div className="subtitle">
@@ -84,7 +101,7 @@ class Citations extends Component {
                                     generado, tambien podrás actualizar sus estados en cada fase del
                                     proceso.
                                 </div>
-                                <div className="container_scrollable">
+                                <div className="solicityList">
                                     {citationsReducer.status &&
                                         citationsReducer.citations.map((citation) => (
                                             <div
@@ -108,7 +125,7 @@ class Citations extends Component {
                             </div>
 
                             {citationSelectedReducer.status && (
-                                <div className="modal_overlay_role">
+                                <div className="modal_overlay_role m500">
                                     <div
                                         className="close_modal"
                                         onClick={() => this.eHandleHideModal()}
@@ -167,10 +184,17 @@ class Citations extends Component {
                                                                 alt="pdf uploaded"
                                                             />
                                                             <div className="action_buttons">
-                                                                <button className="btn btn_orange">
+                                                                <button
+                                                                    className="btn btn_orange"
+                                                                    onClick={() =>
+                                                                        this.submitCitation(
+                                                                            citation._id
+                                                                        )
+                                                                    }
+                                                                >
                                                                     Enviar
                                                                 </button>
-                                                                
+
                                                                 <a
                                                                     href={citation.pdfLink}
                                                                     target="_blank"
@@ -181,9 +205,28 @@ class Citations extends Component {
                                                                 </a>
                                                             </div>
 
-                                                            <Link className="button_generate_citation btn_big mt-5" to={'/generateMinutes/' + citation.solicity}>
+                                                            {citation.minute && (
+                                                                <a
+                                                                    className="button_generate_citation btn_big mt-5"
+                                                                    href={citation.minute}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                >
+                                                                    Ver acta
+                                                                </a>
+                                                            )}
+
+                                                            {!citation.minute && (
+                                                                <Link
+                                                                    className="button_generate_citation btn_big mt-5"
+                                                                    to={
+                                                                        "/generateMinutes/" +
+                                                                        citation.solicity
+                                                                    }
+                                                                >
                                                                     Generar acta
-                                                            </Link>
+                                                                </Link>
+                                                            )}
                                                         </div>
                                                     ) : (
                                                         ""
@@ -301,6 +344,7 @@ function mapStateToProps(state) {
         citationSelectedReducer,
         uploadNewStatusCitation,
         getSolicityReducer,
+        sendCitationReducer,
     } = state;
     return {
         authReducer,
@@ -308,6 +352,7 @@ function mapStateToProps(state) {
         citationSelectedReducer,
         uploadNewStatusCitation,
         getSolicityReducer,
+        sendCitationReducer,
     };
 }
 
@@ -318,6 +363,7 @@ const actionCreator = {
     uploadStatus: userActions.uploadCitationStatus,
     hideModalUpload: userActions.hideModalNewChange,
     getDetails: solicityActions.getSolicityDetails,
+    sendCitation: citationActions.sendCitation,
 };
 
 const citationsComponent = connect(mapStateToProps, actionCreator)(Citations);

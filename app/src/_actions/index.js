@@ -10,4 +10,5 @@ export * from "./templateActions";
 export * from "./minuteActions";
 export * from "./mailActions";
 export * from "./rolActions";
+export * from "./citationActions";
 

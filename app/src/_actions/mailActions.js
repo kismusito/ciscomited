@@ -4,15 +4,42 @@ import { mailService } from "../services";
 export const mailActions = {
     getMail,
     getMails,
-    getMailType,
-    getMailTypes,
+    getMailPermits,
     createMail,
-    createMailType,
     updateMail,
-    updateMailType,
     deleteMail,
-    deleteMailType,
+    closeAllModals,
+    modal,
 };
+
+function getMailPermits() {
+    return (dispatch) => {
+        dispatch(request());
+
+        mailService
+            .getMailPermits()
+            .then((response) => {
+                if (response.status) {
+                    dispatch(success(response));
+                } else {
+                    dispatch(failure(response));
+                }
+            })
+            .catch((err) => {
+                dispatch(failure(err));
+            });
+    };
+
+    function request() {
+        return { type: mailConstants.GETMAILPERMITS_REQUEST };
+    }
+    function success(response) {
+        return { type: mailConstants.GETMAILPERMITS_SUCCESS, response };
+    }
+    function failure(response) {
+        return { type: mailConstants.GETMAILPERMITS_FAILURE, response };
+    }
+}
 
 function getMail(mailID) {
     return (dispatch) => {
@@ -72,64 +99,6 @@ function getMails() {
     }
 }
 
-function getMailType(mailTypeID) {
-    return (dispatch) => {
-        dispatch(request());
-
-        mailService
-            .getMailType(mailTypeID)
-            .then((response) => {
-                if (response.status) {
-                    dispatch(success(response));
-                } else {
-                    dispatch(failure(response));
-                }
-            })
-            .catch((err) => {
-                dispatch(failure(err));
-            });
-    };
-
-    function request() {
-        return { type: mailConstants.GETMAILTYPE_REQUEST };
-    }
-    function success(response) {
-        return { type: mailConstants.GETMAILTYPE_SUCCESS, response };
-    }
-    function failure(response) {
-        return { type: mailConstants.GETMAILTYPE_FAILURE, response };
-    }
-}
-
-function getMailTypes() {
-    return (dispatch) => {
-        dispatch(request());
-
-        mailService
-            .getMailTypes()
-            .then((response) => {
-                if (response.status) {
-                    dispatch(success(response));
-                } else {
-                    dispatch(failure(response));
-                }
-            })
-            .catch((err) => {
-                dispatch(failure(err));
-            });
-    };
-
-    function request() {
-        return { type: mailConstants.GETMAILTYPES_REQUEST };
-    }
-    function success(response) {
-        return { type: mailConstants.GETMAILTYPES_SUCCESS, response };
-    }
-    function failure(response) {
-        return { type: mailConstants.GETMAILTYPES_FAILURE, response };
-    }
-}
-
 function createMail(data) {
     return (dispatch) => {
         dispatch(request());
@@ -139,9 +108,25 @@ function createMail(data) {
             .then((response) => {
                 if (response.status) {
                     dispatch(success(response));
+                    mailService
+                        .getMails()
+                        .then((response) => {
+                            if (response.status) {
+                                dispatch(successGet(response));
+                            } else {
+                                dispatch(failureGet(response));
+                            }
+                        })
+                        .catch((err) => {
+                            dispatch(failure(err));
+                        });
                 } else {
                     dispatch(failure(response));
                 }
+
+                setTimeout((_) => {
+                    dispatch(closeAlert());
+                }, 1600);
             })
             .catch((err) => {
                 dispatch(failure(err));
@@ -151,40 +136,20 @@ function createMail(data) {
     function request() {
         return { type: mailConstants.CREATEMAIL_REQUEST };
     }
+    function closeAlert() {
+        return { type: mailConstants.CREATEMAILCLOSEMODAL };
+    }
     function success(response) {
         return { type: mailConstants.CREATEMAIL_SUCCESS, response };
     }
     function failure(response) {
         return { type: mailConstants.CREATEMAIL_FAILURE, response };
     }
-}
-
-function createMailType(data) {
-    return (dispatch) => {
-        dispatch(request());
-
-        mailService
-            .createMailType(data)
-            .then((response) => {
-                if (response.status) {
-                    dispatch(success(response));
-                } else {
-                    dispatch(failure(response));
-                }
-            })
-            .catch((err) => {
-                dispatch(failure(err));
-            });
-    };
-
-    function request() {
-        return { type: mailConstants.CREATEMAILTYPE_REQUEST };
+    function successGet(response) {
+        return { type: mailConstants.GETMAILS_SUCCESS, response };
     }
-    function success(response) {
-        return { type: mailConstants.CREATEMAILTYPE_SUCCESS, response };
-    }
-    function failure(response) {
-        return { type: mailConstants.CREATEMAILTYPE_FAILURE, response };
+    function failureGet(response) {
+        return { type: mailConstants.GETMAILS_FAILURE, response };
     }
 }
 
@@ -197,9 +162,25 @@ function updateMail(data) {
             .then((response) => {
                 if (response.status) {
                     dispatch(success(response));
+                    mailService
+                        .getMails()
+                        .then((response) => {
+                            if (response.status) {
+                                dispatch(successGet(response));
+                            } else {
+                                dispatch(failureGet(response));
+                            }
+                        })
+                        .catch((err) => {
+                            dispatch(failure(err));
+                        });
                 } else {
                     dispatch(failure(response));
                 }
+
+                setTimeout((_) => {
+                    dispatch(closeAlert());
+                }, 1600);
             })
             .catch((err) => {
                 dispatch(failure(err));
@@ -215,34 +196,14 @@ function updateMail(data) {
     function failure(response) {
         return { type: mailConstants.UPDATEMAIL_FAILURE, response };
     }
-}
-
-function updateMailType(data) {
-    return (dispatch) => {
-        dispatch(request());
-
-        mailService
-            .updateMailType(data)
-            .then((response) => {
-                if (response.status) {
-                    dispatch(success(response));
-                } else {
-                    dispatch(failure(response));
-                }
-            })
-            .catch((err) => {
-                dispatch(failure(err));
-            });
-    };
-
-    function request() {
-        return { type: mailConstants.UPDATEMAILTYPE_REQUEST };
+    function closeAlert() {
+        return { type: mailConstants.CREATEMAILCLOSEMODAL };
     }
-    function success(response) {
-        return { type: mailConstants.UPDATEMAILTYPE_SUCCESS, response };
+    function successGet(response) {
+        return { type: mailConstants.GETMAILS_SUCCESS, response };
     }
-    function failure(response) {
-        return { type: mailConstants.UPDATEMAILTYPE_FAILURE, response };
+    function failureGet(response) {
+        return { type: mailConstants.GETMAILS_FAILURE, response };
     }
 }
 
@@ -255,6 +216,18 @@ function deleteMail(data) {
             .then((response) => {
                 if (response.status) {
                     dispatch(success(response));
+                    mailService
+                        .getMails()
+                        .then((response) => {
+                            if (response.status) {
+                                dispatch(successGet(response));
+                            } else {
+                                dispatch(failureGet(response));
+                            }
+                        })
+                        .catch((err) => {
+                            dispatch(failure(err));
+                        });
                 } else {
                     dispatch(failure(response));
                 }
@@ -273,33 +246,30 @@ function deleteMail(data) {
     function failure(response) {
         return { type: mailConstants.DELETEMAIL_FAILURE, response };
     }
+    function successGet(response) {
+        return { type: mailConstants.GETMAILS_SUCCESS, response };
+    }
+    function failureGet(response) {
+        return { type: mailConstants.GETMAILS_FAILURE, response };
+    }
 }
 
-function deleteMailType(data) {
+function closeAllModals() {
     return (dispatch) => {
-        dispatch(request());
-
-        mailService
-            .deleteMailType(data)
-            .then((response) => {
-                if (response.status) {
-                    dispatch(success(response));
-                } else {
-                    dispatch(failure(response));
-                }
-            })
-            .catch((err) => {
-                dispatch(failure(err));
-            });
+        dispatch(closeModal());
     };
 
-    function request() {
-        return { type: mailConstants.DELETEMAILTYPE_REQUEST };
+    function closeModal() {
+        return { type: mailConstants.CLOSEMODAL_ALLMODALSMAILS };
     }
-    function success(response) {
-        return { type: mailConstants.DELETEMAILTYPE_SUCCESS, response };
-    }
-    function failure(response) {
-        return { type: mailConstants.DELETEMAILTYPE_FAILURE, response };
+}
+
+function modal() {
+    return (dispatch) => {
+        dispatch(createMail());
+    };
+
+    function createMail() {
+        return { type: mailConstants.OPENCREATEMAILMODAL };
     }
 }

@@ -9,7 +9,7 @@ export const templateActions = {
     getTemplates,
     getTemplate,
     updateTemplate,
-    deleteTemplate
+    deleteTemplate,
 };
 
 function getCustomFields(type) {
@@ -163,6 +163,22 @@ function updateTemplate(data) {
             .then((response) => {
                 if (response.status) {
                     dispatch(success(response));
+                    templateService
+                        .getTemplates()
+                        .then((response) => {
+                            if (response.status) {
+                                dispatch(successTemplate(response));
+                            } else {
+                                dispatch(failureTemplate(response));
+                            }
+                        })
+                        .catch((err) => {
+                            dispatch(failureTemplate(err));
+                        });
+
+                    setTimeout((_) => {
+                        dispatch(finish());
+                    }, 2000);
                 } else {
                     dispatch(failure(response));
                 }
@@ -175,11 +191,20 @@ function updateTemplate(data) {
     function request() {
         return { type: templateConstants.UPDATETEMPLATE_REQUEST };
     }
+    function finish() {
+        return { type: templateConstants.FINISH_CREATE_TEMPLATE };
+    }
     function success(response) {
         return { type: templateConstants.UPDATETEMPLATE_SUCCESS, response };
     }
     function failure(response) {
         return { type: templateConstants.UPDATETEMPLATE_FAILURE, response };
+    }
+    function successTemplate(response) {
+        return { type: templateConstants.GETTEMPLATES_SUCCESS, response };
+    }
+    function failureTemplate(response) {
+        return { type: templateConstants.GETTEMPLATES_FAILURE, response };
     }
 }
 
@@ -192,6 +217,18 @@ function deleteTemplate(data) {
             .then((response) => {
                 if (response.status) {
                     dispatch(success(response));
+                    templateService
+                        .getTemplates()
+                        .then((response) => {
+                            if (response.status) {
+                                dispatch(successGet(response));
+                            } else {
+                                dispatch(failureGet(response));
+                            }
+                        })
+                        .catch((err) => {
+                            dispatch(failureGet(err));
+                        });
                 } else {
                     dispatch(failure(response));
                 }
@@ -209,6 +246,12 @@ function deleteTemplate(data) {
     }
     function failure(response) {
         return { type: templateConstants.DELETETEMPLATE_FAILURE, response };
+    }
+    function successGet(response) {
+        return { type: templateConstants.GETTEMPLATES_SUCCESS, response };
+    }
+    function failureGet(response) {
+        return { type: templateConstants.GETTEMPLATES_FAILURE, response };
     }
 }
 

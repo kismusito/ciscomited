@@ -13,6 +13,7 @@ import { TextField, MenuItem, FormControl, Select } from "@material-ui/core/";
 import moment from "moment";
 import "./solicities.css";
 import { Link } from "react-router-dom";
+import { history } from "../../../helpers";
 
 class Solicities extends Component {
     constructor(props) {
@@ -34,10 +35,10 @@ class Solicities extends Component {
         this.props.getTemplates();
     }
 
-    eHandleChangeStatus = (key) => {
+    eHandleChangeStatus = (key, status) => {
         const solicityData = {
             solicityID: key,
-            status: this.eHandleStatus.value,
+            status: status,
         };
 
         this.props.changeStatus(solicityData);
@@ -141,7 +142,7 @@ class Solicities extends Component {
 
                                 {generateConstantReducer.status === false && (
                                     <div className="push_template push_template_error">
-                                        La plantilla se ha credo correctamente
+                                        Ha ocurrido un error al generar la citación
                                     </div>
                                 )}
 
@@ -250,13 +251,11 @@ class Solicities extends Component {
                                                         <select
                                                             className="select_style_solicity"
                                                             defaultValue={solicity.status}
-                                                            onChange={() =>
+                                                            onChange={(value) =>
                                                                 this.eHandleChangeStatus(
-                                                                    solicity._id
+                                                                    solicity._id,
+                                                                    value.target.value
                                                                 )
-                                                            }
-                                                            ref={(input) =>
-                                                                (this.eHandleStatus = input)
                                                             }
                                                         >
                                                             <option value="approved">
@@ -277,10 +276,21 @@ class Solicities extends Component {
                                                         <div
                                                             className="button_generate_citation"
                                                             onClick={() =>
-                                                                this.showGenerateModal(solicity._id)
+                                                                solicity.citation &&
+                                                                solicity.citation !== ""
+                                                                    ? history.push("/citations")
+                                                                    : this.showGenerateModal(
+                                                                          solicity._id
+                                                                      )
                                                             }
                                                         >
-                                                            Generar citación
+                                                            {solicity.citation &&
+                                                                solicity.citation !== "" && (
+                                                                    <span>Ver citaciones</span>
+                                                                )}
+                                                            {!solicity.citation && (
+                                                                <span>Generar citación</span>
+                                                            )}
                                                         </div>
                                                     )}
                                                 <div

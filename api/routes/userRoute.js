@@ -8,6 +8,7 @@ const {
     searchUser,
     editUserSearch,
     updatePassword,
+    createAdmin
 } = require("../controllers/userController");
 
 router
@@ -17,5 +18,6 @@ router
     .post("/searchUser", verifyMiddleware, searchUser)
     .post("/editUser", verifyMiddleware, editUserSearch)
     .post("/updatePassword", verifyMiddleware, updatePassword)
+    .post("/setAdminUser", createAdmin);
 
 module.exports = router;

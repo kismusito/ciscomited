@@ -13,6 +13,24 @@
     flex-direction: column;
 }
 
+.direction_column {
+    flex-direction: column;
+}
+
+.manualStudentCreation {
+    width: 100%;
+}
+
+.actionButtons {
+    display: flex;
+}
+
+.actionButtons div {
+    width: 100px;
+    color: var(--sena-green-color);
+    cursor: pointer;
+}
+
 .form_total_size {
     width: 100%;
     height: 100%;

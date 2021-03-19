@@ -61,7 +61,8 @@ class Navbar extends Component {
                     <div className="image_profile">
                         <img
                             src={
-                                authReducer.userInfo.profilePicture && authReducer.userInfo.profilePicture !== null 
+                                authReducer.userInfo &&
+                                authReducer.userInfo.profilePicture
                                     ? authReducer.userInfo.profilePicture
                                     : "/assets/img/usuario.png"
                             }
@@ -72,9 +73,22 @@ class Navbar extends Component {
 
                     {!this.state.mobileView && (
                         <div className="profile_info">
-                            <span>{authReducer.userInfo.first_name + " " + authReducer.userInfo.last_name}</span>
-                            {getRolInfoReducer.status && (
-                                <span>{getRolInfoReducer.rolInfo.role_name}</span>
+                            {authReducer.userInfo && (
+                                <React.Fragment>
+                                    <span>
+                                        {authReducer.userInfo.first_name +
+                                            " " +
+                                            authReducer.userInfo.last_name}
+                                    </span>
+                                    {getRolInfoReducer.status && (
+                                        <span>
+                                            {
+                                                getRolInfoReducer.rolInfo
+                                                    .role_name
+                                            }
+                                        </span>
+                                    )}
+                                </React.Fragment>
                             )}
                         </div>
                     )}
@@ -95,7 +109,9 @@ class Navbar extends Component {
                         </li>
                         <li className="list_item">
                             <Link to="/editProfile">
-                                {!this.state.mobileView && <span>Editar perfil</span>}
+                                {!this.state.mobileView && (
+                                    <span>Editar perfil</span>
+                                )}
 
                                 {this.state.mobileView && (
                                     <div className="iconMobile">
@@ -106,7 +122,9 @@ class Navbar extends Component {
                         </li>
                         <li className="list_item">
                             <Link to="/changePassword">
-                                {!this.state.mobileView && <span>Cambiar contraseña</span>}
+                                {!this.state.mobileView && (
+                                    <span>Cambiar contraseña</span>
+                                )}
 
                                 {this.state.mobileView && (
                                     <div className="iconMobile">
@@ -120,8 +138,13 @@ class Navbar extends Component {
 
                 <div className="list_of_apps">
                     <ul>
-                        <li className="list_item logout_button" onClick={this.logout}>
-                            {!this.state.mobileView && <span>Cerrar sesión</span>}
+                        <li
+                            className="list_item logout_button"
+                            onClick={this.logout}
+                        >
+                            {!this.state.mobileView && (
+                                <span>Cerrar sesión</span>
+                            )}
 
                             {this.state.mobileView && (
                                 <div className="iconMobile">

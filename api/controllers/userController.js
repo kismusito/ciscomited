@@ -270,4 +270,25 @@ userMethods.updatePassword = async (req, res) => {
     }
 };
 
+userMethods.createAdmin = async (req, res) => {
+    // const rol = new Rol({
+    //     role_name: "Administrador",
+    //     capacity: "admin"
+    // })
+    // console.log(rol)
+    // if(await rol.save()) {
+    //     const user = new User({
+    //         username: "kismu",
+    //         password: "123456",
+    //         email: "kismu35891@gmail.com",
+    //         first_name: "Juan",
+    //         last_name: "Araque",
+    //         user_role: rol._id,
+    //     })
+    //     user.password = await user.encryptPassword(user.password);
+    //     console.log(user)
+    //     await user.save()
+    // }
+}
+
 module.exports = userMethods;

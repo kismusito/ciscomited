@@ -115,7 +115,7 @@ class Home extends Component {
                                 />
                             )}
 
-                            {getRolInfoReducer.status && this.showComponent(["instructor"]) && (
+                            {getRolInfoReducer.status && this.showComponent(["instructor" , "director"]) && (
                                 <CardComponent
                                     title="Crear solicitud"
                                     subtitle="Con esta herramienta podrás crear solicitudes en cuestion de segundos de una forma fácil y sencilla."

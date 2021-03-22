@@ -1,5 +1,7 @@
 const generatePDF = {};
 const pdf = require("html-pdf");
+const doc = require("html-docx-js");
+const fs = require("fs");
 const Appretice = require("../models/Appretice");
 const Citations = require("../models/Citations");
 const Solicity = require("../models/Solocity");
@@ -16,7 +18,7 @@ function generateRamdomPDF(n) {
         const generate = Math.random() * (1, posibleCharacters.length) + 1;
         ramdomCode += posibleCharacters.charAt(generate);
     }
-    ramdomCode += ".pdf";
+    ramdomCode += ".docx";
     return ramdomCode;
 }
 
@@ -188,8 +190,12 @@ generatePDF.generateCitation = async (req, res) => {
     if (solicityID) {
         const solicity = await Solicity.findById(solicityID);
         if (solicity) {
-            const getAppretices = await getAppreticesInfo(JSON.parse(solicity.appretices));
-            const motive = await MotivesOrProhibitions.findById(solicity.motiveOrProhibition);
+            const getAppretices = await getAppreticesInfo(
+                JSON.parse(solicity.appretices)
+            );
+            const motive = await MotivesOrProhibitions.findById(
+                solicity.motiveOrProhibition
+            );
             const leader = await User.findById(solicity.userID);
             const html = await generatePDFLayout(
                 getAppretices,
@@ -201,46 +207,84 @@ generatePDF.generateCitation = async (req, res) => {
                 motive
             );
             const pdfNameRamdom = generateRamdomPDF(40);
-            pdf.create(html, { timeout: "100000" }).toFile(
-                "assets/Citations/" + pdfNameRamdom,
-                async (err, resoponse) => {
-                    if (err) {
+            const docGenerated = doc.asBlob(html);
+            fs.writeFile("assets/Citations/" + pdfNameRamdom, docGenerated, async (err) => {
+                if (err) {
+                    return res.json({
+                        status: false,
+                        message: "PDF error",
+                    });
+                } else {
+                    const saveCitation = new Citations({
+                        userID: req.userID,
+                        pdfLink: pdfNameRamdom,
+                        description: description,
+                        solicity: solicityID,
+                    });
+
+                    await solicity.updateOne({ citation: saveCitation._id });
+
+                    saveCitation.lastChange = saveCitation._id;
+                    saveCitation.parentID = saveCitation._id;
+
+                    if (saveCitation.save()) {
+                        mailController.createCitation(
+                            domain + "Citations/" + pdfNameRamdom,
+                            pdfNameRamdom
+                        );
+                        return res.json({
+                            status: true,
+                            pdfLink: domain + "Citations/" + pdfNameRamdom,
+                            message: "PDF Generated",
+                        });
+                    } else {
                         return res.json({
                             status: false,
                             message: "PDF error",
                         });
-                    } else {
-                        const saveCitation = new Citations({
-                            userID: req.userID,
-                            pdfLink: pdfNameRamdom,
-                            description: description,
-                            solicity: solicityID,
-                        });
-
-                        await solicity.updateOne({ citation: saveCitation._id });
-
-                        saveCitation.lastChange = saveCitation._id;
-                        saveCitation.parentID = saveCitation._id;
-
-                        if (saveCitation.save()) {
-                            mailController.createCitation(
-                                domain + "Citations/" + pdfNameRamdom,
-                                pdfNameRamdom
-                            );
-                            return res.json({
-                                status: true,
-                                pdfLink: domain + "Citations/" + pdfNameRamdom,
-                                message: "PDF Generated",
-                            });
-                        } else {
-                            return res.json({
-                                status: false,
-                                message: "PDF error",
-                            });
-                        }
                     }
                 }
-            );
+            });
+            // pdf.create(html, { timeout: "100000" }).toFile(
+            //     "assets/Citations/" + pdfNameRamdom,
+            //     async (err, resoponse) => {
+            //         if (err) {
+            //             return res.json({
+            //                 status: false,
+            //                 message: "PDF error",
+            //             });
+            //         } else {
+            //             const saveCitation = new Citations({
+            //                 userID: req.userID,
+            //                 pdfLink: pdfNameRamdom,
+            //                 description: description,
+            //                 solicity: solicityID,
+            //             });
+
+            //             await solicity.updateOne({ citation: saveCitation._id });
+
+            //             saveCitation.lastChange = saveCitation._id;
+            //             saveCitation.parentID = saveCitation._id;
+
+            //             if (saveCitation.save()) {
+            //                 mailController.createCitation(
+            //                     domain + "Citations/" + pdfNameRamdom,
+            //                     pdfNameRamdom
+            //                 );
+            //                 return res.json({
+            //                     status: true,
+            //                     pdfLink: domain + "Citations/" + pdfNameRamdom,
+            //                     message: "PDF Generated",
+            //                 });
+            //             } else {
+            //                 return res.json({
+            //                     status: false,
+            //                     message: "PDF error",
+            //                 });
+            //             }
+            //         }
+            //     }
+            // );
         } else {
             return res.json({
                 status: false,
@@ -283,26 +327,32 @@ generatePDF.generateMinute = async (req, res) => {
         .replace("%{minute_subject_name}", comite_name)
         .replace("%{place_direction}", direction);
 
-    pdf.create(replaceHTML).toFile("assets/Minutes/" + pdfNameRamdom, async (err, resoponse) => {
-        if (err) {
-            return res.json({
-                status: false,
-                message: "PDF error",
-            });
-        } else {
-            if (citation) {
-                await citation.update({
-                    minute: domain + "Minutes/" + pdfNameRamdom,
+    pdf.create(replaceHTML).toFile(
+        "assets/Minutes/" + pdfNameRamdom,
+        async (err, resoponse) => {
+            if (err) {
+                return res.json({
+                    status: false,
+                    message: "PDF error",
+                });
+            } else {
+                if (citation) {
+                    await citation.update({
+                        minute: domain + "Minutes/" + pdfNameRamdom,
+                    });
+                }
+                mailController.createMinutes(
+                    domain + "Minutes/" + pdfNameRamdom,
+                    pdfNameRamdom
+                );
+                return res.json({
+                    status: true,
+                    pdfLink: domain + "Minutes/" + pdfNameRamdom,
+                    message: "PDF Generated",
                 });
             }
-            mailController.createMinutes(domain + "Minutes/" + pdfNameRamdom, pdfNameRamdom);
-            return res.json({
-                status: true,
-                pdfLink: domain + "Minutes/" + pdfNameRamdom,
-                message: "PDF Generated",
-            });
         }
-    });
+    );
 };
 
 module.exports = generatePDF;

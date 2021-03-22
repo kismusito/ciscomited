@@ -25,3 +25,27 @@ export const uploadReducer = (state = {}, action) => {
             return state;
     }
 };
+
+export const uploadSingleAppreticeReducer = (state = {}, action) => {
+    switch (action.type) {
+        case uploadConstants.APPRENTICESINGLEUPLOAD_REQUEST:
+            return {
+                loading: true,
+            };
+        case uploadConstants.APPRENTICESINGLEUPLOAD_SUCCESS:
+            return {
+                status: action.response.status,
+                message: action.response.message,
+            };
+        case uploadConstants.APPRENTICESINGLEUPLOAD_FAILURE:
+            return {
+                status: action.response.status,
+                message: action.response.message,
+            };
+        case uploadConstants.APPRENTICESINGLEUPLOAD_FINISH:
+            return {
+            };
+        default:
+            return state;
+    }
+};

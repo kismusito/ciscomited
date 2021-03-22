@@ -17,9 +17,18 @@ import {
     updateRoleReducer,
     deleteRolReducer,
 } from "./Role";
-import { uploadNewStatusCitation, uploadReducer, uploadSolicityFilesReducer } from "./Upload";
+import {
+    uploadNewStatusCitation,
+    uploadReducer,
+    uploadSolicityFilesReducer,
+    uploadSingleAppreticeReducer,
+} from "./Upload";
 import { registerUserReducer, authReducer } from "./Auth";
-import { chagePasswordReducer, editProfileReducer, editUserSearchReducer } from "./Edit";
+import {
+    chagePasswordReducer,
+    editProfileReducer,
+    editUserSearchReducer,
+} from "./Edit";
 import { getAppreticeInfoReducer, saveAppreticeInfoReducer } from "./Appretice";
 import { getAttendeesReducer } from "./Minute";
 import {
@@ -113,7 +122,11 @@ const rootReducer = combineReducers({
     deleteMotiveOrProhibitionReducer,
     getTemplateReducer,
     updateTemplateReducer,
+    uploadSingleAppreticeReducer,
 });
 
 export default (state, action) =>
-    rootReducer(action.type === userConstants.USER_LOGOUT ? undefined : state, action);
+    rootReducer(
+        action.type === userConstants.USER_LOGOUT ? undefined : state,
+        action
+    );

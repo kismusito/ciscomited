@@ -5,6 +5,7 @@ export const uploadService = {
     uploadAppretices,
     uploadInstructors,
     uploadNewFileSolicity,
+    uploadSingleAppretice,
 };
 
 async function uploadAppretices(form) {
@@ -16,7 +17,28 @@ async function uploadAppretices(form) {
         body: form,
     };
 
-    const sendRequest = await fetch(config.serverRoute + "uploadAppretices", configuration);
+    const sendRequest = await fetch(
+        config.serverRoute + "uploadAppretices",
+        configuration
+    );
+    const convertRequest = await sendRequest.json();
+    return convertRequest;
+}
+
+async function uploadSingleAppretice(form) {
+    const configuration = {
+        method: "POST",
+        headers: {
+            "x-access-token": cookie.load("userToken"),
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form),
+    };
+
+    const sendRequest = await fetch(
+        config.serverRoute + "uploadSingleAppretice",
+        configuration
+    );
     const convertRequest = await sendRequest.json();
     return convertRequest;
 }
@@ -30,7 +52,10 @@ async function uploadInstructors(form) {
         body: form,
     };
 
-    const sendRequest = await fetch(config.serverRoute + "uploadInstructors", configuration);
+    const sendRequest = await fetch(
+        config.serverRoute + "uploadInstructors",
+        configuration
+    );
     const convertRequest = await sendRequest.json();
     return convertRequest;
 }
@@ -45,8 +70,10 @@ async function uploadNewFileSolicity(form, solicityID) {
         body: form,
     };
 
-    const sendRequest = await fetch(config.serverRoute + "uploadNewFileSolicity", configuration);
+    const sendRequest = await fetch(
+        config.serverRoute + "uploadNewFileSolicity",
+        configuration
+    );
     const convertRequest = await sendRequest.json();
     return convertRequest;
 }
-

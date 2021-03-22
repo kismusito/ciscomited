@@ -42,7 +42,11 @@ function convertToDate(data) {
     data.map((d) => {
         const aD = new Date(d.createdAt);
         const dateFormat =
-            aD.getDate() + " de " + getMonth(aD.getMonth()) + " del " + aD.getFullYear();
+            aD.getDate() +
+            " de " +
+            getMonth(aD.getMonth()) +
+            " del " +
+            aD.getFullYear();
         if (d._id == d.parentID) {
             allDates.push({
                 _id: d._id,
@@ -113,23 +117,35 @@ async function updateLastChange(citationID, newID) {
 citationMethods.uploadNewCitationStatus = async (req, res) => {
     const citationID = req.headers["citationid"];
     if (citationID) {
-        const saveCitation = new Citation({
-            userID: req.userID,
-            parentID: citationID,
-            pdfLink: req.file.filename,
-            lastChange: citationID,
-            description: "Is a change",
-        });
+        const getCitation = await Citation.findById(citationID);
+        if (getCitation) {
+            const saveCitation = new Citation({
+                userID: req.userID,
+                parentID: citationID,
+                pdfLink: req.file.filename,
+                lastChange: citationID,
+                solicity: getCitation.solicity,
+                description: "Is a change",
+            });
 
-        if (saveCitation.save()) {
-            const isUpdate = await updateLastChange(citationID, saveCitation._id);
-            if (isUpdate) {
-                return res.json({
-                    status: true,
-                    message: "Se ha publicado el nuevo cambio",
-                });
+            if (saveCitation.save()) {
+                const isUpdate = await updateLastChange(
+                    citationID,
+                    saveCitation._id
+                );
+                if (isUpdate) {
+                    return res.json({
+                        status: true,
+                        message: "Se ha publicado el nuevo cambio",
+                    });
+                } else {
+                    saveCitation.remove();
+                }
             } else {
-                saveCitation.remove();
+                return res.json({
+                    status: false,
+                    message: "Citation ID not found",
+                });
             }
         } else {
             return res.json({
@@ -166,7 +182,9 @@ citationMethods.sendCitation = async (req, res) => {
         const citation = await Citation.findById(citationID);
         const lastChange = await Citation.findById(citation.lastChange);
         const solicity = await Solicity.findById(citation.solicity);
-        const appreticesEmail = await getAppreticeInfo(JSON.parse(solicity.appretices));
+        const appreticesEmail = await getAppreticeInfo(
+            JSON.parse(solicity.appretices)
+        );
         const instructorEmail = await getInstructorEmail(solicity.userID);
         const emails = appreticesEmail + "," + instructorEmail;
         const email = await sendEmail.sendCitation(

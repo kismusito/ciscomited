@@ -27,6 +27,10 @@
     min-height: 500px;
     top: inherit !important;
 }
+.m600 {
+    min-height: 600px;
+    top: inherit !important;
+}
 
 .citation_item:hover {
     background-color: rgb(247, 247, 247);

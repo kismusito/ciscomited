@@ -105,7 +105,9 @@ appreticeMethods.searchAppretices = async (req, res) => {
 appreticeMethods.searchAppretice = async (req, res) => {
     const { appretice } = req.body;
     if (appretice) {
-        const getSearchedAppretice = await Appretice.findOne({ _id: appretice });
+        const getSearchedAppretice = await Appretice.findOne({
+            _id: appretice,
+        });
         if (getSearchedAppretice) {
             return res.json({
                 status: true,
@@ -247,6 +249,77 @@ appreticeMethods.uploadAppretices = async (req, res) => {
                     message: "Se ha terminado la operación",
                 });
             });
+        });
+    }
+};
+
+appreticeMethods.uploadSingleAppretice = async (req, res) => {
+    const {
+        firstName,
+        first_lastName,
+        second_lastName,
+        email,
+        phone,
+        document,
+        document_number,
+        formationProgram,
+    } = req.body;
+    if (
+        firstName &&
+        first_lastName &&
+        second_lastName &&
+        email &&
+        phone &&
+        document &&
+        document_number
+    ) {
+        const findAppretice = await Appretice.findOne({
+            numero_documento: document_number,
+        });
+        if (!findAppretice) {
+            const appretice = new Appretice({
+                nombre: firstName,
+                primer_apellido: first_lastName,
+                segundo_apellido: second_lastName,
+                email,
+                phone,
+                tipo_documento: document,
+                numero_documento: document_number,
+            });
+            if (formationProgram) {
+                if (Array.isArray(formationProgram)) {
+                    let programs = [];
+                    formationProgram.forEach((input) => {
+                        programs.push(JSON.parse(input));
+                    });
+                    appretice.programas_formacion = programs;
+                } else {
+                    appretice.programas_formacion = JSON.parse(
+                        formationProgram
+                    );
+                }
+            }
+            if (await appretice.save()) {
+                return res.status(200).json({
+                    status: true,
+                    message: "El aprendiz ha sido registrado correctamente.",
+                });
+            } else {
+                return res.status(200).json({
+                    status: false,
+                    message: "Ha ocurrido un error intentalo nuevamente.",
+                });
+            }
+        } else {
+            return res.status(200).json({
+                status: false,
+                message: "Ya hay un aprendiz con este numero de documento.",
+            });
+        }
+    } else {
+        return res.status(200).json({
+            status: false,
+            message: "Debes llenar todos los campos requeridos.",
         });
     }
 };

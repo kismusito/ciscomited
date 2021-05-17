@@ -13,14 +13,12 @@ class EditProfile extends Component {
     }
 
     mouseOver = (_) => {
-        console.log("dd");
         this.setState({
             showCamera: true,
         });
     };
 
     mouseLeave = (_) => {
-        console.log("dd1");
         this.setState({
             showCamera: false,
         });

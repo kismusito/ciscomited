@@ -167,10 +167,8 @@ instructorMethods.searchInstructors = async (req, res) => {
 
 instructorMethods.searchInstructor = async (req, res) => {
     const { instructor } = req.body;
-    console.log(instructor);
     if (instructor) {
         const getSearchedInstructor = await Instructor.findOne({ _id: instructor });
-        console.log(getSearchedInstructor);
         if (getSearchedInstructor) {
             return res.json({
                 status: true,

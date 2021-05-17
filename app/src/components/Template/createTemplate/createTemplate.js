@@ -12,7 +12,6 @@ import { TextField } from "@material-ui/core";
 class CreateTemplates extends Component {
     constructor(props) {
         super(props);
-        console.log(props);
         this.state = {
             code: props.template ? props.template.template : "",
             templateName: props.template ? props.template.templateName : "",

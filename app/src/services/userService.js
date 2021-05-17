@@ -106,7 +106,6 @@ async function getSelectedCitation(citationID) {
 }
 
 async function uploadNewCitationStatus(citationID, formData) {
-    console.log(citationID);
     const configuration = {
         method: "POST",
         headers: {

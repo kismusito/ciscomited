@@ -18,7 +18,7 @@ function generateRamdomPDF(n) {
         const generate = Math.random() * (1, posibleCharacters.length) + 1;
         ramdomCode += posibleCharacters.charAt(generate);
     }
-    ramdomCode += ".docx";
+    ramdomCode += ".pdf";
     return ramdomCode;
 }
 
@@ -207,84 +207,84 @@ generatePDF.generateCitation = async (req, res) => {
                 motive
             );
             const pdfNameRamdom = generateRamdomPDF(40);
-            const docGenerated = doc.asBlob(html);
-            fs.writeFile("assets/Citations/" + pdfNameRamdom, docGenerated, async (err) => {
-                if (err) {
-                    return res.json({
-                        status: false,
-                        message: "PDF error",
-                    });
-                } else {
-                    const saveCitation = new Citations({
-                        userID: req.userID,
-                        pdfLink: pdfNameRamdom,
-                        description: description,
-                        solicity: solicityID,
-                    });
+            // const docGenerated = doc.asBlob(html);
+            // fs.writeFile("assets/Citations/" + pdfNameRamdom, docGenerated, async (err) => {
+            //     if (err) {
+            //         return res.json({
+            //             status: false,
+            //             message: "PDF error",
+            //         });
+            //     } else {
+            //         const saveCitation = new Citations({
+            //             userID: req.userID,
+            //             pdfLink: pdfNameRamdom,
+            //             description: description,
+            //             solicity: solicityID,
+            //         });
 
-                    await solicity.updateOne({ citation: saveCitation._id });
+            //         await solicity.updateOne({ citation: saveCitation._id });
 
-                    saveCitation.lastChange = saveCitation._id;
-                    saveCitation.parentID = saveCitation._id;
+            //         saveCitation.lastChange = saveCitation._id;
+            //         saveCitation.parentID = saveCitation._id;
 
-                    if (saveCitation.save()) {
-                        mailController.createCitation(
-                            domain + "Citations/" + pdfNameRamdom,
-                            pdfNameRamdom
-                        );
-                        return res.json({
-                            status: true,
-                            pdfLink: domain + "Citations/" + pdfNameRamdom,
-                            message: "PDF Generated",
-                        });
-                    } else {
-                        return res.json({
-                            status: false,
-                            message: "PDF error",
-                        });
-                    }
-                }
-            });
-            // pdf.create(html, { timeout: "100000" }).toFile(
-            //     "assets/Citations/" + pdfNameRamdom,
-            //     async (err, resoponse) => {
-            //         if (err) {
+            //         if (saveCitation.save()) {
+            //             mailController.createCitation(
+            //                 domain + "Citations/" + pdfNameRamdom,
+            //                 pdfNameRamdom
+            //             );
+            //             return res.json({
+            //                 status: true,
+            //                 pdfLink: domain + "Citations/" + pdfNameRamdom,
+            //                 message: "PDF Generated",
+            //             });
+            //         } else {
             //             return res.json({
             //                 status: false,
             //                 message: "PDF error",
             //             });
-            //         } else {
-            //             const saveCitation = new Citations({
-            //                 userID: req.userID,
-            //                 pdfLink: pdfNameRamdom,
-            //                 description: description,
-            //                 solicity: solicityID,
-            //             });
-
-            //             await solicity.updateOne({ citation: saveCitation._id });
-
-            //             saveCitation.lastChange = saveCitation._id;
-            //             saveCitation.parentID = saveCitation._id;
-
-            //             if (saveCitation.save()) {
-            //                 mailController.createCitation(
-            //                     domain + "Citations/" + pdfNameRamdom,
-            //                     pdfNameRamdom
-            //                 );
-            //                 return res.json({
-            //                     status: true,
-            //                     pdfLink: domain + "Citations/" + pdfNameRamdom,
-            //                     message: "PDF Generated",
-            //                 });
-            //             } else {
-            //                 return res.json({
-            //                     status: false,
-            //                     message: "PDF error",
-            //                 });
-            //             }
             //         }
             //     }
-            // );
+            // });
+            pdf.create(html, { timeout: "100000" }).toFile(
+                "assets/Citations/" + pdfNameRamdom,
+                async (err, resoponse) => {
+                    if (err) {
+                        return res.json({
+                            status: false,
+                            message: "PDF error",
+                        });
+                    } else {
+                        const saveCitation = new Citations({
+                            userID: req.userID,
+                            pdfLink: pdfNameRamdom,
+                            description: description,
+                            solicity: solicityID,
+                        });
+
+                        await solicity.updateOne({ citation: saveCitation._id });
+
+                        saveCitation.lastChange = saveCitation._id;
+                        saveCitation.parentID = saveCitation._id;
+
+                        if (saveCitation.save()) {
+                            mailController.createCitation(
+                                domain + "Citations/" + pdfNameRamdom,
+                                pdfNameRamdom
+                            );
+                            return res.json({
+                                status: true,
+                                pdfLink: domain + "Citations/" + pdfNameRamdom,
+                                message: "PDF Generated",
+                            });
+                        } else {
+                            return res.json({
+                                status: false,
+                                message: "PDF error",
+                            });
+                        }
+                    }
+                }
+            );
         } else {
             return res.json({
                 status: false,

@@ -33,7 +33,6 @@ function getStatusDetail(value) {
 
 solicityMethods.changeSolicityStatus = async (req, res) => {
     const { solicityID, status } = req.body;
-    console.log(status);
     if (solicityID) {
         const getSolicity = await Solocity.findById(solicityID);
         const statusDetail = getStatusDetail(status);

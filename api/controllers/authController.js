@@ -28,6 +28,7 @@ authMethods.login = async (req, res) => {
     const validateUserOrEmail = await searchUsernameOrEmail(usernameoremail, type);
     if (validateUserOrEmail) {
         const validate = await validatePassword(password, validateUserOrEmail);
+        
         if (validate) {
             const token = jwt.sign(
                 validateUserOrEmail._id.toString(),

@@ -76,9 +76,9 @@ async function updateRol(data) {
             "Content-type": "application/json",
             "x-access-token": cookie.load("userToken"),
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(data.rolID),
     };
-
+    
     const requestResponse = await fetch(config.serverRoute + "updateRol", configuration);
     const responseJson = await requestResponse.json();
     return responseJson;

@@ -32,17 +32,25 @@ function getRoleInfo(roleID, edit = false) {
     };
 
     function request() {
-        return { type: !edit ? rolConstant.GETROLINFO_REQUEST : rolConstant.GETROL_REQUEST };
+        return {
+            type: !edit
+                ? rolConstant.GETROLINFO_REQUEST
+                : rolConstant.GETROL_REQUEST,
+        };
     }
     function success(response) {
         return {
-            type: !edit ? rolConstant.GETROLINFO_SUCCESS : rolConstant.GETROL_SUCCESS,
+            type: !edit
+                ? rolConstant.GETROLINFO_SUCCESS
+                : rolConstant.GETROL_SUCCESS,
             response,
         };
     }
     function failure(response) {
         return {
-            type: !edit ? rolConstant.GETROLINFO_FAILURE : rolConstant.GETROL_FAILURE,
+            type: !edit
+                ? rolConstant.GETROLINFO_FAILURE
+                : rolConstant.GETROL_FAILURE,
             response,
         };
     }
@@ -184,9 +192,7 @@ function updateRol(rol) {
             .then((response) => {
                 if (response.status) {
                     dispatch(success(response));
-                    setTimeout((_) => {
-                        dispatch(finish());
-                    }, 2000);
+                    dispatch(finish());
                 } else {
                     dispatch(failure(response));
                 }
@@ -225,9 +231,9 @@ function deleteRol(id) {
             .then((response) => {
                 if (response.status) {
                     dispatch(success(response));
-                    setTimeout(_ => {
-                        dispatch(finish())
-                    } , 1500)
+                    setTimeout((_) => {
+                        dispatch(finish());
+                    }, 1500);
                     roleService
                         .getAllRoles()
                         .then((response) => {

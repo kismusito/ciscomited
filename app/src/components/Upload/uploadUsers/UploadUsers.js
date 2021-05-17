@@ -82,8 +82,7 @@ class UploadUsers extends Component {
 
     submitForm = (e) => {
         e.preventDefault();
-        console.log(this.formData);
-        // this.eHandleSubmitForm();
+        this.eHandleSubmitForm(e);
     };
 
     render() {

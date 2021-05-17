@@ -13,7 +13,6 @@ class ChangePassword extends Component {
     }
 
     eHandleValidatePassword(data) {
-        console.log(data);
         if (data.newPassword === data.confirmPassword) {
             if (data.newPassword.length > 5) {
                 this.setState({

@@ -28,7 +28,6 @@ class EditUsers extends Component {
 
     eHandleSearch = (_) => {
         const getSearch = this.eHandleTypeSearch(this.searchUserOrEmail.value);
-        console.log(getSearch);
         this.props.searchUsers(getSearch);
     };
 
